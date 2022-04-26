@@ -4,6 +4,9 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -65,11 +68,17 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
 
     @Test
     void getChance(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public List<String> getChance() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/chance",
                 null,
-                response -> assertNotYetImplemented(response, "getChance")
+                response -> assertOkResponse(response)
         );
     }
 
