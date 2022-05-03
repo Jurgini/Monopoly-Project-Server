@@ -8,6 +8,7 @@ import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
+import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
 import io.vertx.core.http.HttpMethod;
@@ -150,7 +151,11 @@ public class MonopolyApiBridge {
     }
 
     private void joinGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("joinGame");
+        String playerName = "Alice";
+        String gameId = "005";
+
+        String playerToken = tokenManager.createToken(new MonopolyUser(gameId, playerName));
+        Response.sendJsonResponse(ctx, 200, new JsonObject().put("playerToken", playerToken));
     }
 
     private void getGame(RoutingContext ctx) {
@@ -170,6 +175,14 @@ public class MonopolyApiBridge {
     }
 
     private void rollDice(RoutingContext ctx) {
+        Request request = Request.from(ctx);
+        String gameId = "001";
+        String playerName = "alice";
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new ForbiddenAccessException("you cannot use this endpoint");
+        }
+
         throw new NotYetImplementedException("rollDice");
     }
 
