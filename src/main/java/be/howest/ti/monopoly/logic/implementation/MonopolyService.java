@@ -56,6 +56,7 @@ public class MonopolyService extends ServiceAdapter {
                 new Street("Naamsestraat", 37, "street", 3500, 1750, 2000, "DARKBLUE", 350, 1750, 5000, 11000, 13000, 15000),
                 new Tile("Luxury Tax", 38, "Luxury Tax"),
                 new Street("Oude Markt", 39, "street", 4000, 2000, 2000, "DARKBLUE", 500, 2000, 6000, 14000, 17000, 20000));
+    }
 
     public List<String> getCommunityChest() {
         return List.of(
