@@ -3,9 +3,13 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class MonopolyService extends ServiceAdapter {
+
+    SortedSet<Game> gameSet= new TreeSet<>();
 
     @Override
     public String getVersion() {
@@ -79,5 +83,12 @@ public class MonopolyService extends ServiceAdapter {
                 "You have won second prize in a beauty contest-Collect $10",
                 "You inherit $100"
         );
+    }
+
+    @Override
+    public Game createGame(String prefix, int numberOfPlayers) {
+        Game game = new Game(prefix, numberOfPlayers);
+        gameSet.add(game);
+        return game;
     }
 }

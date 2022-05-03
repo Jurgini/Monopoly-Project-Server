@@ -1,4 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +13,7 @@ public class Game implements Comparable<Game>{
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
         this.numberOfPlayers = numberOfPlayers;
+        this.players = Collections.emptyList();
     }
 
 

@@ -144,7 +144,10 @@ public class MonopolyApiBridge {
     }
 
     private void createGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("createGame");
+        Request request = Request.from(ctx);
+        String prefix = request.getPrefixForNewGame();
+        int numberOfPlayers = request.getNumberOfPlayersForNewGame();
+        Response.sendJsonResponse(ctx, 200, service.createGame(prefix, numberOfPlayers));
     }
 
     private void getGames(RoutingContext ctx) {
