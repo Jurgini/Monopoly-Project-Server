@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Tile;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
@@ -36,11 +37,17 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
 
     @Test
     void getTiles(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public List<Tile> getTiles() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/tiles",
                 null,
-                response -> assertNotYetImplemented(response, "getTiles")
+                response -> assertOkResponse(response)
         );
     }
 
@@ -85,11 +92,18 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
 
     @Test
     void getCommunityChest(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public List<String> getCommunityChest() {
+                return Collections.emptyList();
+            }
+        });
+
         get(
                 testContext,
                 "/community-chest",
                 null,
-                response -> assertNotYetImplemented(response, "getCommunityChest")
+                this::assertOkResponse
         );
     }
 
