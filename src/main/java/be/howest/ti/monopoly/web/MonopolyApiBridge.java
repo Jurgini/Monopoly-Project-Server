@@ -128,7 +128,10 @@ public class MonopolyApiBridge {
     }
 
     private void getTile(RoutingContext ctx) {
-        throw new NotYetImplementedException("getTile");
+      Request request=Request.from(ctx);
+      int tileNumber = request.getTileNumber();
+      Tile tile = service.getTile(tileNumber);
+      Response.sendJsonResponse(ctx, 200 , tile);
     }
 
     private void getChance(RoutingContext ctx) {

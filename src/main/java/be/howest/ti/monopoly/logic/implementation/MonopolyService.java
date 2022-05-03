@@ -79,4 +79,9 @@ public class MonopolyService extends ServiceAdapter {
                 "You inherit $100"
         );
     }
+
+    @Override
+    public Tile getTile(int tileNumber) {
+        return getTiles().get(tileNumber);
+    }
 }

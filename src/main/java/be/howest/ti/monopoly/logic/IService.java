@@ -8,4 +8,5 @@ public interface IService {
     String getVersion();
     List<Tile> getTiles();
     List<String> getCommunityChest();
+    Tile getTile(int tileNumber);
 }
