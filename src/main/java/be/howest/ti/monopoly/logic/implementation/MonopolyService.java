@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 
 import java.util.List;
 
@@ -82,6 +83,9 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(int tileNumber) {
-        return getTiles().get(tileNumber);
+       if(getTiles().contains(tileNumber)){
+           return getTiles().get(tileNumber);
+       }
+       throw new MonopolyResourceNotFoundException("Tile not found");
     }
 }

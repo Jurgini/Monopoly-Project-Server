@@ -68,7 +68,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
                 testContext,
                 "/tiles/100",
                 null,
-                response -> assertNotYetImplemented(response, "getTile")
+                response -> assertOkResponse(response)
         );
     }
 
