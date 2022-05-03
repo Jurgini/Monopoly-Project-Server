@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,7 +13,9 @@ public class Game implements Comparable<Game>{
 
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
-        this.numberOfPlayers = numberOfPlayers;
+        setNumberOfplayers(numberOfPlayers);
+        this.players = Collections.emptyList();
+
     }
     public void setNumberOfplayers( int numberOfPlayers)
     {

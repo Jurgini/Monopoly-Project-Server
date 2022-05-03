@@ -1,5 +1,7 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Game;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
@@ -60,6 +62,13 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Game createGame(String prefix, int numberOfPrefix) {
+                return null;
+            }
+        });
+
         post(
                 testContext,
                 "/games",
@@ -67,7 +76,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
                 new JsonObject()
                         .put("prefix", "Prefix123")
                         .put("numberOfPlayers", 10),
-                response -> assertNotYetImplemented(response, "createGame")
+                response -> assertOkResponse(response)
         );
     }
 
