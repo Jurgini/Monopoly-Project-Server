@@ -1,4 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -12,10 +14,18 @@ public class Game implements Comparable<Game>{
         this.id = prefix; // TODO: Need to be changed with counter.
         this.numberOfPlayers = numberOfPlayers;
     }
-
-
+    public void setNumberOfplayers( int numberOfPlayers)
+    {
+        if(numberOfPlayers >= 2 && numberOfPlayers <= 10)
+            this.numberOfPlayers = numberOfPlayers;
+        else
+        {
+            throw new IllegalMonopolyActionException("You can only create a game when you have between 2 and 10 players");
+        }
+    }
     public int getNumberOfPlayers() {
         return numberOfPlayers;
+
     }
 
     public boolean isStarted() {
@@ -29,6 +39,7 @@ public class Game implements Comparable<Game>{
     public String getId() {
         return id;
     }
+
 
     @Override
     public int compareTo(Game o) {
