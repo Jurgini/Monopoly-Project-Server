@@ -30,7 +30,7 @@ public class PlainTextTokens implements TokenManager {
 
     @Override
     public boolean isValidPlayerName(String playerName) {
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9]{1,12}$");
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9]{1,15}$");
         Matcher matcher = pattern.matcher(playerName);
         return !matcher.find() ;
     }
