@@ -82,9 +82,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Tile getTile(int tileNumber) {
-       if(getTiles().contains(tileNumber)){
-           return getTiles().get(tileNumber);
+    public Tile getTile(int position) {
+       for (Tile tile : getTiles()){
+           if (tile.getPosition() == position){
+               return tile;
+           }
+
        }
        throw new MonopolyResourceNotFoundException("Tile not found");
     }
