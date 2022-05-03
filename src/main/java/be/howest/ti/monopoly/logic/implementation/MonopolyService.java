@@ -56,6 +56,26 @@ public class MonopolyService extends ServiceAdapter {
                 new Street("Naamsestraat", 37, "street", 3500, 1750, 2000, "DARKBLUE", 350, 1750, 5000, 11000, 13000, 15000),
                 new Tile("Luxury Tax", 38, "Luxury Tax"),
                 new Street("Oude Markt", 39, "street", 4000, 2000, 2000, "DARKBLUE", 500, 2000, 6000, 14000, 17000, 20000)
+
+    public List<String> getCommunityChest() {
+        return List.of(
+                "Advance to Go (Collect $200)",
+                "Bank error in your favor-Collect $200",
+                "Doctor's fee-Pay $50",
+                "From sale of stock you get $50",
+                "Get Out of Jail Free",
+                "Go to Jail-Go directly to jail-Do not pass Go-Do not collect $200",
+                "Grand Opera Night-Collect $50 from every player for opening night seats",
+                "Holiday Fund matures-Receive $100",
+                "Income tax refund-Collect $20",
+                "It is your birthday-Collect $10",
+                "Life insurance matures-Collect $100",
+                "Pay hospital fees of $100",
+                "Pay school fees of $150",
+                "Receive $25 consultancy fee",
+                "You are assessed for street repairs-$40 per house-$115 per hotel",
+                "You have won second prize in a beauty contest-Collect $10",
+                "You inherit $100"
         );
     }
 }
