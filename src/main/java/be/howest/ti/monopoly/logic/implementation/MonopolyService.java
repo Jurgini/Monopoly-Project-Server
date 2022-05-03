@@ -58,6 +58,7 @@ public class MonopolyService extends ServiceAdapter {
                 new Street("Oude Markt", 39, "street", 4000, 2000, 2000, "DARKBLUE", 500, 2000, 6000, 14000, 17000, 20000));
     }
 
+    @Override
     public List<String> getCommunityChest() {
         return List.of(
                 "Advance to Go (Collect $200)",
