@@ -151,8 +151,9 @@ public class MonopolyApiBridge {
     }
 
     private void joinGame(RoutingContext ctx) {
-        String playerName = "Alice";
-        String gameId = "005";
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerName();
+        String gameId = request.getGameId();
 
         String playerToken = tokenManager.createToken(new MonopolyUser(gameId, playerName));
         Response.sendJsonResponse(ctx, 200, new JsonObject().put("playerToken", playerToken));
@@ -176,8 +177,8 @@ public class MonopolyApiBridge {
 
     private void rollDice(RoutingContext ctx) {
         Request request = Request.from(ctx);
-        String gameId = "001";
-        String playerName = "alice";
+        String playerName = request.getPlayerName();
+        String gameId = request.getGameId();
 
         if (!request.isAuthorized(gameId, playerName)) {
             throw new ForbiddenAccessException("you cannot use this endpoint");
