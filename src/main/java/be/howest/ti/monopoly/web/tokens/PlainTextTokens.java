@@ -1,5 +1,9 @@
 package be.howest.ti.monopoly.web.tokens;
 
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class PlainTextTokens implements TokenManager {
 
     private static final int TOKEN_GAME_ID_PART = 0;
@@ -26,7 +30,9 @@ public class PlainTextTokens implements TokenManager {
 
     @Override
     public boolean isValidPlayerName(String playerName) {
-        return !playerName.contains("-");
+        Pattern pattern = Pattern.compile("^[A-Za-z0-9]{1,12}$");
+        Matcher matcher = pattern.matcher(playerName);
+        return !matcher.find() ;
     }
 
 }
