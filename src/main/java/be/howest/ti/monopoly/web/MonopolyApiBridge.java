@@ -128,8 +128,20 @@ public class MonopolyApiBridge {
 
     private void getTile(RoutingContext ctx) {
       Request request=Request.from(ctx);
-      int tileNumber = request.getTileNumber();
-      Tile tile = service.getTile(tileNumber);
+      Tile tile;
+
+      if (request.hasTilePosition())
+      {
+        int position = request.getTilePosition();
+
+        tile = service.getTile(position);
+      }
+      else
+      {
+          String name = request.getTileName();
+          tile = service.getTile(name);
+      }
+
       Response.sendJsonResponse(ctx, 200 , tile);
     }
 
