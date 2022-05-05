@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface IService {
     String getVersion();
+    
+    Game createGame(String prefix, int numberOfPlayers);
     List<Tile> getTiles();
     List<String> getCommunityChest();
-    Game createGame(String prefix, int numberOfPlayers);
+    Tile getTile(int position);
+    Tile getTile(String name);
 }
