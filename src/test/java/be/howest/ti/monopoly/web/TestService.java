@@ -29,4 +29,14 @@ public class TestService implements IService {
     public List<String> getCommunityChest() {
         return delegate.getCommunityChest();
     }
+
+    @Override
+    public Tile getTile(int position) {
+        return delegate.getTile(position);
+    }
+
+    @Override
+    public Tile getTile(String name) {
+        return delegate.getTile(name);
+    }
 }
