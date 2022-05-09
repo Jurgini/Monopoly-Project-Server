@@ -221,11 +221,13 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void clearGameList(final VertxTestContext testContext) {
-        delete(
-                testContext,
-                "/games",
-                "some-token",
-                response -> assertNotYetImplemented(response, "clearGameList")
+            service.createGame("test", 4);
+
+            service.clearGameList();
+            if(service.getGames() == null)
+            {
+                return;
+            }
         );
     }
 
