@@ -12,6 +12,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Game createGame(String prefix, int numberOfPlayers) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<Tile> getTiles() {
         throw new UnsupportedOperationException();
     }
@@ -22,7 +27,13 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers) {
+    public Tile getTile(int position) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Tile getTile(String name) {
+        throw new UnsupportedOperationException();
+    }
+
 }
