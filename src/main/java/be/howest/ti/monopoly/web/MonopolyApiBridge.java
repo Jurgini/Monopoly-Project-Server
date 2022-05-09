@@ -147,7 +147,12 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String prefix = request.getPrefixForNewGame();
         int numberOfPlayers = request.getNumberOfPlayersForNewGame();
-        Response.sendJsonResponse(ctx, 200, service.createGame(prefix, numberOfPlayers));
+
+        if (prefix == null) {
+            throw new IllegalMonopolyActionException("You cannot create a game with a empty body.");
+        } else {
+            Response.sendJsonResponse(ctx, 200, service.createGame(prefix, numberOfPlayers));
+        }
     }
 
     private void getGames(RoutingContext ctx) {

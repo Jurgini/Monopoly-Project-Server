@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
@@ -62,5 +63,9 @@ public class Request {
 
     public String getPrefixForNewGame() {
         return params.body().getJsonObject().getString("prefix");
+    }
+
+    public boolean isEmptyBody() {
+        return params.body().getJsonObject().isEmpty();
     }
 }

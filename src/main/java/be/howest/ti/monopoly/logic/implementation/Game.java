@@ -1,11 +1,12 @@
 package be.howest.ti.monopoly.logic.implementation;
+
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Game implements Comparable<Game>{
+public class Game implements Comparable<Game> {
     int numberOfPlayers;
     boolean started;
     List<String> players;
@@ -17,15 +18,15 @@ public class Game implements Comparable<Game>{
         this.players = Collections.emptyList();
 
     }
-    public void setNumberOfplayers( int numberOfPlayers)
-    {
-        if(numberOfPlayers >= 2 && numberOfPlayers <= 10)
+
+    public void setNumberOfplayers(int numberOfPlayers) {
+        if (numberOfPlayers >= 2 && numberOfPlayers <= 10)
             this.numberOfPlayers = numberOfPlayers;
-        else
-        {
+        else {
             throw new IllegalMonopolyActionException("You can only create a game when you have between 2 and 10 players");
         }
     }
+
     public int getNumberOfPlayers() {
         return numberOfPlayers;
 
