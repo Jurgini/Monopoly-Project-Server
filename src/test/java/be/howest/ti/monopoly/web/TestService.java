@@ -54,4 +54,9 @@ public class TestService implements IService {
     public Object getGames() {
         return delegate.getGames();
     }
+
+    @Override
+    public Object getGame(String gameId) {
+        return delegate.getGames();
+    }
 }

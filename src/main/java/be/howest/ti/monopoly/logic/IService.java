@@ -16,4 +16,6 @@ public interface IService {
     Tile getTile(String name);
 
     Object getGames();
+
+    Object getGame(String gameId);
 }

@@ -3,6 +3,8 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import java.util.List;
 import java.util.SortedSet;
@@ -141,4 +143,8 @@ public class MonopolyService extends ServiceAdapter {
         return gameSet;
     }
 
+    @Override
+    public Object getGame(String gameId) {
+        return gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElse(null);
+    }
 }
