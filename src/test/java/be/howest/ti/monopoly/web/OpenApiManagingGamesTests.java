@@ -178,7 +178,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
                 null,
                 new JsonObject()
                         .put("playerName", "Alice"),
-                response -> assertNotYetImplemented(response, "joinGame")
+                this::assertOkResponse
         );
     }
 
