@@ -10,4 +10,6 @@ public interface IService {
     List<String> getChance();
     List<Tile> getTiles();
     List<String> getCommunityChest();
+    Tile getTile(int position);
+    Tile getTile(String name);
 }

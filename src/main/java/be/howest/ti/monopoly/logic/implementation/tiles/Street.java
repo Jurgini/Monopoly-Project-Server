@@ -1,10 +1,11 @@
-package be.howest.ti.monopoly.logic.implementation;
+package be.howest.ti.monopoly.logic.implementation.tiles;
 
 public class Street extends Property {
     private int totalHouses;
     private int totalHotels;
     private final int housePrice;
     private final String streetColor;
+    private final String color;
     private int rent;
     private int rentWithOneHouse;
     private int rentWithTwoHouses;
@@ -12,10 +13,11 @@ public class Street extends Property {
     private int rentWithFourHouses;
     private int rentWithHotel;
 
-    public Street(String name, int position, String type, int cost, int mortgage, int housePrice, String streetColor, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
+    public Street(String name, int position, String type, int cost, int mortgage, int housePrice, String streetColor, String color, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
         super(name, position, type, cost, mortgage);
         this.housePrice = housePrice;
         this.streetColor = streetColor;
+        this.color = color;
         this.rent = rent;
         this.rentWithOneHouse = rentWithOneHouse;
         this.rentWithTwoHouses = rentWithTwoHouses;
@@ -30,6 +32,11 @@ public class Street extends Property {
 
     public String getStreetColor() {
         return streetColor;
+    }
+
+    public String getColor()
+    {
+        return color;
     }
 
     public int getRent() {

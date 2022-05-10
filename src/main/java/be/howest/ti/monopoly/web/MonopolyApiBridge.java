@@ -1,11 +1,11 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.IService;
-import be.howest.ti.monopoly.logic.implementation.Tile;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
@@ -19,7 +19,6 @@ import io.vertx.ext.web.handler.BearerAuthHandler;
 import io.vertx.ext.web.handler.CorsHandler;
 import io.vertx.ext.web.openapi.RouterBuilder;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -128,7 +127,22 @@ public class MonopolyApiBridge {
     }
 
     private void getTile(RoutingContext ctx) {
-        throw new NotYetImplementedException("getTile");
+      Request request=Request.from(ctx);
+      Tile tile;
+
+      if (request.hasTilePosition())
+      {
+        int position = request.getTilePosition();
+
+        tile = service.getTile(position);
+      }
+      else
+      {
+          String name = request.getTileName();
+          tile = service.getTile(name);
+      }
+
+      Response.sendJsonResponse(ctx, 200 , tile);
     }
 
     private void getChance(RoutingContext ctx) {
