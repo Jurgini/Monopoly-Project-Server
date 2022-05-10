@@ -216,8 +216,21 @@ public class MonopolyApiBridge {
         throw new NotYetImplementedException("declareBankruptcy");
     }
 
-    private void buyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyProperty");
+    private void buyProperty(RoutingContext ctx)
+    {
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerName();
+        String gameId = request.getGameId();
+        String propertyName = request.getPropertyName();
+
+        if (!request.isAuthorized(gameId, playerName))
+        {
+            throw new ForbiddenAccessException("you cannot use this endpoint");
+        }
+        else
+        {
+            Response.sendJsonResponse(ctx, 200, service.buyProperty(gameId, playerName,propertyName));
+        }
     }
 
     private void dontBuyProperty(RoutingContext ctx) {
