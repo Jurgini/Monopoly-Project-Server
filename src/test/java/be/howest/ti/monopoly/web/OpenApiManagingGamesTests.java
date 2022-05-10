@@ -6,16 +6,25 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.List;
+
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGames(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object getGames() {
+                return Collections.emptySet();
+            }
+        });
         get(
                 testContext,
                 "/games",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                response -> assertOkResponse(response)
         );
     }
 

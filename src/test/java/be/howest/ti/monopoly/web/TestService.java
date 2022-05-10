@@ -7,8 +7,6 @@ import be.howest.ti.monopoly.logic.implementation.Tile;
 
 import java.util.List;
 
-import java.util.List;
-
 
 public class TestService implements IService {
 
@@ -46,5 +44,10 @@ public class TestService implements IService {
     @Override
     public Tile getTile(String name) {
         return delegate.getTile(name);
+    }
+
+    @Override
+    public Object getGames() {
+        return delegate.getGames();
     }
 }

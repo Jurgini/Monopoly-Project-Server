@@ -13,4 +13,6 @@ public interface IService {
     List<String> getCommunityChest();
     Tile getTile(int position);
     Tile getTile(String name);
+
+    Object getGames();
 }
