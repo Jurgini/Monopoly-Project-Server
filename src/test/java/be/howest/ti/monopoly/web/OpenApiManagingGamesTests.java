@@ -7,7 +7,6 @@ import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
-import java.util.List;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
@@ -30,11 +29,17 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object getGames() {
+                return null;
+            }
+        });
         get(
                 testContext,
                 "/games?started=true&prefix=azerty&numberOfPlayers=3",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                response -> assertOkResponse(response)
         );
     }
 
