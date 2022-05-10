@@ -242,13 +242,20 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void clearGameList(final VertxTestContext testContext) {
-        service.createGame("test", 4);
-
-        service.clearGameList();
-        if (service.getGames() == null) {
-            throw new MonopolyResourceNotFoundException("There are no games (◞‸◟) ");
-        }
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object clearGameList() {
+                return null;
+            }
+        });
+        delete(
+                testContext,
+                "/games",
+                "some-token",
+                response -> assertOkResponse(response)
+        );
     }
+
 
     @Test
     void clearGameListUnauthorized(final VertxTestContext testContext) {

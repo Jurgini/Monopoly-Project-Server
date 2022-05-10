@@ -97,4 +97,8 @@ public class Request {
     public boolean isBodyEmpty() {
         return params.body().isEmpty();
     }
+
+    public String getToken() {
+        return params.body().getJsonObject().getString("Authorization");
+    }
 }

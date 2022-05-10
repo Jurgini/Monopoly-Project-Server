@@ -136,18 +136,17 @@ public class MonopolyService extends ServiceAdapter {
         throw new MonopolyResourceNotFoundException("Tile not found");
     }
 
-<<<<<<< HEAD
 
     @Override
     public Object clearGameList()
     {
         gameSet.clear();
+        return gameSet;
     }
-=======
+
     @Override
     public Object getGames() {
         return gameSet;
     }
 
->>>>>>> 8c4b559aa054df53e3b4ae6d10ccc8ffc18fcf7b
 }

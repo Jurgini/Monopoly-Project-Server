@@ -154,6 +154,7 @@ public class MonopolyApiBridge {
     private void clearGameList(RoutingContext ctx) {
         Response.sendJsonResponse(ctx, 200, service.clearGameList());
     }
+
     private void createGame(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String prefix = request.getPrefixForNewGame();
@@ -164,6 +165,7 @@ public class MonopolyApiBridge {
         } else {
             Response.sendJsonResponse(ctx, 200, service.createGame(prefix, numberOfPlayers));
         }
+
     }
 
     private void getGames(RoutingContext ctx) {
