@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
+import java.util.SortedSet;
 
 public interface IService {
     String getVersion();
@@ -15,7 +16,7 @@ public interface IService {
     Tile getTile(int position);
     Tile getTile(String name);
 
-    Object getGames();
+    SortedSet<Game> getGames();
 
-    Object getGame(String gameId);
+    Game getGame(String gameId);
 }
