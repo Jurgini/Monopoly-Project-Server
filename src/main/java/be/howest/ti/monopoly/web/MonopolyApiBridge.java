@@ -1,11 +1,11 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.IService;
-import be.howest.ti.monopoly.logic.implementation.Tile;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
@@ -147,7 +147,7 @@ public class MonopolyApiBridge {
     }
 
     private void getChance(RoutingContext ctx) {
-        throw new NotYetImplementedException("getChance");
+        Response.sendJsonResponse(ctx, 200, service.getChance());
     }
 
     private void getCommunityChest(RoutingContext ctx) {
@@ -159,7 +159,15 @@ public class MonopolyApiBridge {
     }
 
     private void createGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("createGame");
+        Request request = Request.from(ctx);
+        String prefix = request.getPrefixForNewGame();
+        int numberOfPlayers = request.getNumberOfPlayersForNewGame();
+
+        if (prefix == null) {
+            throw new IllegalMonopolyActionException("You cannot create a game with a empty body.");
+        } else {
+            Response.sendJsonResponse(ctx, 200, service.createGame(prefix, numberOfPlayers));
+        }
     }
 
     private void getGames(RoutingContext ctx) {
