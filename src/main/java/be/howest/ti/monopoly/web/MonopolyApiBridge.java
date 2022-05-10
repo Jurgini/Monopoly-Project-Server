@@ -180,7 +180,7 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
 
         String playerToken = tokenManager.createToken(new MonopolyUser(gameId, playerName));
-        Response.sendJsonResponse(ctx, 200, new JsonObject().put("playerToken", playerToken));
+        Response.sendJsonResponse(ctx, 200, new JsonObject().put("token", playerToken));
     }
 
     private void getGame(RoutingContext ctx) {
