@@ -7,7 +7,6 @@ import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
-import java.util.List;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
@@ -60,12 +59,18 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameWithEmptyBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games",
                 null,
                 new JsonObject(),
-                response -> assertNotYetImplemented(response, "createGame")
+                response -> assertErrorResponse(response, 409)
         );
     }
 

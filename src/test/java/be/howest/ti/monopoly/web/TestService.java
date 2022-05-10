@@ -21,6 +21,11 @@ public class TestService implements IService {
     }
 
     @Override
+    public List<String> getChance() {
+        return delegate.getChance();
+    }
+
+    @Override
     public List<Tile> getTiles() {
         return delegate.getTiles();
     }
