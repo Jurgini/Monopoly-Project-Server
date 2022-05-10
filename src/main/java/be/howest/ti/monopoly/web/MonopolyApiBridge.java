@@ -200,7 +200,6 @@ public class MonopolyApiBridge {
     }
 
     private void rollDice(RoutingContext ctx) {
-       /*
         Request request = Request.from(ctx);
         String playerName = request.getPlayerName();
         String gameId = request.getGameId();
@@ -208,8 +207,10 @@ public class MonopolyApiBridge {
         if (!request.isAuthorized(gameId, playerName)) {
             throw new ForbiddenAccessException("you cannot use this endpoint");
         }
-        */
-        throw new NotYetImplementedException("rollDice");
+        else {
+            Response.sendJsonResponse(ctx, 200, service.rollDice(playerName, gameId));
+        }
+
     }
 
     private void declareBankruptcy(RoutingContext ctx) {

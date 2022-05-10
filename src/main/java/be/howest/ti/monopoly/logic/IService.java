@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic;
 
+import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
@@ -16,4 +17,6 @@ public interface IService {
     Tile getTile(String name);
 
     Object getGames();
+
+    Dice rollDice(String playerName, String gameId);
 }
