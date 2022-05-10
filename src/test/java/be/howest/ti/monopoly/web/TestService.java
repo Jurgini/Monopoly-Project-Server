@@ -6,6 +6,8 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 import java.util.List;
 
+import java.util.List;
+
 
 public class TestService implements IService {
 
@@ -18,6 +20,11 @@ public class TestService implements IService {
     @Override
     public String getVersion() {
         return delegate.getVersion();
+    }
+
+    @Override
+    public List<String> getChance() {
+        return delegate.getChance();
     }
 
     @Override

@@ -11,6 +11,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public List<String> getChance() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<Tile> getTiles() {
         throw new UnsupportedOperationException();
     }

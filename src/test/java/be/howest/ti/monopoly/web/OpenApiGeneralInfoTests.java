@@ -88,11 +88,17 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
 
     @Test
     void getChance(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public List<String> getChance() {
+                return Collections.emptyList();
+            }
+        });
         get(
                 testContext,
                 "/chance",
                 null,
-                response -> assertNotYetImplemented(response, "getChance")
+                response -> assertOkResponse(response)
         );
     }
 
