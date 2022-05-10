@@ -56,11 +56,24 @@ public class Request {
                 Objects.equals(expectedPlayerName, user.getPlayerName());
     }
 
+
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
     }
 
     public String getGameId() {
         return params.pathParameter("gameId").getString();
+    }
+    public int getTilePosition() {
+        return params.pathParameter("tileId").getInteger();
+    }
+
+    public boolean hasTilePosition() {
+        return params.pathParameter("tileId").isNumber();
+    }
+
+    public String getTileName() {
+        return params.pathParameter("tileId").getString();
+
     }
 }

@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.IService;
+import be.howest.ti.monopoly.logic.implementation.Tile;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
@@ -123,11 +124,26 @@ public class MonopolyApiBridge {
     }
 
     private void getTiles(RoutingContext ctx) {
-        throw new NotYetImplementedException("getTiles");
+        Response.sendJsonResponse(ctx, 200, service.getTiles());
     }
 
     private void getTile(RoutingContext ctx) {
-        throw new NotYetImplementedException("getTile");
+      Request request=Request.from(ctx);
+      Tile tile;
+
+      if (request.hasTilePosition())
+      {
+        int position = request.getTilePosition();
+
+        tile = service.getTile(position);
+      }
+      else
+      {
+          String name = request.getTileName();
+          tile = service.getTile(name);
+      }
+
+      Response.sendJsonResponse(ctx, 200 , tile);
     }
 
     private void getChance(RoutingContext ctx) {
