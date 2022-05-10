@@ -1,8 +1,8 @@
 package be.howest.ti.monopoly.logic;
 
+<<<<<<< src/main/java/be/howest/ti/monopoly/logic/ServiceAdapter.java
 import be.howest.ti.monopoly.logic.implementation.Game;
-import be.howest.ti.monopoly.logic.implementation.Tile;
-
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import java.util.List;
 
 public class ServiceAdapter implements IService {
