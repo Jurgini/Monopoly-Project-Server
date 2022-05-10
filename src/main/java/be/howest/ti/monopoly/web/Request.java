@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
@@ -54,6 +55,14 @@ public class Request {
     public boolean isAuthorized(String expectedGameId, String expectedPlayerName) {
         return Objects.equals(expectedGameId, user.getGameId()) &&
                 Objects.equals(expectedPlayerName, user.getPlayerName());
+    }
+
+    public int getNumberOfPlayersForNewGame() {
+        return params.body().getJsonObject().getInteger("numberOfPlayers");
+    }
+
+    public String getPrefixForNewGame() {
+        return params.body().getJsonObject().getString("prefix");
     }
 
     public int getTilePosition() {

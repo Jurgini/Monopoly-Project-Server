@@ -5,9 +5,13 @@ import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 public class MonopolyService extends ServiceAdapter {
+
+    SortedSet<Game> gameSet= new TreeSet<>();
 
     @Override
     public String getVersion() {
@@ -80,6 +84,7 @@ public class MonopolyService extends ServiceAdapter {
                 new Street("Oude Markt", 39, "street", 4000, 2000, 2000, "DARKBLUE", "DARKBLUE", 500, 2000, 6000, 14000, 17000, 20000));
     }
 
+    @Override
     public List<String> getCommunityChest() {
         return List.of(
                 "Advance to Go (Collect $200)",
@@ -100,6 +105,13 @@ public class MonopolyService extends ServiceAdapter {
                 "You have won second prize in a beauty contest-Collect $10",
                 "You inherit $100"
         );
+    }
+
+    @Override
+    public Game createGame(String prefix, int numberOfPlayers) {
+        Game game = new Game(prefix, numberOfPlayers);
+        gameSet.add(game);
+        return game;
     }
 
     @Override
