@@ -127,22 +127,19 @@ public class MonopolyApiBridge {
     }
 
     private void getTile(RoutingContext ctx) {
-      Request request=Request.from(ctx);
-      Tile tile;
+        Request request = Request.from(ctx);
+        Tile tile;
 
-      if (request.hasTilePosition())
-      {
-        int position = request.getTilePosition();
+        if (request.hasTilePosition()) {
+            int position = request.getTilePosition();
 
-        tile = service.getTile(position);
-      }
-      else
-      {
-          String name = request.getTileName();
-          tile = service.getTile(name);
-      }
+            tile = service.getTile(position);
+        } else {
+            String name = request.getTileName();
+            tile = service.getTile(name);
+        }
 
-      Response.sendJsonResponse(ctx, 200 , tile);
+        Response.sendJsonResponse(ctx, 200, tile);
     }
 
     private void getChance(RoutingContext ctx) {
@@ -170,7 +167,10 @@ public class MonopolyApiBridge {
     }
 
     private void getGames(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGames");
+
+        Response.sendJsonResponse(ctx, 200, service.getGames());
+
+
     }
 
     private void joinGame(RoutingContext ctx) {

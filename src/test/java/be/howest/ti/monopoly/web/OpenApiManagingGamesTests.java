@@ -13,21 +13,33 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGames(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object getGames() {
+                return Collections.emptySet();
+            }
+        });
         get(
                 testContext,
                 "/games",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                response -> assertOkResponse(response)
         );
     }
 
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object getGames() {
+                return null;
+            }
+        });
         get(
                 testContext,
                 "/games?started=true&prefix=azerty&numberOfPlayers=3",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                response -> assertOkResponse(response)
         );
     }
 

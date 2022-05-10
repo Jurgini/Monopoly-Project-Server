@@ -1,7 +1,8 @@
 package be.howest.ti.monopoly.logic;
 
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+
 import java.util.List;
 
 public interface IService {
@@ -13,4 +14,6 @@ public interface IService {
     List<String> getCommunityChest();
     Tile getTile(int position);
     Tile getTile(String name);
+
+    Object getGames();
 }

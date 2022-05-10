@@ -11,7 +11,7 @@ import java.util.TreeSet;
 
 public class MonopolyService extends ServiceAdapter {
 
-    SortedSet<Game> gameSet= new TreeSet<>();
+    private final SortedSet<Game> gameSet= new TreeSet<>();
 
     @Override
     public String getVersion() {
@@ -135,4 +135,10 @@ public class MonopolyService extends ServiceAdapter {
         }
         throw new MonopolyResourceNotFoundException("Tile not found");
     }
+
+    @Override
+    public Object getGames() {
+        return gameSet;
+    }
+
 }
