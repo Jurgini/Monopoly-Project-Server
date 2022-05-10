@@ -1,31 +1,46 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGames(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object getGames() {
+                return Collections.emptySet();
+            }
+        });
         get(
                 testContext,
                 "/games",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                response -> assertOkResponse(response)
         );
     }
 
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object getGames() {
+                return null;
+            }
+        });
         get(
                 testContext,
                 "/games?started=true&prefix=azerty&numberOfPlayers=3",
                 null,
-                response -> assertNotYetImplemented(response, "getGames")
+                response -> assertOkResponse(response)
         );
     }
 
@@ -51,12 +66,18 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void createGameWithEmptyBody(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Game createGame(String prefix, int numberOfPlayers) {
+                return null;
+            }
+        });
         post(
                 testContext,
                 "/games",
                 null,
                 new JsonObject(),
-                response -> assertNotYetImplemented(response, "createGame")
+                response -> assertErrorResponse(response, 409)
         );
     }
 
@@ -221,14 +242,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void clearGameList(final VertxTestContext testContext) {
-            service.createGame("test", 4);
+        service.createGame("test", 4);
 
-            service.clearGameList();
-            if(service.getGames() == null)
-            {
-                return;
-            }
-        );
+        service.clearGameList();
+        if (service.getGames() == null) {
+            throw new MonopolyResourceNotFoundException("There are no games (◞‸◟) ");
+        }
     }
 
     @Test
