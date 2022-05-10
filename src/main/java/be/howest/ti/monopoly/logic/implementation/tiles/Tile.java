@@ -1,4 +1,4 @@
-package be.howest.ti.monopoly.logic.implementation;
+package be.howest.ti.monopoly.logic.implementation.tiles;
 
 public class Tile {
     private final String name;
