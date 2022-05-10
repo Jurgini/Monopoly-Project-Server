@@ -2,7 +2,6 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
-<<<<<<< src/test/java/be/howest/ti/monopoly/web/TestService.java
 import be.howest.ti.monopoly.logic.implementation.Game;
 import java.util.List;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
