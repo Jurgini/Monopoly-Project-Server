@@ -13,8 +13,8 @@ public class Street extends Property {
     private int rentWithFourHouses;
     private int rentWithHotel;
 
-    public Street(String name, int position, String type, int cost, int mortgage, int housePrice, String streetColor, String color, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
-        super(name, position, type, cost, mortgage);
+    public Street(String name, int position, int cost, int mortgage, int housePrice, String streetColor, String color, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
+        super(name, position, "street", cost, mortgage);
         this.housePrice = housePrice;
         this.streetColor = streetColor;
         this.color = color;
