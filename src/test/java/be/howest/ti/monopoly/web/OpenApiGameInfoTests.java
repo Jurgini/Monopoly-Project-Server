@@ -1,18 +1,30 @@
 package be.howest.ti.monopoly.web;
 
+import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Game;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+import java.util.List;
 
 
 class OpenApiGameInfoTests extends OpenApiTestsBase {
 
     @Test
     void getGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Game getGame(String gameId) {
+                return null;
+            }
+        });
+
         get(
                 testContext,
                 "/games/game-id",
                 "some-token",
-                response -> assertNotYetImplemented(response, "getGame")
+                response -> assertOkResponse(response)
         );
     }
 

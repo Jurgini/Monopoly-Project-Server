@@ -137,8 +137,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object getGames() {
+    public SortedSet<Game> getGames() {
         return gameSet;
     }
 
+    @Override
+    public Game getGame(String gameId) {
+        return gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElse(null);
+    }
 }
