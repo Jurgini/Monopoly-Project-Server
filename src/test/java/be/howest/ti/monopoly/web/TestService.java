@@ -4,7 +4,10 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
+
 import java.util.List;
+import java.util.SortedSet;
+
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
 
@@ -30,7 +33,7 @@ public class TestService implements IService {
     public List<Tile> getTiles() {
         return delegate.getTiles();
     }
-    
+
     @Override
     public List<String> getCommunityChest() {
         return delegate.getCommunityChest();
@@ -52,12 +55,18 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object getGames() {
+    public SortedSet<Game> getGames() {
         return delegate.getGames();
     }
 
     @Override
     public Dice rollDice(String playerName, String gameId) {
-        return delegate.rollDice(playerName,gameId);
+        return delegate.rollDice(playerName, gameId);
     }
+
+    @Override
+    public Game getGame(String gameId) {
+        return delegate.getGame(gameId);
+    }
+
 }

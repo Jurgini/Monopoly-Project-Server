@@ -14,6 +14,7 @@ import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.auth.authentication.TokenCredentials;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BearerAuthHandler;
@@ -184,7 +185,10 @@ public class MonopolyApiBridge {
     }
 
     private void getGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGame");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+
+        Response.sendJsonResponse(ctx, 200, service.getGame(gameId));
     }
 
     private void getDummyGame(RoutingContext ctx) {
