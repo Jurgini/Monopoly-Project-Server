@@ -187,9 +187,6 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
 
-        if(!request.isAuthorized(gameId))
-            throw new IllegalMonopolyActionException("Game does not exist");
-
         Response.sendJsonResponse(ctx, 200, service.getGame(gameId));
     }
 
