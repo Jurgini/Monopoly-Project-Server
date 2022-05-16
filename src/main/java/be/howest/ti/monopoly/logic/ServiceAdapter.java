@@ -3,8 +3,9 @@ package be.howest.ti.monopoly.logic;
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
-import java.util.List;
-import java.util.SortedSet;
+import be.howest.ti.monopoly.web.views.GameView;
+
+import java.util.*;
 
 public class ServiceAdapter implements IService {
 
@@ -44,7 +45,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public SortedSet<Game> getGames() {
+    public Set<GameView> getGames() {
         throw new UnsupportedOperationException();
     }
 

@@ -4,11 +4,16 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
+<<<<<<< HEAD
 
 import java.util.List;
 import java.util.SortedSet;
+=======
+import java.util.*;
+>>>>>>> 400b655e73d3c8ff98215f3db9abef6958816b38
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import be.howest.ti.monopoly.web.views.GameView;
 
 
 public class TestService implements IService {
@@ -55,7 +60,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public SortedSet<Game> getGames() {
+    public Set<GameView> getGames() {
         return delegate.getGames();
     }
 
