@@ -175,8 +175,8 @@ public class MonopolyService extends ServiceAdapter {
         for (Tile tile : getTiles()) {
             if (tile.getName().equals(propertyName) && getGame(gameId) != null && ((Property) getTile(propertyName)).getDirectSale() != null) {
 
-                player.payMoney(((Property) getTile(propertyName)).getCost());
-                player.addProperty(((Property) getTile(propertyName)));
+                //player.payMoney(((Property) getTile(propertyName)).getCost());
+                //player.addProperty(((Property) getTile(propertyName)));
             }
         }
         throw new MonopolyResourceNotFoundException("Property not found");
