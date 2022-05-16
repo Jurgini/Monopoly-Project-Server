@@ -181,4 +181,9 @@ public class MonopolyService extends ServiceAdapter {
         }
         throw new MonopolyResourceNotFoundException("Property not found");
     }
+
+    @Override
+    public Game getGame(String gameId) {
+        return gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElse(null);
+    }
 }
