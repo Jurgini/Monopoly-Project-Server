@@ -1,68 +1,44 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import java.util.*;
-
 public class Dice {
-    List<Integer> firstDice;
-    List<Integer> secondDice;
-    List<Integer> randomizedDices;
-    public Dice() {
+     private int firstDice = (int)(Math.random()*6+1);
+     private int secondDice = (int)(Math.random()*6+1);
+     private boolean rolledDouble;
 
-        this.firstDice = new ArrayList<>(){{
-            add(1);
-            add(2);
-            add(3);
-            add(4);
-            add(5);
-            add(6);
-        }};
-        this.secondDice = new ArrayList<>(){{
-            add(1);
-            add(2);
-            add(3);
-            add(4);
-            add(5);
-            add(6);
-        }};
+
+    public int getFirstDice() {
+        return firstDice;
     }
 
-    List<Integer> rollDice(){
-        randomizedDices = new ArrayList<>();
-        Collections.shuffle(firstDice, new Random());
-        Collections.shuffle(secondDice, new Random());
-
-        randomizedDices.add(firstDice.get(0));
-        randomizedDices.add(secondDice.get(0));
-        return randomizedDices;
+    public int getSecondDice() {
+        return secondDice;
     }
 
-    int computeTotalDice(){
-        int dice1 = randomizedDices.get(0);
-        int dice2 = randomizedDices.get(0);
-        return dice1 + dice2;
+    public int getRolled() {
+        return firstDice + secondDice;
     }
 
-    @Override // if firstDice's index 0 = secondDice's index 0 return true
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Dice dice = (Dice) o;
-        return Objects.equals(firstDice, dice.firstDice) && Objects.equals(secondDice, dice.secondDice);
+    boolean isRolledDouble(){
+        return firstDice == secondDice;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstDice, secondDice);
+    public void rollAgain(){
+        firstDice = (int)(Math.random()*6+1);
+        secondDice = (int)(Math.random()*6+1);
+        if (firstDice == secondDice) {
+            rolledDouble = true;
+            //todo: go to prison
+        }
+        rolledDouble = false;
     }
 
     @Override
     public String toString() {
         return "Dice{" +
-                "firstDice=" + firstDice +
-                ", secondDice=" + secondDice +
-                ", rolled dice: " + rollDice() +
-                ", Total: " + computeTotalDice() +
+                "firstDice=" + getFirstDice() +
+                ", secondDice=" + getSecondDice() +
+                ", rolled = " + getRolled() +
+                ", again? " + isRolledDouble() +
                 '}';
     }
-
 }

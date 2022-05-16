@@ -1,8 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 public class StartUp {
 
@@ -10,8 +8,10 @@ public class StartUp {
         StartUp.run();
     }
     static void run() {
-        Dice lol = new Dice();
+        Dice a = new Dice();
 
-        System.out.println(lol);
+        System.out.println(a);
+
+
     }
 }
