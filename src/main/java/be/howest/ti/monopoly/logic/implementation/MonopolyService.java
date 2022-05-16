@@ -3,15 +3,14 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.web.views.GameView;
 
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class MonopolyService extends ServiceAdapter {
 
-    private final SortedSet<Game> gameSet= new TreeSet<>();
+    private final SortedSet<Game> gameSet = new TreeSet<>();
 
     @Override
     public String getVersion() {
@@ -37,10 +36,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(String name) {
-        for (Tile tile : getTiles())
-        {
-            if (tile.getName().equals(name))
-            {
+        for (Tile tile : getTiles()) {
+            if (tile.getName().equals(name)) {
                 return tile;
             }
         }
@@ -48,8 +45,11 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object getGames() {
-        return gameSet;
+    public Set<GameView> getGames() {
+        Set<GameView> gameViewSet = new HashSet<>() {
+        };
+        gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
+        return gameViewSet;
     }
 
     @Override
