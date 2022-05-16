@@ -51,7 +51,7 @@ public class MonopolyBoard {
             new Tile("Luxury Tax", 38, "Luxury Tax"),
             new Street("Oude Markt", 39, "street", 4000, 2000, 2000, "DARKBLUE", "DARKBLUE", 500, 2000, 6000, 14000, 17000, 20000));
 
-    public List<Tile> getTiles() {
+    public static List<Tile> getTiles() {
         return TILES;
     }
 }
