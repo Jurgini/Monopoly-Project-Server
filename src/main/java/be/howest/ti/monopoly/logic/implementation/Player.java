@@ -7,9 +7,9 @@ import be.howest.ti.monopoly.web.views.PropertyView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player extends MonopolyService{
     private final String name;
-    private String currentTile;
+    private Tile currentTile;
     private int playerPosition;
     private boolean jailed;
     private int money;
@@ -21,7 +21,7 @@ public class Player {
     {
         final int startCapital = 15000;
         this.name = name;
-        this.currentTile = "go";
+        this.currentTile = getTileByPosition(0);
         this.playerPosition = 0;
         this.jailed = false;
         this.money = startCapital;
@@ -34,11 +34,11 @@ public class Player {
         return name;
     }
 
-    public String getCurrentTile() {
+    public Tile getCurrentTile() {
         return currentTile;
     }
 
-    public void setCurrentTile(String currentTile)
+    public void setCurrentTile(Tile currentTile)
     {
         this.currentTile = currentTile;
     }
@@ -54,16 +54,20 @@ public class Player {
     public void moveToCorrectTile(){
         Dice firstDiceThrow = new Dice();
         setPlayerPosition(playerPosition + firstDiceThrow.getRolled());
+        setCurrentTile(getTileByPosition(getPlayerPosition()));
 
         if (firstDiceThrow.isRolledDouble()) {
             Dice secondDiceTrow = new Dice();
             setPlayerPosition(playerPosition + secondDiceTrow.getRolled());
+            setCurrentTile(getTileByPosition(getPlayerPosition()));
 
             if (secondDiceTrow.isRolledDouble()){
                 jailed = true;
-                setPlayerPosition(playerPosition);
+                setPlayerPosition(10); // tile of jail
+                setCurrentTile(getTileByPosition(getPlayerPosition()));
             }
         }
+
     }
 
     public boolean isJailed() {

@@ -115,10 +115,10 @@ public class MonopolyService extends ServiceAdapter {
         return game;
     }
 
-    @Override
-    public Tile getTile(int position) {
+
+    public Tile getTileByPosition(int position) {
        for (Tile tile : getTiles()){
-           if (tile.getPosition(0) == position){
+           if (tile.getPosition() == position){
                return tile;
            }
        }
