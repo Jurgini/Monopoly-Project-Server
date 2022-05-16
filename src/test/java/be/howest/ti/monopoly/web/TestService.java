@@ -3,10 +3,11 @@ package be.howest.ti.monopoly.web;
 import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Game;
-import java.util.*;
-
+import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
+
+import java.util.*;
 
 
 public class TestService implements IService {
@@ -23,7 +24,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public List<String> getChance() {
+    public List<Executing> getChance() {
         return delegate.getChance();
     }
 
@@ -33,7 +34,7 @@ public class TestService implements IService {
     }
     
     @Override
-    public List<String> getCommunityChest() {
+    public List<Executing> getCommunityChest() {
         return delegate.getCommunityChest();
     }
 

@@ -18,51 +18,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<String> getChance() {
-        return List.of(
-                "Advance to Boardwalk",
-                "Advance to Go (Collect $200)",
-                "Advance to Illinois Avenue. If you pass Go, collect $200",
-                "Advance to St. Charles Place. If you pass Go, collect $200",
-                "Advance to the nearest Railroad. If unowned, you may buy it from the Bank. If owned, pay owner twice the rental to which they are otherwise entitled",
-                "Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times amount thrown.",
-                "Bank pays you dividend of $50",
-                "Get Out of Jail Free",
-                "Go Back 3 Spaces",
-                "Go to Jail. Go directly to Jail, do not pass Go, do not collect $200",
-                "Make general repairs on all your property. For each house pay $25. For each hotel pay $100",
-                "Speeding fine $15",
-                "Take a trip to Reading Railroad. If you pass Go, collect $200",
-                "You have been elected Chairman of the Board. Pay each player $50",
-                "Your building loan matures. Collect $150"
-        );
-    }
-
-
-    @Override
-    public List<String> getCommunityChest() {
-        return List.of(
-                "Advance to Go (Collect $200)",
-                "Bank error in your favor-Collect $200",
-                "Doctor's fee-Pay $50",
-                "From sale of stock you get $50",
-                "Get Out of Jail Free",
-                "Go to Jail-Go directly to jail-Do not pass Go-Do not collect $200",
-                "Grand Opera Night-Collect $50 from every player for opening night seats",
-                "Holiday Fund matures-Receive $100",
-                "Income tax refund-Collect $20",
-                "It is your birthday-Collect $10",
-                "Life insurance matures-Collect $100",
-                "Pay hospital fees of $100",
-                "Pay school fees of $150",
-                "Receive $25 consultancy fee",
-                "You are assessed for street repairs-$40 per house-$115 per hotel",
-                "You have won second prize in a beauty contest-Collect $10",
-                "You inherit $100"
-        );
-    }
-
-    @Override
     public Game createGame(String prefix, int numberOfPlayers) {
         Game game = new Game(prefix, numberOfPlayers);
         gameSet.add(game);
@@ -98,6 +53,50 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public List<Executing> getChance() {
+        return List.of(
+                new Executing("Advance to Go (Collect 2000)", 2000, Action.ADVANCE_AND_COLLECT),
+                new Executing("Go to Boulevard d'Avroy—If you pass Go, collect 2000", 2000, Action.ADVANCE_AND_COLLECT),
+                new Executing("Go to Rijsselstraat—If you pass Go, collect 2000", 2000, Action.ADVANCE_AND_COLLECT),
+                new Executing("Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown.", 0, Action.BUY_OR_IF_OWNED_THROW_AND_PAY),
+                new Executing("Advance token to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank.", 0, Action.PAY_OR_BUY_IF_UNOWNED),
+                new Executing("Your studentloan got deposited, Collect 4000", 4000, Action.COLLECT),
+                new Executing("Your friends owe you a favour to dig you out of jail with a spoon when needed", 0, Action.OUT_OF_JAIL_CARD),
+                new Executing("You got drunk and could'nt stop stumbling–Go Back 2 Spaces", 0, Action.ADVANCE),
+                new Executing("You were off da perc and gave a cop a wedgie–Go to jail now!–Do not pass Go, do not collect 2000", 0, Action.TO_JAIL),
+                new Executing("Make general repairs on all your property–For each dorm pay 250–For each complex €1000", 250, Action.PAY_BANK),
+                new Executing("You got mugged at a party–You lost 150", 150, Action.PAY_BANK),
+                new Executing("Take a walk on the Oude Markt–Advance token to Oude Markt", 0, Action.ADVANCE),
+                new Executing("CONGRATULATIONS, you lost a bet–Pay everyone 500", 500, Action.PAY_EVERYONE),
+                new Executing("You've worked in a bar during the holidays–Collect 1500", 1500, Action.COLLECT),
+                new Executing("You bought a lottery ticket and got some cash in return–You won 1000", 1000, Action.COLLECT)
+
+        );
+    }
+
+    @Override
+    public List<Executing> getCommunityChest() {
+        return List.of(
+                new Executing("Advance to Go—Collect 2000", 2000, Action.ADVANCE_AND_COLLECT),
+                new Executing("You are BLESSED, the holy angels of god came to give you cash!—Collect 2000", 2000, Action.COLLECT),
+                new Executing("You've lost a parlay—Pay 500", 500, Action.PAY_BANK),
+                new Executing("You've won a parlay—Collect 500", 500, Action.COLLECT),
+                new Executing("Your friends owe you a favour to dig you out of jail with a spoon when needed", 0, Action.OUT_OF_JAIL),
+                new Executing("You were off da perc and gave a cop a wedgie—Go to jail now!—Do not pass Go, do not collect 2000", 2000, Action.ADVANCE),
+                new Executing("You want to organize a house party with friends—Collect 500 from every player for the booze and snacks", 500, Action.COLLECT),
+                new Executing("Student association funds—Receive 1000", 1000, Action.COLLECT),
+                new Executing("You begged your parents for some extra allowance. - Collect 2000", 2000, Action.COLLECT),
+                new Executing("It's your birthday—Collect 100", 100, Action.COLLECT),
+                new Executing("You walked into a street light and broke your nose—Pay 1000 in hospital fees", 1000, Action.PAY_BANK),
+                new Executing("You took a STD-test—Pay 1000", 1000, Action.PAY_BANK),
+                new Executing("You pay back some of your student loan—Pay 1500", 1500, Action.PAY_BANK),
+                new Executing("Someone asked you to tutor them in maths—Receive 250", 250, Action.COLLECT),
+                new Executing("The police is raiding your house.—Repair the doors: 400 per house-1200 per hotel", 400, Action.PAY_BANK),
+                new Executing("You asked someone to lend money and never payed it back —Receive 100", 100, Action.COLLECT),
+                new Executing("You ask your parents for money to buy a new school laptop and receive 1000", 1000, Action.COLLECT)
+        );
+    }
+
     public Game getGame(String gameId) {
         Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
         return filteredGame;
