@@ -18,6 +18,9 @@ public class Player {
     private List<Property> properties;
     private int debt;
 
+    private Dice dice1 = new Dice();
+    private Dice dice2 = new Dice();
+
     public Player(String name)
     {
         final int startCapital = 15000;
@@ -52,23 +55,23 @@ public class Player {
         this.playerPosition = position;
     }
 
-    public void moveToCorrectTile(){
-        Dice firstDiceThrow = new Dice();
-        setPlayerPosition(playerPosition + firstDiceThrow.getRolled());
-        //setCurrentTile(getTileByPosition(getPlayerPosition()));
-
-        if (firstDiceThrow.isRolledDouble()) {
-            Dice secondDiceTrow = new Dice();
-            setPlayerPosition(playerPosition + secondDiceTrow.getRolled());
-            //setCurrentTile(getTileByPosition(getPlayerPosition()));
-
-            if (secondDiceTrow.isRolledDouble()){
-                setJailed(true);
-                setPlayerPosition(10); // tile of jail
-                //setCurrentTile(getTileByPosition(getPlayerPosition()));
-            }
-        }
-    }
+//    public void moveToCorrectTile(){
+//        Dice firstDiceThrow = new Dice();
+//        setPlayerPosition(playerPosition + firstDiceThrow.getRolled());
+//        //setCurrentTile(getTileByPosition(getPlayerPosition()));
+//
+//        if (firstDiceThrow.isRolledDouble()) {
+//            Dice secondDiceTrow = new Dice();
+//            setPlayerPosition(playerPosition + secondDiceTrow.getRolled());
+//            //setCurrentTile(getTileByPosition(getPlayerPosition()));
+//
+//            if (secondDiceTrow.isRolledDouble()){
+//                setJailed(true);
+//                setPlayerPosition(10); // tile of jail
+//                //setCurrentTile(getTileByPosition(getPlayerPosition()));
+//            }
+//        }
+//    }
 
     public boolean isJailed() {
         return jailed;
@@ -125,4 +128,11 @@ public class Player {
     public int getDebt() {
         return debt;
     }
+
+    public void rollDice()
+    {
+        this.dice1.roll();
+        this.dice2.roll();
+    }
+
 }

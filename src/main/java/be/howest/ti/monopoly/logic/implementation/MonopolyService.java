@@ -51,8 +51,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Set<GameView> getGames() {
-        Set<GameView> gameViewSet = new HashSet<>() {
-        };
+        Set<GameView> gameViewSet = new HashSet<>() {};
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;
     }
@@ -102,8 +101,16 @@ public class MonopolyService extends ServiceAdapter {
         );
     }
 
+    @Override
     public Game getGame(String gameId) {
         Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
         return filteredGame;
+    }
+
+    @Override
+    public Dice rollDice(String playerName, String gameId) {
+        List<Player> players = getGame(gameId).getPlayers();
+        System.out.println(players);
+        return null;
     }
 }
