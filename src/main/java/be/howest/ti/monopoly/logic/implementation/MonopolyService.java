@@ -3,15 +3,14 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.web.views.GameView;
 
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 
 public class MonopolyService extends ServiceAdapter {
 
-    private final SortedSet<Game> gameSet= new TreeSet<>();
+    private final SortedSet<Game> gameSet = new TreeSet<>();
 
     @Override
     public String getVersion() {
@@ -38,7 +37,6 @@ public class MonopolyService extends ServiceAdapter {
                 "Your building loan matures. Collect $150"
         );
     }
-
 
 
     @Override
@@ -73,20 +71,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(int position) {
-       for (Tile tile : getTiles()){
-           if (tile.getPosition() == position){
-               return tile;
-           }
-       }
-       throw new MonopolyResourceNotFoundException("Tile not found");
-    }
-
-    @Override
-    public Tile getTile(String name) {
-        for (Tile tile : getTiles())
-        {
-            if (tile.getName().equals(name))
-            {
+        for (Tile tile : getTiles()) {
+            if (tile.getPosition() == position) {
                 return tile;
             }
         }
@@ -94,8 +80,23 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object getGames() {
+    public Tile getTile(String name) {
+        for (Tile tile : getTiles()) {
+            if (tile.getName().equals(name)) {
+                return tile;
+            }
+        }
+        throw new MonopolyResourceNotFoundException("Tile not found");
+    }
+
+    @Override
+    public SortedSet<Game> getGames() {
         return gameSet;
     }
 
+    @Override
+    public GameView getGame(String gameId) {
+        Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
+        return new GameView(filteredGame);
+    }
 }

@@ -2,8 +2,10 @@ package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import be.howest.ti.monopoly.web.views.GameView;
 
 import java.util.List;
+import java.util.SortedSet;
 
 public interface IService {
     String getVersion();
@@ -15,5 +17,7 @@ public interface IService {
     Tile getTile(int position);
     Tile getTile(String name);
 
-    Object getGames();
+    SortedSet<Game> getGames();
+
+    GameView getGame(String gameId);
 }

@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.web.views;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.Turn;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
@@ -10,20 +11,23 @@ public class GameView {
     Game game;
     String playerName;
 
-    public GameView(Game game, String playerName) {
+    public GameView(Game game) {
         this.game = game;
         this.playerName = playerName;
     }
 
-    public int getNumberOfPlayers(){
+    public int getNumberOfPlayers() {
         return game.getNumberOfPlayers();
     }
 
-    public List<Player> getPlayers(){
+    public List<Player> getPlayers() {
         return game.getPlayers();
     }
 
     public String getProperty() {
+        if (game.getDirectSale() == null) {
+            return null;
+        }
         return game.getDirectSale().getName();
     }
 
@@ -43,8 +47,9 @@ public class GameView {
         return game.getLastDiceRoll();
     }
 
+    @JsonProperty("canRoll")
     public boolean canRoll() {
-        return game.playerCanRoll(playerName);
+        return game.canRoll();
     }
 
     public boolean isEnded() {
@@ -52,6 +57,9 @@ public class GameView {
     }
 
     public String getCurrentPlayer() {
+        if (game.getCurrentPlayer() == null) {
+            return null;
+        }
         return game.getCurrentPlayer().getName();
     }
 
