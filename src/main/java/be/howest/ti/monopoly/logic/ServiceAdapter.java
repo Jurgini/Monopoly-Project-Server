@@ -1,8 +1,10 @@
 package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import java.util.List;
+import java.util.SortedSet;
 
 public class ServiceAdapter implements IService {
 
@@ -42,8 +44,18 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object getGames() {
+    public SortedSet<Game> getGames() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Game getGame(String gameId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object joinGame(String gameId, String playerToken, Player player) {
+        return null;
     }
 
 }
