@@ -7,16 +7,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class Game implements Comparable<Game> {
-    int numberOfPlayers;
-    boolean started;
-    List<String> players;
-    String id;
+    private int numberOfPlayers;
+    private boolean started;
+    private List<Player> players;
+    private final String id;
 
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
         setNumberOfplayers(numberOfPlayers);
-        this.players = Collections.emptyList();
-
+        this.players = List.of(new Player("tuurkee"));
     }
 
     public void setNumberOfplayers(int numberOfPlayers) {
@@ -36,7 +35,7 @@ public class Game implements Comparable<Game> {
         return started;
     }
 
-    public List<String> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
