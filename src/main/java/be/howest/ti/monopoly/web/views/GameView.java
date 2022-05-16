@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
+import be.howest.ti.monopoly.logic.implementation.Turn;
 
 import java.util.List;
 

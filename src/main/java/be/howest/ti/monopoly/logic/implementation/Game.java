@@ -25,7 +25,8 @@ public class Game implements Comparable<Game> {
     private Player currentPlayer;
     private Player winner;
 
-    private Map<Property,Player> boughtProperty = new HashMap<Property,Player>();
+    private Map<Property, Player> boughtProperty = new HashMap<Property, Player>();
+    private List<Turn> turns;
 
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
@@ -85,7 +86,7 @@ public class Game implements Comparable<Game> {
 
     @JsonProperty("canRoll")
     public boolean playerCanRoll(String playerName) {
-        return players.stream().anyMatch(player -> Objects.equals(player.name, playerName) && Objects.equals(playerName, currentPlayer.name));
+        return players.stream().anyMatch(player -> Objects.equals(player.getName(), playerName) && Objects.equals(playerName, currentPlayer.getName()));
     }
 
     public List<Player> getPlayers() {
