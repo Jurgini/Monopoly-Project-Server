@@ -7,6 +7,7 @@ import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.SortedSet;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
@@ -15,8 +16,8 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void getGames(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object getGames() {
-                return Collections.emptySet();
+            public SortedSet<Game> getGames() {
+                return null;
             }
         });
         get(
@@ -31,7 +32,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void getGamesWithAllParams(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Object getGames() {
+            public SortedSet<Game> getGames() {
                 return null;
             }
         });
