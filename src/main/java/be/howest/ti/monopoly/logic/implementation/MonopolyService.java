@@ -172,14 +172,16 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Object buyProperty(String gameId, String playerName, String propertyName) {
 
+        Game game = getGame(gameId);
+        Player player = game.getPlayer(playerName);
         for (Tile tile : getTiles()) {
-            if (tile.getName().equals(propertyName) && getGame(gameId) != null && ((Property) getTile(propertyName)).getDirectSale() != null) {
+            if (tile.getName().equals(propertyName) && getGame(gameId) != null) {
 
-                //player.payMoney(((Property) getTile(propertyName)).getCost());
-                //player.addProperty(((Property) getTile(propertyName)));
+                player.payMoney(((Property) getTile(propertyName)).getCost());
+                player.addProperty(((Property) getTile(propertyName)));
             }
         }
-        throw new MonopolyResourceNotFoundException("Property not found");
+        return null;
     }
 
     @Override

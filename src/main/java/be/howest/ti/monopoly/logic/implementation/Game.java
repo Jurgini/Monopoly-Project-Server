@@ -41,7 +41,10 @@ public class Game implements Comparable<Game> {
     {
         players.add(player);
     }
-
+    public Player getPlayer(String playerName)
+    {
+        return getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+    }
     public String getId() {
         return id;
     }

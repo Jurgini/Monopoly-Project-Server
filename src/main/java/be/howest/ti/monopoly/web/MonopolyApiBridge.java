@@ -227,7 +227,7 @@ public class MonopolyApiBridge {
     private void buyProperty(RoutingContext ctx)
     {
         Request request = Request.from(ctx);
-        String playerName = request.getPlayerName();
+        String playerName = request.getPlayerNameViaPath();
         String gameId = request.getGameId();
         String propertyName = request.getPropertyName();
 

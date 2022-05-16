@@ -65,7 +65,10 @@ public class Request {
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
     }
-
+    public String getPlayerNameViaPath()
+    {
+        return params.pathParameter("playerName").getString();
+    }
     public String getGameId() {
         return params.pathParameter("gameId").getString();
     }
