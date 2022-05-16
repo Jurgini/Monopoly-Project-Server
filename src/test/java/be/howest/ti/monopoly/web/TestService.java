@@ -3,10 +3,16 @@ package be.howest.ti.monopoly.web;
 import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Game;
+<<<<<<< HEAD
 import java.util.List;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
+=======
+import java.util.*;
+
+>>>>>>> 400b655e73d3c8ff98215f3db9abef6958816b38
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import be.howest.ti.monopoly.web.views.GameView;
 
 
 public class TestService implements IService {
@@ -53,7 +59,12 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object getGames() {
+    public Set<GameView> getGames() {
         return delegate.getGames();
+    }
+
+    @Override
+    public Game getGame(String gameId) {
+        return delegate.getGame(gameId);
     }
 }

@@ -57,7 +57,6 @@ public class Request {
                 Objects.equals(expectedPlayerName, user.getPlayerName());
     }
 
-
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
     }
@@ -107,4 +106,5 @@ public class Request {
     public boolean isBodyEmpty() {
         return params.body().isEmpty();
     }
+
 }

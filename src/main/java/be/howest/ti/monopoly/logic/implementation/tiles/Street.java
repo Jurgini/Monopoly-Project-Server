@@ -6,12 +6,12 @@ public class Street extends Property {
     private final int housePrice;
     private final String streetColor;
     private final String color;
-    private int rent;
-    private int rentWithOneHouse;
-    private int rentWithTwoHouses;
-    private int rentWithThreeHouses;
-    private int rentWithFourHouses;
-    private int rentWithHotel;
+    private final int rent;
+    private final int rentWithOneHouse;
+    private final int rentWithTwoHouses;
+    private final int rentWithThreeHouses;
+    private final int rentWithFourHouses;
+    private final int rentWithHotel;
 
     public Street(String name, int position, int cost, int mortgage, int housePrice, String streetColor, String color, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
         super(name, position, "street", cost, mortgage);

@@ -2,11 +2,12 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
+import java.util.*;
 
 
 class OpenApiManagingGamesTests extends OpenApiTestsBase {
@@ -15,8 +16,8 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void getGames(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Object getGames() {
-                return Collections.emptySet();
+            public Set<GameView> getGames() {
+                return null;
             }
         });
         get(
@@ -31,7 +32,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void getGamesWithAllParams(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Object getGames() {
+            public Set<GameView> getGames() {
                 return null;
             }
         });
