@@ -2,11 +2,11 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 class OpenApiGameInfoTests extends OpenApiTestsBase {
@@ -19,7 +19,6 @@ class OpenApiGameInfoTests extends OpenApiTestsBase {
                 return null;
             }
         });
-
         get(
                 testContext,
                 "/games/game-id",
