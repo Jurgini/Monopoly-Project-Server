@@ -62,12 +62,11 @@ public class Player extends MonopolyService{
             setCurrentTile(getTileByPosition(getPlayerPosition()));
 
             if (secondDiceTrow.isRolledDouble()){
-                jailed = true;
+                setJailed(true);
                 setPlayerPosition(10); // tile of jail
                 setCurrentTile(getTileByPosition(getPlayerPosition()));
             }
         }
-
     }
 
     public boolean isJailed() {
