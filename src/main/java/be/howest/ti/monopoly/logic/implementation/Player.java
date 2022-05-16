@@ -4,11 +4,9 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.web.views.PropertyView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PropertyPermission;
+import java.util.*;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private final String name;
     private String currentTile;
     private boolean jailed;
@@ -16,8 +14,9 @@ public class Player {
     private boolean bankrupt;
     private List<Property> properties;
     private int debt;
+    private final String token;
 
-    public Player(String name)
+    public Player(String name, String token)
     {
         final int startCapital = 15000;
         this.name = name;
@@ -27,6 +26,7 @@ public class Player {
         this.bankrupt = false;
         this.properties = new ArrayList<>();
         this.debt = 0;
+        this.token = token;
     }
 
     public String getName() {
@@ -97,4 +97,23 @@ public class Player {
     public int getDebt() {
         return debt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(name, player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Player other) {
+        return getName().compareTo(other.getName());
+    }
 }
+

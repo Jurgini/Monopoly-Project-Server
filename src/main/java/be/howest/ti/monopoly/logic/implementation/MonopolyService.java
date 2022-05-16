@@ -1,8 +1,11 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 
 import java.util.List;
 import java.util.SortedSet;
@@ -115,6 +118,31 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object joinGame(String gameId, String playerToken, Player player) {
+        SortedSet<Game> createdGames = getGames();
+
+        for (Game game: createdGames)
+        {
+            if (game.getId().equals(gameId))
+            {
+                if (checkPlayerExistence(game, player))
+                    throw new IllegalMonopolyActionException("Cannot join a game with this name");
+
+                game.addPlayer(player);
+
+                return new JsonObject()
+                        .put("token", playerToken);
+            }
+        }
+
+        return new JsonObject();
+    }
+
+    private boolean checkPlayerExistence(Game game, Player player) {
+        return game.getPlayers().contains(player);
+    }
+
+    @Override
     public Tile getTile(int position) {
        for (Tile tile : getTiles()){
            if (tile.getPosition() == position){
@@ -137,8 +165,19 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object getGames() {
+    public SortedSet<Game> getGames() {
         return gameSet;
     }
 
+    @Override
+    public Game getGame(String gameId) {
+        for (Game game: gameSet)
+        {
+            if (game.getId().equals(gameId))
+            {
+                return game;
+            }
+        }
+        return null;
+    }
 }

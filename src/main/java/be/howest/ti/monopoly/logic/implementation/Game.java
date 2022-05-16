@@ -2,9 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Game implements Comparable<Game> {
     private int numberOfPlayers;
@@ -15,7 +13,7 @@ public class Game implements Comparable<Game> {
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
         setNumberOfplayers(numberOfPlayers);
-        this.players = List.of(new Player("tuurkee"));
+        this.players = new ArrayList<>();
     }
 
     public void setNumberOfplayers(int numberOfPlayers) {
@@ -37,6 +35,11 @@ public class Game implements Comparable<Game> {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void addPlayer(Player player)
+    {
+        players.add(player);
     }
 
     public String getId() {
