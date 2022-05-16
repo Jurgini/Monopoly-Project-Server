@@ -64,6 +64,15 @@ public class Player implements Comparable<Player> {
 
         this.money += amount;
     }
+    public void payMoney(int amount)
+    {
+        if (amount <= 0)
+        {
+            throw new IllegalStateException("U can't pay a negative amount of money!");
+        }
+
+        this.money -= amount;
+    }
 
     public boolean isBankrupt() {
         return bankrupt;

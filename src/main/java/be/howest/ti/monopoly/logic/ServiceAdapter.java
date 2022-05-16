@@ -44,6 +44,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
     public SortedSet<Game> getGames() {
         throw new UnsupportedOperationException();
     }
