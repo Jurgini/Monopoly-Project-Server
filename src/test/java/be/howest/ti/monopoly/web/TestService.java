@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Game;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.List;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
@@ -11,6 +12,10 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import java.util.*;
 
 >>>>>>> 400b655e73d3c8ff98215f3db9abef6958816b38
+=======
+import java.util.*;
+
+>>>>>>> 6f6798a1f8a1df414181e329e804d327e95ab536
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
 
