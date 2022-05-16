@@ -97,4 +97,11 @@ public class Player {
     public int getDebt() {
         return debt;
     }
+
+    public void addDebt(int amount)
+    {
+        if (amount >= 0)
+            throw new IllegalArgumentException("A debt must be negative.");
+        this.debt += debt;
+    }
 }
