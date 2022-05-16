@@ -1,16 +1,16 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
-import be.howest.ti.monopoly.logic.implementation.tiles.Street;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.PropertyView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PropertyPermission;
 
 public class Player {
     private final String name;
     private String currentTile;
+    private int playerPosition;
     private boolean jailed;
     private int money;
     private boolean bankrupt;
@@ -21,7 +21,8 @@ public class Player {
     {
         final int startCapital = 15000;
         this.name = name;
-        this.currentTile = "Go";
+        this.currentTile = "go";
+        this.playerPosition = 0;
         this.jailed = false;
         this.money = startCapital;
         this.bankrupt = false;
@@ -40,6 +41,29 @@ public class Player {
     public void setCurrentTile(String currentTile)
     {
         this.currentTile = currentTile;
+    }
+
+    public int getPlayerPosition() {
+        return playerPosition;
+    }
+
+    public void setPlayerPosition(int position) {
+        this.playerPosition = position;
+    }
+
+    public void moveToCorrectTile(){
+        Dice firstDiceThrow = new Dice();
+        setPlayerPosition(playerPosition + firstDiceThrow.getRolled());
+
+        if (firstDiceThrow.isRolledDouble()) {
+            Dice secondDiceTrow = new Dice();
+            setPlayerPosition(playerPosition + secondDiceTrow.getRolled());
+
+            if (secondDiceTrow.isRolledDouble()){
+                jailed = true;
+                setPlayerPosition(playerPosition);
+            }
+        }
     }
 
     public boolean isJailed() {

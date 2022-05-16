@@ -39,6 +39,7 @@ public class MonopolyService extends ServiceAdapter {
         );
     }
 
+    @Override
     public List<Tile> getTiles() {
         return List.of(
                 // todo: change the tiles to good version
@@ -117,7 +118,7 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Tile getTile(int position) {
        for (Tile tile : getTiles()){
-           if (tile.getPosition() == position){
+           if (tile.getPosition(0) == position){
                return tile;
            }
        }
