@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
 
@@ -12,9 +13,9 @@ public interface IService {
     
     Game createGame(String prefix, int numberOfPlayers);
 
-    List<String> getChance();
+    List<Executing> getChance();
     List<Tile> getTiles();
-    List<String> getCommunityChest();
+    List<Executing> getCommunityChest();
     Tile getTile(int position);
     Tile getTile(String name);
 

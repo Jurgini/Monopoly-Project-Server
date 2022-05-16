@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
 
@@ -20,7 +21,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public List<String> getChance() {
+    public List<Executing> getChance() {
         throw new UnsupportedOperationException();
     }
 
@@ -30,7 +31,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public List<String> getCommunityChest() {
+    public List<Executing> getCommunityChest() {
         throw new UnsupportedOperationException();
     }
 
