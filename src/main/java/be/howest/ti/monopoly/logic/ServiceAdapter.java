@@ -5,7 +5,7 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
 
 import java.util.List;
-import java.util.SortedSet;
+import java.util.Set;
 
 public class ServiceAdapter implements IService {
 
@@ -45,12 +45,12 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public SortedSet<Game> getGames() {
+    public Set<GameView> getGames() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public GameView getGame(String gameId) {
+    public Game getGame(String gameId) {
         throw new UnsupportedOperationException();
     }
 

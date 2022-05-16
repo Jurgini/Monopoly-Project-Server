@@ -56,6 +56,14 @@ public class Game implements Comparable<Game> {
         return directSale;
     }
 
+    @JsonProperty("directSale")
+    public String getDirectSalePropertyName() {
+        if (getDirectSale() == null) {
+            return null;
+        }
+        return getDirectSale().getName();
+    }
+
     public int getAvailableHouses() {
         return availableHouses;
     }
@@ -70,6 +78,14 @@ public class Game implements Comparable<Game> {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    @JsonProperty("CurrentPlayer")
+    public String getCurrentPlayerName() {
+        if (getCurrentPlayer() == null) {
+            return null;
+        }
+        return getCurrentPlayer().getName();
     }
 
     public Player getWinner() {

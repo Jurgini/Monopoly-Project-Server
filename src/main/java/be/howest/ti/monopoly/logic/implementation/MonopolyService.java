@@ -90,13 +90,16 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public SortedSet<Game> getGames() {
-        return gameSet;
+    public Set<GameView> getGames() {
+        Set<GameView> gameViewSet = new HashSet<>() {
+        };
+        gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
+        return gameViewSet;
     }
 
     @Override
-    public GameView getGame(String gameId) {
+    public Game getGame(String gameId) {
         Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
-        return new GameView(filteredGame);
+        return filteredGame;
     }
 }
