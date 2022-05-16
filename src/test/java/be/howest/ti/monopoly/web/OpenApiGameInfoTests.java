@@ -6,15 +6,14 @@ import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 
 
 class OpenApiGameInfoTests extends OpenApiTestsBase {
 
     @Test
     void getGame(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
+        service.setDelegate(new ServiceAdapter() {
             @Override
             public Game getGame(String gameId) {
                 return null;

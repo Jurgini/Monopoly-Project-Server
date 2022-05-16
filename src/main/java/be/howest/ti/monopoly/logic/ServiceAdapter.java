@@ -4,8 +4,7 @@ import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ServiceAdapter implements IService {
 
