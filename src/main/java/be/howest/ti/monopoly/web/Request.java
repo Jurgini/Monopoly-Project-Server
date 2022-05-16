@@ -57,6 +57,10 @@ public class Request {
                 Objects.equals(expectedPlayerName, user.getPlayerName());
     }
 
+    public boolean isAuthorized(String gameId) {
+        return Objects.equals(gameId, user.getGameId());
+    }
+
 
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
@@ -107,4 +111,6 @@ public class Request {
     public boolean isBodyEmpty() {
         return params.body().isEmpty();
     }
+
+
 }
