@@ -58,7 +58,6 @@ public class TestService implements IService {
     }
 
     @Override
-<<<<<<< src/test/java/be/howest/ti/monopoly/web/TestService.java
     public Object buyProperty(String gameId, String playerName, String propertyName) {
         return delegate.buyProperty(gameId, playerName, propertyName);
     }
