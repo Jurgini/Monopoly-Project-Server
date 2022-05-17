@@ -233,7 +233,7 @@ public class MonopolyApiBridge {
 
         if (!request.isAuthorized(gameId, playerName))
         {
-            throw new ForbiddenAccessException("you cannot use this endpoint");
+            throw new IllegalMonopolyActionException("you cannot use this endpoint");
         }
         else
         {
