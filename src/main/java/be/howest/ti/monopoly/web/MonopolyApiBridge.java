@@ -246,14 +246,14 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String propertyName = request.getPropertyName();
 
-        if (!request.isAuthorized(gameId, playerName))
+       /* if (!request.isAuthorized(gameId, playerName))
         {
             throw new IllegalMonopolyActionException("you cannot use this endpoint");
-        }
-        else
-        {
+        }*/
+        //else
+        //{
             Response.sendJsonResponse(ctx, 200, service.dontBuyTile(gameId, playerName,propertyName));
-        }
+        //}
     }
 
     private void collectDebt(RoutingContext ctx) {

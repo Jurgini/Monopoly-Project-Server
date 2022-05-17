@@ -62,6 +62,11 @@ public class TestService implements IService {
     }
 
     @Override
+    public Object dontBuyTile(String gameId, String playerName, String propertyName) {
+        return delegate.dontBuyTile(gameId, playerName, propertyName);
+    }
+
+    @Override
     public Set<GameView> getGames() {
         return delegate.getGames();
     }

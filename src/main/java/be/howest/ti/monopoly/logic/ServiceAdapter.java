@@ -8,7 +8,7 @@ import be.howest.ti.monopoly.web.views.GameView;
 
 import java.util.*;
 
-public abstract class ServiceAdapter implements IService {
+public class ServiceAdapter implements IService {
 
     @Override
     public String getVersion() {
