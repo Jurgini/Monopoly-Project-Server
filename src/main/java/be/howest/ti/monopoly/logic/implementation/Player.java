@@ -3,7 +3,6 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Player {
@@ -93,7 +92,7 @@ public class Player {
         } else if (property instanceof Railroad) {
             return ((Railroad) property).getRent(getOwnedRailroadCards());
         } else if (property instanceof Utility) {
-            // Utility calculation
+            //TODO: Utility calculation
             return 0;
         } else {
             throw new IllegalArgumentException("Not possible to get rent of this tile.");
@@ -103,5 +102,20 @@ public class Player {
 
     private int getOwnedRailroadCards() {
         return 1; //todo: calculate this.
+    }
+
+    public void payMoney(int value) {
+        if (value <= 0) {
+            throw new IllegalStateException("U can't pay a negative amount of money!");
+        }
+
+        this.money -= value;
+    }
+
+    public void setDebt(int value) {
+        if (value <= 0) {
+            throw new IllegalStateException("U can't set a negative amount of debt!");
+        }
+        debt += value;
     }
 }

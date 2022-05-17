@@ -72,11 +72,12 @@ public class MonopolyService extends ServiceAdapter {
         int rent = player.getRent(property);
 
         if (debtor.getMoney()-rent >= 0){
-            // pay rent
+            debtor.payMoney(rent);
         }
         else {
-            // set debt
+            debtor.setDebt(rent);
         }
+        player.receiveMoney(rent);
 
         return null;
     }
