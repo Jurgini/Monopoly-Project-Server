@@ -65,7 +65,6 @@ public class Street extends Property {
 
     public void computeHouses()
     {
-
     }
 
     public void computeHotels()

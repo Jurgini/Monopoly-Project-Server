@@ -8,9 +8,6 @@ public class StartUp {
         StartUp.run();
     }
     static void run() {
-        Game g = new Game("lmao",2);
-
-
 
     }
 }

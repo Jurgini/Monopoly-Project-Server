@@ -2,6 +2,8 @@ package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
@@ -20,7 +22,11 @@ public interface IService {
     Tile getTile(String name);
 
     int[] rollDice(String playerName, String gameId);
+
+    Object buyProperty(String gameId, String playerName, String propertyName);
+
     Set<GameView> getGames();
     Game getGame(String gameId);
+    Object joinGame(String gameId, String playerToken, Player player);
 
 }

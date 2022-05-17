@@ -9,6 +9,12 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
 
     @Test
     void rollDice(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public int[] rollDice(String playerName, String gameId) {
+                return new int[]{};
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/dice",

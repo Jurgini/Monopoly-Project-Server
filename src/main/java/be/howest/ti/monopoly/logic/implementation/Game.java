@@ -42,6 +42,7 @@ public class Game implements Comparable<Game> {
         this.players = new ArrayList<>();
         this.lastDiceRoll = new int[2];
         //this.currentPlayer = players.get(0);
+
     }
 
 
@@ -131,6 +132,14 @@ public class Game implements Comparable<Game> {
         return players;
     }
 
+    public void addPlayer(Player player)
+    {
+        players.add(player);
+    }
+    public Player getPlayer(String playerName)
+    {
+        return getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+    }
     public String getId() {
         return id;
     }
