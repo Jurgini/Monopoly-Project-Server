@@ -42,7 +42,7 @@ public class MonopolyService extends ServiceAdapter {
                 if (checkPlayerExistence(game, player))
                     throw new IllegalMonopolyActionException("Cannot join a game with this name");
 
-                game.addPlayer(player);
+                //game.addPlayer(player);
 
                 return new JsonObject()
                         .put("token", playerToken);
