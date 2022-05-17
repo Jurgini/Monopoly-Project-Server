@@ -1,18 +1,39 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-public class Dice {
-    private int number;
-    private final int MIN_VALUE = 1;
-    private final int MAX_VALUE = 6;
+import java.sql.Array;
+import java.util.*;
 
-    public int getNumber()
-    {
-        return this.number;
+public class Dice {
+    private int firstDice;
+    private int secondDice;
+    private boolean rolledDouble;
+    private static final Random diceRandomizer = new Random();
+
+    public int[] rollDice(Player currentPlayer, String gameId) {
+        firstDice = diceRandomizer.nextInt(6) + 1;
+        secondDice = diceRandomizer.nextInt(6) + 1;
+        if (firstDice == secondDice) {
+            rolledDouble = true;
+        }
+        return getDiceRoll();
     }
 
-    public void roll()
-    {
-        this.number = (int)(Math.random()*MAX_VALUE+MIN_VALUE);
+    public int getFirstDice() {
+        return firstDice;
+    }
+
+    public int getSecondDice() {
+        return secondDice;
+    }
+    private int[] getDiceRoll(){
+        return new int[]{getFirstDice(), getSecondDice()};
+    }
+    public Dice getDice() {
+       return this;
+    }
+
+    public int getTotalRolledDice() {
+        return firstDice + secondDice;
     }
 //     private int firstDice = (int)(Math.random()*6+1);
 //     private int secondDice = (int)(Math.random()*6+1);
@@ -45,5 +66,12 @@ public class Dice {
 //        rolledDouble = false;
 //    }
 
+    boolean isRolledDouble() {
+        return firstDice == secondDice;
+    }
 
+    @Override
+    public String toString() {
+        return "Dice{" + "getDice=" + getDice() + ", Total = " + getTotalRolledDice() + ", again? " + isRolledDouble() + '}';
+    }
 }

@@ -7,6 +7,7 @@ import be.howest.ti.monopoly.logic.implementation.Game;
 
 import java.util.*;
 
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
@@ -56,18 +57,28 @@ public class TestService implements IService {
     }
 
     @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return delegate.buyProperty(gameId, playerName, propertyName);
+    }
+
+    @Override
     public Set<GameView> getGames() {
         return delegate.getGames();
     }
 
     @Override
-    public Dice rollDice(String playerName, String gameId) {
+    public int[] rollDice(String playerName, String gameId) {
         return delegate.rollDice(playerName, gameId);
     }
 
     @Override
     public Game getGame(String gameId) {
         return delegate.getGame(gameId);
+    }
+
+    @Override
+    public Object joinGame(String gameId, String playerToken, Player player) {
+        return delegate.joinGame(gameId, playerToken, player);
     }
 
 }

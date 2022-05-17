@@ -24,4 +24,9 @@ public class GameView {
         return game.getPlayers();
     }
 
+    public void addPlayer(Player player)
+    {
+        this.game.addPlayer(player);
+    }
+
 }

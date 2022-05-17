@@ -1,8 +1,11 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonObject;
 import be.howest.ti.monopoly.web.views.GameView;
 
 import java.util.*;
@@ -30,6 +33,30 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object joinGame(String gameId, String playerToken, Player player) {
+
+        for (GameView game: getGames())
+        {
+            if (game.getId().equals(gameId))
+            {
+                if (checkPlayerExistence(game, player))
+                    throw new IllegalMonopolyActionException("Cannot join a game with this name");
+
+                game.addPlayer(player);
+
+                return new JsonObject()
+                        .put("token", playerToken);
+            }
+        }
+
+        return new JsonObject();
+    }
+
+    private boolean checkPlayerExistence(GameView game, Player player) {
+        return game.getPlayers().contains(player);
+    }
+
+    @Override
     public Tile getTile(int position) {
         for (Tile tile : getTiles()) {
             if (tile.getPosition() == position) {
@@ -54,6 +81,21 @@ public class MonopolyService extends ServiceAdapter {
         Set<GameView> gameViewSet = new HashSet<>() {};
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;
+    }
+
+    @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+
+        Game game = getGame(gameId);
+        Player player = game.getPlayer(playerName);
+        for (Tile tile : getTiles()) {
+            if (tile.getName().equals(propertyName) && getGame(gameId) != null) {
+
+                player.payMoney(((Property) getTile(propertyName)).getCost());
+                player.addProperty(((Property) getTile(propertyName)));
+            }
+        }
+        return null;
     }
 
     @Override
@@ -107,10 +149,15 @@ public class MonopolyService extends ServiceAdapter {
         return filteredGame;
     }
 
+
+    public Player getPlayer(String gameId, String playerName){
+        Player foundPlayer = getGame(gameId).getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+        return foundPlayer;
+    }
     @Override
-    public Dice rollDice(String playerName, String gameId) {
-        List<Player> players = getGame(gameId).getPlayers();
-        System.out.println(players);
-        return null;
+    public int[] rollDice(String playerName, String gameId) {
+        Game currentGame = getGame(gameId);
+        currentGame.rollDice();
+        return currentGame.getLastDiceRoll();
     }
 }

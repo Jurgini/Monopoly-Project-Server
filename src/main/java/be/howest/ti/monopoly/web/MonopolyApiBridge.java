@@ -5,6 +5,7 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
@@ -181,7 +182,10 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
 
         String playerToken = tokenManager.createToken(new MonopolyUser(gameId, playerName));
-        Response.sendJsonResponse(ctx, 200, new JsonObject().put("token", playerToken));
+
+        Player player = new Player(playerName, playerToken);
+
+        Response.sendJsonResponse(ctx, 200, service.joinGame(gameId, playerToken, player));
     }
 
     private void getGame(RoutingContext ctx) {
@@ -220,8 +224,21 @@ public class MonopolyApiBridge {
         throw new NotYetImplementedException("declareBankruptcy");
     }
 
-    private void buyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyProperty");
+    private void buyProperty(RoutingContext ctx)
+    {
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+        String propertyName = request.getPropertyName();
+
+        if (!request.isAuthorized(gameId, playerName))
+        {
+            throw new IllegalMonopolyActionException("you cannot use this endpoint");
+        }
+        else
+        {
+            Response.sendJsonResponse(ctx, 200, service.buyProperty(gameId, playerName,propertyName));
+        }
     }
 
     private void dontBuyProperty(RoutingContext ctx) {

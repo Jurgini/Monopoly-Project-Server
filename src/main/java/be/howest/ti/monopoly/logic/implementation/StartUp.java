@@ -8,10 +8,6 @@ public class StartUp {
         StartUp.run();
     }
     static void run() {
-        Dice a = new Dice();
-
-        System.out.println(a);
-
 
     }
 }

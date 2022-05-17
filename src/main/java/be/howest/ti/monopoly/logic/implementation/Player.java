@@ -1,48 +1,51 @@
-
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.web.views.PropertyView;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private final String name;
-    private Tile currentTile;
     private int playerPosition;
+    private String currentTile;
+
     private boolean jailed;
     private int money;
     private boolean bankrupt;
     private List<Property> properties;
     private int debt;
 
-    private Dice dice1 = new Dice();
-    private Dice dice2 = new Dice();
 
-    public Player(String name)
+    private final String token;
+    public Player(String name, String token)
     {
         final int startCapital = 15000;
         this.name = name;
         //this.currentTile = getTileByPosition(0);
         this.playerPosition = 0;
+
         this.jailed = false;
         this.money = startCapital;
         this.bankrupt = false;
         this.properties = new ArrayList<>();
         this.debt = 0;
+
+        this.token = token;
+
     }
 
     public String getName() {
         return name;
     }
 
-    public Tile getCurrentTile() {
+
+    public String getCurrentTile() {
         return currentTile;
     }
 
-    public void setCurrentTile(Tile currentTile)
+    public void setCurrentTile(String currentTile)
     {
         this.currentTile = currentTile;
     }
@@ -55,23 +58,24 @@ public class Player {
         this.playerPosition = position;
     }
 
-//    public void moveToCorrectTile(){
-//        Dice firstDiceThrow = new Dice();
-//        setPlayerPosition(playerPosition + firstDiceThrow.getRolled());
-//        //setCurrentTile(getTileByPosition(getPlayerPosition()));
-//
-//        if (firstDiceThrow.isRolledDouble()) {
-//            Dice secondDiceTrow = new Dice();
-//            setPlayerPosition(playerPosition + secondDiceTrow.getRolled());
-//            //setCurrentTile(getTileByPosition(getPlayerPosition()));
-//
-//            if (secondDiceTrow.isRolledDouble()){
-//                setJailed(true);
-//                setPlayerPosition(10); // tile of jail
-//                //setCurrentTile(getTileByPosition(getPlayerPosition()));
-//            }
-//        }
-//    }
+    public void moveToCorrectTile(){
+        Dice firstDiceThrow = new Dice();
+        setPlayerPosition(playerPosition + firstDiceThrow.getTotalRolledDice());
+        //setCurrentTile(getTileByPosition(getPlayerPosition()));
+
+        if (firstDiceThrow.isRolledDouble()) {
+            Dice secondDiceTrow = new Dice();
+            setPlayerPosition(playerPosition + secondDiceTrow.getTotalRolledDice());
+            //setCurrentTile(getTileByPosition(getPlayerPosition()));
+
+            if (secondDiceTrow.isRolledDouble()){
+                setJailed(true);
+                setPlayerPosition(10); // tile of jail
+                //setCurrentTile(getTileByPosition(getPlayerPosition()));
+            }
+        }
+    }
+
 
     public boolean isJailed() {
         return jailed;
@@ -95,6 +99,17 @@ public class Player {
 
         this.money += amount;
     }
+
+    public void payMoney(int amount)
+    {
+        if (amount <= 0)
+        {
+            throw new IllegalStateException("U can't pay a negative amount of money!");
+        }
+
+        this.money -= amount;
+    }
+
 
     public boolean isBankrupt() {
         return bankrupt;
@@ -129,10 +144,23 @@ public class Player {
         return debt;
     }
 
-    public void rollDice()
-    {
-        this.dice1.roll();
-        this.dice2.roll();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(name, player.name);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public int compareTo(Player other) {
+        return getName().compareTo(other.getName());
+    }
 }
+
+
