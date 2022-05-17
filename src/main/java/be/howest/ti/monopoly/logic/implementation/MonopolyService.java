@@ -123,11 +123,6 @@ public class MonopolyService extends ServiceAdapter {
         return MonopolyBoard.getCommunityChest();
     }
 
-    public Game getGame(String gameId) {
-        Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
-        return filteredGame;
-    }
-
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
