@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.SortedSet;
 
 import be.howest.ti.monopoly.logic.implementation.Player;
+import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import be.howest.ti.monopoly.web.views.GameView;
+
+import java.util.*;
 
 
 public class TestService implements IService {
@@ -24,7 +28,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public List<String> getChance() {
+    public List<Executing> getChance() {
         return delegate.getChance();
     }
 
@@ -34,7 +38,7 @@ public class TestService implements IService {
     }
     
     @Override
-    public List<String> getCommunityChest() {
+    public List<Executing> getCommunityChest() {
         return delegate.getCommunityChest();
     }
 
@@ -54,12 +58,13 @@ public class TestService implements IService {
     }
 
     @Override
+<<<<<<< src/test/java/be/howest/ti/monopoly/web/TestService.java
     public Object buyProperty(String gameId, String playerName, String propertyName) {
         return delegate.buyProperty(gameId, playerName, propertyName);
     }
 
     @Override
-    public SortedSet<Game> getGames() {
+    public Set<GameView> getGames() {
         return delegate.getGames();
     }
 
