@@ -29,9 +29,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
-        Set<GameView> createdGames = getGames(); //todo: check
 
-        for (Game game: createdGames)
+        for (GameView game: getGames())
         {
             if (game.getId().equals(gameId))
             {
@@ -48,7 +47,7 @@ public class MonopolyService extends ServiceAdapter {
         return new JsonObject();
     }
 
-    private boolean checkPlayerExistence(Game game, Player player) {
+    private boolean checkPlayerExistence(GameView game, Player player) {
         return game.getPlayers().contains(player);
     }
 
