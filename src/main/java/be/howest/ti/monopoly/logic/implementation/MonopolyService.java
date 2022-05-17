@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import be.howest.ti.monopoly.web.views.GameView;
 
@@ -79,18 +78,46 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object buyProperty(String gameId, String playerName, String propertyName) {
+    public Object buyTile(String gameId, String playerName, String tileName) {
 
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
-        for (Tile tile : getTiles()) {
-            if (tile.getName().equals(propertyName) && getGame(gameId) != null) {
 
-                player.payMoney(((Property) getTile(propertyName)).getCost());
-                player.addProperty(((Property) getTile(propertyName)));
-            }
+        for (Tile tile : MonopolyBoard.getTiles()) {
+            if (tile.getName().equals(tileName))
+            {
+                if (!tile.getName().equals(tileName))
+                {
+                    throw new IllegalMonopolyActionException("Property not found");
+                }
+                else if (getGame(gameId) == null)
+                {
+                    throw new IllegalMonopolyActionException("There is no game with this Id");
+                }
+
+                else if (!game.getCurrentPlayerName().equals(playerName))
+                {
+                    throw new IllegalMonopolyActionException("You cant buy a property only the current player can");
+                }
+                if(tile instanceof Street)
+                {
+                    player.payMoney(((Property) getTile(tileName)).getCost());
+                    player.addProperty(((Property) getTile(tileName)));
+                }
+                else if (tile instanceof Railroad)
+                {
+                    player.payMoney(((Railroad) getTile(tileName)).getCost());
+                    player.addProperty(((Railroad) getTile(tileName)));
+                }
+                else if (tile instanceof Utility)
+                {
+                    player.payMoney(((Utility) getTile(tileName)).getCost());
+                    player.addProperty(((Utility) getTile(tileName)));
+                }
+                throw new IllegalMonopolyActionException("Not a buyable tile");
+           }
         }
-        return null;
+        throw new IllegalMonopolyActionException("Unable to find a tile");
     }
 
     @Override

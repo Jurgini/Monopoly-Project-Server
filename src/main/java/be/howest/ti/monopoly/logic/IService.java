@@ -1,7 +1,6 @@
 package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -18,8 +17,8 @@ public interface IService {
     List<Executing> getCommunityChest();
     Tile getTile(int position);
     Tile getTile(String name);
-    Object buyProperty(String gameId, String playerName, String propertyName);
-    
+    Object buyTile(String gameId, String playerName, String propertyName);
+
     Set<GameView> getGames();
 
     Game getGame(String gameId);

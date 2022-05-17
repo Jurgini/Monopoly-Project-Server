@@ -46,7 +46,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object buyProperty(String gameId, String playerName, String propertyName) {
+    public Object buyTile(String gameId, String playerName, String propertyName) {
         return null;
     }
 
