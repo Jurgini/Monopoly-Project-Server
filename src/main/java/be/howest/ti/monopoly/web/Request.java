@@ -1,7 +1,6 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
@@ -60,7 +59,10 @@ public class Request {
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
     }
-
+    public String getPlayerNameViaPath()
+    {
+        return params.pathParameter("playerName").getString();
+    }
     public String getGameId() {
         return params.pathParameter("gameId").getString();
     }
@@ -107,4 +109,16 @@ public class Request {
         return params.body().isEmpty();
     }
 
+    public String getPlayerNameFromPath() {
+        return params.pathParameter("playerName").getString();
+    }
+
+    public String getPropertyName() {
+        return params.pathParameter("propertyName").getString();
+    }
+
+
+    public String getDebtorName() {
+        return params.pathParameter("debtorName").getString();
+    }
 }
