@@ -32,7 +32,7 @@ public class TestService implements IService {
     public List<Tile> getTiles() {
         return delegate.getTiles();
     }
-    
+
     @Override
     public List<Executing> getCommunityChest() {
         return delegate.getCommunityChest();
@@ -61,5 +61,10 @@ public class TestService implements IService {
     @Override
     public Game getGame(String gameId) {
         return delegate.getGame(gameId);
+    }
+
+    @Override
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        return delegate.collectDebt(gameId, playerName, propertyName, debtorName);
     }
 }

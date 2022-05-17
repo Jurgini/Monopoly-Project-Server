@@ -54,4 +54,9 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        throw new UnsupportedOperationException();
+    }
+
 }

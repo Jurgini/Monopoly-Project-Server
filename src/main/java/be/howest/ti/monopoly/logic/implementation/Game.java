@@ -136,4 +136,8 @@ public class Game implements Comparable<Game> {
     public List<Turn> getTurns() {
         return turns;
     }
+
+    public Player getPlayer(String playerName) {
+        return players.stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+    }
 }

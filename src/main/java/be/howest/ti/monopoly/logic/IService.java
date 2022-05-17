@@ -20,4 +20,6 @@ public interface IService {
     Set<GameView> getGames();
 
     Game getGame(String gameId);
+
+    Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 }
