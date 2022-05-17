@@ -8,7 +8,7 @@ import be.howest.ti.monopoly.web.views.GameView;
 
 import java.util.*;
 
-public class ServiceAdapter implements IService {
+public abstract class ServiceAdapter implements IService {
 
     @Override
     public String getVersion() {
@@ -19,6 +19,9 @@ public class ServiceAdapter implements IService {
     public Game createGame(String prefix, int numberOfPlayers) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public Object dontBuyTile(String gameId, String playerName, String tileName){throw new UnsupportedOperationException();}
 
     @Override
     public List<Executing> getChance() {

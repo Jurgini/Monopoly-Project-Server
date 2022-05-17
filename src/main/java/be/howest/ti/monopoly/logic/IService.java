@@ -18,7 +18,7 @@ public interface IService {
     Tile getTile(int position);
     Tile getTile(String name);
     Object buyTile(String gameId, String playerName, String propertyName);
-
+    Object dontBuyTile(String gameId, String playerName, String propertyName);
     Set<GameView> getGames();
 
     Game getGame(String gameId);

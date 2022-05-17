@@ -29,10 +29,8 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
 
-        for (GameView game: getGames())
-        {
-            if (game.getId().equals(gameId))
-            {
+        for (GameView game : getGames()) {
+            if (game.getId().equals(gameId)) {
                 if (checkPlayerExistence(game, player))
                     throw new IllegalMonopolyActionException("Cannot join a game with this name");
 
@@ -52,7 +50,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(int position) {
-        for (Tile tile : getTiles()) {
+        for (Tile tile : MonopolyBoard.getTiles()) {
             if (tile.getPosition() == position) {
                 return tile;
             }
@@ -62,7 +60,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(String name) {
-        for (Tile tile : getTiles()) {
+        for (Tile tile : MonopolyBoard.getTiles()) {
             if (tile.getName().equals(name)) {
                 return tile;
             }
@@ -72,7 +70,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Set<GameView> getGames() {
-        Set<GameView> gameViewSet = new HashSet<>() {};
+        Set<GameView> gameViewSet = new HashSet<>() {
+        };
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;
     }
@@ -84,42 +83,82 @@ public class MonopolyService extends ServiceAdapter {
         Player player = game.getPlayer(playerName);
 
         for (Tile tile : MonopolyBoard.getTiles()) {
-            if (tile.getName().equals(tileName))
-            {
-                if (!tile.getName().equals(tileName))
-                {
+           if (tile.getName().equals(tileName)) {
+                if (!tile.getName().equals(tileName)) {
                     throw new IllegalMonopolyActionException("Property not found");
-                }
-                else if (getGame(gameId) == null)
-                {
+                } else if (getGame(gameId) == null) {
                     throw new IllegalMonopolyActionException("There is no game with this Id");
-                }
-
-                else if (!game.getCurrentPlayerName().equals(playerName))
-                {
+                } else if (game.getCurrentPlayer().equals(player)) {
                     throw new IllegalMonopolyActionException("You cant buy a property only the current player can");
                 }
-                if(tile instanceof Street)
-                {
-                    player.payMoney(((Property) getTile(tileName)).getCost());
-                    player.addProperty(((Property) getTile(tileName)));
-                }
-                else if (tile instanceof Railroad)
-                {
-                    player.payMoney(((Railroad) getTile(tileName)).getCost());
-                    player.addProperty(((Railroad) getTile(tileName)));
-                }
-                else if (tile instanceof Utility)
-                {
-                    player.payMoney(((Utility) getTile(tileName)).getCost());
-                    player.addProperty(((Utility) getTile(tileName)));
-                }
-                throw new IllegalMonopolyActionException("Not a buyable tile");
-           }
-        }
-        throw new IllegalMonopolyActionException("Unable to find a tile");
-    }
 
+                if (tile instanceof Street) {
+                    if(player.getMoney() < ((Property) getTile(tileName)).getCost())
+                    {
+                        dontBuyTile(gameId,playerName,tileName);
+                        throw new IllegalMonopolyActionException("You dont have enough money");
+                    }
+                    else
+                    {
+                        player.payMoney(((Property) getTile(tileName)).getCost());
+                        player.addProperty(((Property) getTile(tileName)));
+                    }
+                } else if (tile instanceof Railroad) {
+                    if(player.getMoney() < ((Railroad) getTile(tileName)).getCost())
+                    {
+                        dontBuyTile(gameId,playerName,tileName);
+                        throw new IllegalMonopolyActionException("You dont have enough money");
+                    }
+                    else
+                    {
+                        player.payMoney(((Railroad) getTile(tileName)).getCost());
+                        player.addProperty(((Railroad) getTile(tileName)));
+                    }
+                } else if (tile instanceof Utility) {
+                    if(player.getMoney() < ((Railroad) getTile(tileName)).getCost())
+                    {
+                        dontBuyTile(gameId,playerName,tileName);
+                        throw new IllegalMonopolyActionException("You dont have enough money");
+                    }
+                    else
+                    {
+                        player.payMoney(((Utility) getTile(tileName)).getCost());
+                        player.addProperty(((Utility) getTile(tileName)));
+                    }
+                }
+                throw new IllegalMonopolyActionException("Found a tile");
+            }
+        }
+        throw new IllegalMonopolyActionException("Not a buy-able tile");
+    }
+    @Override
+    public Object dontBuyTile(String gameId, String playerName, String tileName) {
+
+        Game game = getGame(gameId);
+        Player player = game.getPlayer(playerName);
+
+        for (Tile tile : MonopolyBoard.getTiles()) {
+            if (tile.getName().equals(tileName)) {
+                if (!tile.getName().equals(tileName)) {
+                    throw new IllegalMonopolyActionException("Tile not found");
+                } else if (getGame(gameId) == null) {
+                    throw new IllegalMonopolyActionException("There is no game with this Id");
+                } else if (game.getCurrentPlayer().equals(player)) {
+                    throw new IllegalMonopolyActionException("You cant deny a property only the current player can");
+                }
+                if (tile instanceof Street) {
+                   //startAuction()
+                }
+                else if (tile instanceof Railroad) {
+                    //startAuction()
+                } else if (tile instanceof Utility) {
+                    //startAuction()
+                }
+                throw new IllegalMonopolyActionException("Found a tile");
+            }
+        }
+        throw new IllegalMonopolyActionException("Not a buy-able tile");
+    }
     @Override
     public List<Executing> getChance() {
         return List.of(
