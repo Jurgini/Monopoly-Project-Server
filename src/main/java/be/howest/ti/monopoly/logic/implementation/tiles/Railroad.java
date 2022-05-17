@@ -1,11 +1,12 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
 public class Railroad extends Property {
+    public static final int COST = 2000;
     private final int rent;
     private final String color;
 
-    public Railroad(String name, int position, String type) {
-        super(name, position, type, 2000, 1000);
+    public Railroad(String name, int position) {
+        super(name, position, "railroad", COST, 1000);
         this.rent = 250;
         this.color = "BLACK";
     }

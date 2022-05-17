@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
@@ -90,7 +91,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
     void getChance(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public List<String> getChance() {
+            public List<Executing> getChance() {
                 return Collections.emptyList();
             }
         });
@@ -107,7 +108,7 @@ class OpenApiGeneralInfoTests extends OpenApiTestsBase {
     void getCommunityChest(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public List<String> getCommunityChest() {
+            public List<Executing> getCommunityChest() {
                 return Collections.emptyList();
             }
         });

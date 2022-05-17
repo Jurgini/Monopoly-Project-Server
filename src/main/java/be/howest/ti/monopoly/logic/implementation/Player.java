@@ -4,9 +4,11 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
 import be.howest.ti.monopoly.web.views.PropertyView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PropertyPermission;
 
-public class Player implements Comparable<Player> {
+public class Player {
     private final String name;
     private String currentTile;
     private boolean jailed;
@@ -14,9 +16,8 @@ public class Player implements Comparable<Player> {
     private boolean bankrupt;
     private List<Property> properties;
     private int debt;
-    private final String token;
 
-    public Player(String name, String token)
+    public Player(String name)
     {
         final int startCapital = 15000;
         this.name = name;
@@ -26,7 +27,6 @@ public class Player implements Comparable<Player> {
         this.bankrupt = false;
         this.properties = new ArrayList<>();
         this.debt = 0;
-        this.token = token;
     }
 
     public String getName() {
@@ -64,15 +64,6 @@ public class Player implements Comparable<Player> {
 
         this.money += amount;
     }
-    public void payMoney(int amount)
-    {
-        if (amount <= 0)
-        {
-            throw new IllegalStateException("U can't pay a negative amount of money!");
-        }
-
-        this.money -= amount;
-    }
 
     public boolean isBankrupt() {
         return bankrupt;
@@ -106,23 +97,4 @@ public class Player implements Comparable<Player> {
     public int getDebt() {
         return debt;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Player player = (Player) o;
-        return Objects.equals(name, player.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public int compareTo(Player other) {
-        return getName().compareTo(other.getName());
-    }
 }
-
