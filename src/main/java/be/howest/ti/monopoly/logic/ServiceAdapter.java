@@ -15,7 +15,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers) {
+    public GameView createGame(String prefix, int numberOfPlayers) {
         throw new UnsupportedOperationException();
     }
 

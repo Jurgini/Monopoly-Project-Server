@@ -1,12 +1,10 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
-import be.howest.ti.monopoly.logic.implementation.tiles.Street;
+import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PropertyPermission;
+import java.lang.reflect.Array;
+import java.util.*;
 
 public class Player {
     private final String name;
@@ -14,18 +12,17 @@ public class Player {
     private boolean jailed;
     private int money;
     private boolean bankrupt;
-    private List<Property> properties;
+    private Map<Property, Integer> ownedProperties; //todo: view property
     private int debt;
 
-    public Player(String name)
-    {
+    public Player(String name) {
         final int startCapital = 15000;
         this.name = name;
         this.currentTile = "Go";
         this.jailed = false;
         this.money = startCapital;
         this.bankrupt = false;
-        this.properties = new ArrayList<>();
+        this.ownedProperties = new HashMap<>();
         this.debt = 0;
     }
 
@@ -37,8 +34,7 @@ public class Player {
         return currentTile;
     }
 
-    public void setCurrentTile(String currentTile)
-    {
+    public void setCurrentTile(String currentTile) {
         this.currentTile = currentTile;
     }
 
@@ -46,8 +42,7 @@ public class Player {
         return jailed;
     }
 
-    public void setJailed(boolean isJailed)
-    {
+    public void setJailed(boolean isJailed) {
         this.jailed = isJailed;
     }
 
@@ -55,10 +50,8 @@ public class Player {
         return money;
     }
 
-    public void receiveMoney(int amount)
-    {
-        if (amount <= 0)
-        {
+    public void receiveMoney(int amount) {
+        if (amount <= 0) {
             throw new IllegalStateException("U can't receive a negative amount of money!");
         }
 
@@ -69,32 +62,46 @@ public class Player {
         return bankrupt;
     }
 
-    public void makeBankrupt()
-    {
+    public void makeBankrupt() {
         this.bankrupt = true;
     }
 
-    public List<PropertyView> getProperties() {
+    public List<PropertyView> getOwnedProperties() {
         List<PropertyView> propertiesToShow = new ArrayList<>();
 
-        for (Property property : properties)
-        {
+        for (Property property : ownedProperties.keySet()) {
             propertiesToShow.add(new PropertyView(property));
         }
         return propertiesToShow;
     }
 
-    public void addProperty(Property newProperty)
-    {
-        this.properties.add(newProperty);
+    public void addProperty(Property newProperty) {
+        this.ownedProperties.put(newProperty, 0);
     }
 
-    public void removeProperty(Property propertyToRemove)
-    {
-        this.properties.remove(propertyToRemove);
+    public void removeProperty(Property propertyToRemove) {
+        this.ownedProperties.remove(propertyToRemove);
     }
 
     public int getDebt() {
         return debt;
+    }
+
+    public int getRent(Tile property) {
+        if (property instanceof Street) {
+            return ((Street) property).getRent(ownedProperties.get(property));
+        } else if (property instanceof Railroad) {
+            return ((Railroad) property).getRent(getOwnedRailroadCards());
+        } else if (property instanceof Utility) {
+            // Utility calculation
+            return 0;
+        } else {
+            throw new IllegalArgumentException("Not possible to get rent of this tile.");
+        }
+
+    }
+
+    private int getOwnedRailroadCards() {
+        return 1; //todo: calculate this.
     }
 }

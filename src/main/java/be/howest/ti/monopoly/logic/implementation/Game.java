@@ -26,7 +26,6 @@ public class Game implements Comparable<Game> {
     private boolean canRoll;
     private Player winner;
 
-    private Map<Property, Player> boughtProperty = new HashMap<Property, Player>();
     private List<Turn> turns;
 
     public Game(String prefix, int numberOfPlayers) {
@@ -90,10 +89,6 @@ public class Game implements Comparable<Game> {
 
     public Player getWinner() {
         return winner;
-    }
-
-    public Map<Property, Player> getBoughtProperty() {
-        return boughtProperty;
     }
 
     public boolean isEnded() {

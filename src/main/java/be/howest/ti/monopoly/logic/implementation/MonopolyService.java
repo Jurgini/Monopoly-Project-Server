@@ -18,10 +18,10 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers) {
+    public GameView createGame(String prefix, int numberOfPlayers) {
         Game game = new Game(prefix, numberOfPlayers);
         gameSet.add(game);
-        return game;
+        return new GameView(game);
     }
 
     @Override
@@ -65,9 +65,18 @@ public class MonopolyService extends ServiceAdapter {
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
-        Player debtor = game.getPlayer(debtorName);
+        Player debtor = game.getPlayer(debtorName); // moet betalen
         Tile property = getTile(propertyName);
 
+        // todo: Check if player can pay, otherwise set debt.
+        int rent = player.getRent(property);
+
+        if (debtor.getMoney()-rent >= 0){
+            // pay rent
+        }
+        else {
+            // set debt
+        }
 
         return null;
     }

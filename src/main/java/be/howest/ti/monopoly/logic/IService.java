@@ -10,7 +10,7 @@ import java.util.*;
 public interface IService {
     String getVersion();
     
-    Game createGame(String prefix, int numberOfPlayers);
+    GameView createGame(String prefix, int numberOfPlayers);
     List<Executing> getChance();
     List<Tile> getTiles();
     List<Executing> getCommunityChest();

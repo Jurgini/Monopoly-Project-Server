@@ -1,8 +1,6 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
 public class Street extends Property {
-    private int totalHouses;
-    private int totalHotels;
     private final int housePrice;
     private final String streetColor;
     private final String color;
@@ -34,13 +32,35 @@ public class Street extends Property {
         return streetColor;
     }
 
-    public String getColor()
-    {
+    public String getColor() {
         return color;
     }
 
-    public int getRent() {
-        return rent;
+    public int getRent(Integer totalBuildings) {
+        int calculatedRent;
+        switch (totalBuildings) {
+            case 0:
+                calculatedRent = rent;
+                break;
+            case 1:
+                calculatedRent = rentWithOneHouse;
+                break;
+            case 2:
+                calculatedRent = rentWithTwoHouses;
+                break;
+            case 3:
+                calculatedRent = rentWithThreeHouses;
+                break;
+            case 4:
+                calculatedRent = rentWithFourHouses;
+                break;
+            case 5:
+                calculatedRent = rentWithHotel;
+                break;
+            default:
+                calculatedRent = 0;
+        }
+        return calculatedRent;
     }
 
     public int getRentWithOneHouse() {
@@ -63,13 +83,11 @@ public class Street extends Property {
         return rentWithHotel;
     }
 
-    public void computeHouses()
-    {
+    public void computeHouses() {
 
     }
 
-    public void computeHotels()
-    {
+    public void computeHotels() {
 
     }
 }

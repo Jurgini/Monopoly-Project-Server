@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.web.views;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameView {
@@ -20,8 +21,16 @@ public class GameView {
         return game.getNumberOfPlayers();
     }
 
-    public List<Player> getPlayers() {
-        return game.getPlayers();
+    public List<String> getPlayers() {
+        List<String> players = new ArrayList<>();
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            players.add(game.getPlayers().get(i).getName());
+        }
+        return players;
+    }
+
+    public boolean isStarted() {
+        return game.isStarted();
     }
 
 }
