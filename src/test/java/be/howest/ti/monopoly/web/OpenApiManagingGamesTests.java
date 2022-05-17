@@ -71,7 +71,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void createGameWithEmptyBody(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Game createGame(String prefix, int numberOfPlayers) {
+            public GameView createGame(String prefix, int numberOfPlayers) {
                 return null;
             }
         });
@@ -88,7 +88,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void createGame(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Game createGame(String prefix, int numberOfPrefix) {
+            public GameView createGame(String prefix, int numberOfPrefix) {
                 return null;
             }
         });

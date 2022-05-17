@@ -26,7 +26,6 @@ public class Game implements Comparable<Game> {
     private boolean canRoll;
     private Player winner;
 
-    private Map<Property, Player> boughtProperty = new HashMap<Property, Player>();
     private List<Turn> turns;
 
     public Game(String prefix, int numberOfPlayers) {
@@ -86,7 +85,7 @@ public class Game implements Comparable<Game> {
         return currentPlayer;
     }
 
-    @JsonProperty("CurrentPlayer")
+    @JsonProperty("currentPlayer")
     public String getCurrentPlayerName() {
         if (getCurrentPlayer() == null) {
             return null;
@@ -96,10 +95,6 @@ public class Game implements Comparable<Game> {
 
     public Player getWinner() {
         return winner;
-    }
-
-    public Map<Property, Player> getBoughtProperty() {
-        return boughtProperty;
     }
 
     public boolean isEnded() {
@@ -116,14 +111,14 @@ public class Game implements Comparable<Game> {
         return players;
     }
 
-    public void addPlayer(Player player)
-    {
+    public void addPlayer(Player player) {
         players.add(player);
     }
-    public Player getPlayer(String playerName)
-    {
+
+    public Player getPlayer(String playerName) {
         return getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
     }
+
     public String getId() {
         return id;
     }
