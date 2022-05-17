@@ -29,8 +29,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
-
-        for (GameView game: getGames())
+        for (Game game: getGames())
         {
             if (game.getId().equals(gameId))
             {
@@ -42,6 +41,9 @@ public class MonopolyService extends ServiceAdapter {
 
                 game.addPlayer(player);
 
+                if (gameCanStart(game))
+                    game.startGame();
+
                 return new JsonObject()
                         .put("token", playerToken);
             }
@@ -50,12 +52,16 @@ public class MonopolyService extends ServiceAdapter {
         return new JsonObject();
     }
 
-    private boolean amountOfPlayersReached(GameView game) {
+    private boolean gameCanStart(Game game) {
+        return game.getNumberOfPlayers() == game.getPlayers().size();
+    }
+
+    private boolean amountOfPlayersReached(Game game) {
         int newAmountOfPlayers = game.getPlayers().size()+1;
         return newAmountOfPlayers > game.getNumberOfPlayers();
     }
 
-    private boolean checkPlayerExistence(GameView game, Player player) {
+    private boolean checkPlayerExistence(Game game, Player player) {
         return game.getPlayers().contains(player);
     }
 
@@ -80,7 +86,12 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Set<GameView> getGames() {
+    public Set<Game> getGames() {
+        return gameSet;
+    }
+
+    public Set<GameView> getGamesLessDetailed()
+    {
         Set<GameView> gameViewSet = new HashSet<>() {};
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;

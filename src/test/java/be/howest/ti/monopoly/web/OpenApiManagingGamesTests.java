@@ -16,7 +16,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void getGames(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Set<GameView> getGames() {
+            public Set<Game> getGames() {
                 return null;
             }
         });
@@ -32,7 +32,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void getGamesWithAllParams(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Set<GameView> getGames() {
+            public Set<Game> getGames() {
                 return null;
             }
         });

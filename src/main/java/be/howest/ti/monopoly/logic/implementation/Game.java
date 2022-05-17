@@ -45,11 +45,17 @@ public class Game implements Comparable<Game> {
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
-
     }
 
     public boolean isStarted() {
         return started;
+    }
+
+    public void startGame()
+    {
+        if (isStarted())
+            throw new IllegalStateException("The game has already started");
+        this.started = true;
     }
 
     public Property getDirectSale() {

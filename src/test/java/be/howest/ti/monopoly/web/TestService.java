@@ -63,7 +63,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public Set<GameView> getGames() {
+    public Set<Game> getGames() {
         return delegate.getGames();
     }
 
@@ -75,5 +75,10 @@ public class TestService implements IService {
     @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
         return delegate.joinGame(gameId, playerToken, player);
+    }
+
+    @Override
+    public Object getGamesLessDetailed() {
+        return delegate.getGamesLessDetailed();
     }
 }
