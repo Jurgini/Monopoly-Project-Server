@@ -67,11 +67,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Tile> getTiles() {
-        return MonopolyBoard.getTiles();
-    }
-
-    @Override
     public Set<GameView> getGames() {
         Set<GameView> gameViewSet = new HashSet<>() {};
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
