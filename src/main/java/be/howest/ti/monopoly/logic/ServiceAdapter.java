@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
@@ -45,6 +46,11 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object buyProperty(String gameId, String playerName, String propertyName) {
+        return null;
+    }
+
+    @Override
     public Set<GameView> getGames() {
         throw new UnsupportedOperationException();
     }
@@ -57,6 +63,8 @@ public class ServiceAdapter implements IService {
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         throw new UnsupportedOperationException();
+    public Object joinGame(String gameId, String playerToken, Player player) {
+        return null;
     }
 
 }

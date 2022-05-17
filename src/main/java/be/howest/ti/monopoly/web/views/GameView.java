@@ -32,4 +32,9 @@ public class GameView {
         return game.isStarted();
     }
 
+    public void addPlayer(Player player)
+    {
+        this.game.addPlayer(player);
+    }
+
 }

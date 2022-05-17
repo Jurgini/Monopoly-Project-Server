@@ -83,8 +83,8 @@ public class Street extends Property {
         return rentWithHotel;
     }
 
-    public void computeHouses() {
-
+    public void computeHouses()
+    {
     }
 
     public void computeHotels() {
