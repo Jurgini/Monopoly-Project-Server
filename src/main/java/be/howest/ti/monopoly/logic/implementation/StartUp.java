@@ -8,9 +8,8 @@ public class StartUp {
         StartUp.run();
     }
     static void run() {
-        Dice a = new Dice();
+        Game g = new Game("lmao",2);
 
-        System.out.println(a);
 
 
     }

@@ -1,6 +1,5 @@
 package be.howest.ti.monopoly.logic;
 
-import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -56,7 +55,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Dice rollDice(String playerName, String gameId) {
+    public int[] rollDice(String playerName, String gameId) {
         throw new UnsupportedOperationException();
     }
 

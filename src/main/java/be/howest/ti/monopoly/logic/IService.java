@@ -19,7 +19,7 @@ public interface IService {
     Tile getTile(int position);
     Tile getTile(String name);
 
-    Dice rollDice(String playerName, String gameId);
+    int[] rollDice(String playerName, String gameId);
     Set<GameView> getGames();
     Game getGame(String gameId);
 

@@ -106,4 +106,15 @@ public class MonopolyService extends ServiceAdapter {
         Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
         return filteredGame;
     }
+
+    public Player getPlayer(String gameId, String playerName){
+        Player foundPlayer = getGame(gameId).getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+        return foundPlayer;
+    }
+    @Override
+    public int[] rollDice(String playerName, String gameId) {
+        Game currentGame = getGame(gameId);
+        currentGame.rollDice();
+        return currentGame.getLastDiceRoll();
+    }
 }

@@ -54,12 +54,12 @@ public class Player {
 
     public void moveToCorrectTile(){
         Dice firstDiceThrow = new Dice();
-        setPlayerPosition(playerPosition + firstDiceThrow.getRolled());
+        setPlayerPosition(playerPosition + firstDiceThrow.getTotalRolledDice());
         //setCurrentTile(getTileByPosition(getPlayerPosition()));
 
         if (firstDiceThrow.isRolledDouble()) {
             Dice secondDiceTrow = new Dice();
-            setPlayerPosition(playerPosition + secondDiceTrow.getRolled());
+            setPlayerPosition(playerPosition + secondDiceTrow.getTotalRolledDice());
             //setCurrentTile(getTileByPosition(getPlayerPosition()));
 
             if (secondDiceTrow.isRolledDouble()){
@@ -125,4 +125,6 @@ public class Player {
     public int getDebt() {
         return debt;
     }
+
+
 }

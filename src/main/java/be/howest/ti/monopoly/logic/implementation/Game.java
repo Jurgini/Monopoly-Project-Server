@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Game implements Comparable<Game> {
@@ -23,6 +22,7 @@ public class Game implements Comparable<Game> {
     private int availableHotels = 12;
 
     //private turns
+    private static final Dice dice = new Dice();
     private int[] lastDiceRoll;
     private Player currentPlayer;
     private boolean canRoll;
@@ -31,10 +31,16 @@ public class Game implements Comparable<Game> {
     private Map<Property, Player> boughtProperty = new HashMap<Property, Player>();
     private List<Turn> turns;
 
+
+    public void rollDice() {
+        this.lastDiceRoll = dice.rollDice(currentPlayer, id);
+    }
+
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
         setNumberOfPlayers(numberOfPlayers);
         this.players = new ArrayList<>();
+        this.lastDiceRoll = new int[2];
         //this.currentPlayer = players.get(0);
     }
 
@@ -54,12 +60,12 @@ public class Game implements Comparable<Game> {
         this.currentPlayer = currentPlayer;
         // TODO
         //when game begins
-            // 1st player in players List = currentPlayer
-            // if turn ended --> next player in players List = currentPlayer
+        // 1st player in players List = currentPlayer
+        // if turn ended --> next player in players List = currentPlayer
 
-            //when does the turn end??
-                // when dice is rolled?
-                // the current card action is over (buying)?
+        //when does the turn end??
+        // when dice is rolled?
+        // the current card action is over (buying)?
 
     }
 
@@ -87,7 +93,7 @@ public class Game implements Comparable<Game> {
         return availableHotels;
     }
 
-    public int[] getLastDiceRoll() {
+    protected int[] getLastDiceRoll() {
         return lastDiceRoll;
     }
 
@@ -151,4 +157,5 @@ public class Game implements Comparable<Game> {
     public List<Turn> getTurns() {
         return turns;
     }
+
 }
