@@ -13,8 +13,9 @@ public class Player {
     private boolean bankrupt;
     private Map<Property, Integer> ownedProperties; //todo: view property
     private int debt;
+    private String token;
 
-    public Player(String name) {
+    public Player(String name, String token) {
         final int startCapital = 15000;
         this.name = name;
         this.currentTile = "Go";
@@ -23,6 +24,7 @@ public class Player {
         this.bankrupt = false;
         this.ownedProperties = new HashMap<>();
         this.debt = 0;
+        this.token = token;
     }
 
     public String getName() {

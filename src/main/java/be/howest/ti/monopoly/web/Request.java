@@ -87,10 +87,6 @@ public class Request {
         return params.pathParameter("tileId").getString();
 
     }
-    public String getPropertyName()
-    {
-        return params.pathParameter("propertyName").getString();
-    }
 
     public boolean isStartedForExistingGames() {
         return params.queryParameter("started").getBoolean();
