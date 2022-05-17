@@ -60,7 +60,10 @@ public class Request {
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
     }
-
+    public String getPlayerNameViaPath()
+    {
+        return params.pathParameter("playerName").getString();
+    }
     public String getGameId() {
         return params.pathParameter("gameId").getString();
     }
@@ -85,6 +88,10 @@ public class Request {
         return params.pathParameter("tileId").getString();
 
     }
+    public String getPropertyName()
+    {
+        return params.pathParameter("propertyName").getString();
+    }
 
     public boolean isStartedForExistingGames() {
         return params.queryParameter("started").getBoolean();
@@ -106,5 +113,6 @@ public class Request {
     public boolean isBodyEmpty() {
         return params.body().isEmpty();
     }
+
 
 }

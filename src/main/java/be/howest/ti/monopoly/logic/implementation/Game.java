@@ -32,7 +32,7 @@ public class Game implements Comparable<Game> {
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
         setNumberOfPlayers(numberOfPlayers);
-        this.players = Collections.emptyList();
+        this.players = new ArrayList<>();
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
@@ -110,6 +110,14 @@ public class Game implements Comparable<Game> {
         return players;
     }
 
+    public void addPlayer(Player player)
+    {
+        players.add(player);
+    }
+    public Player getPlayer(String playerName)
+    {
+        return getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+    }
     public String getId() {
         return id;
     }
