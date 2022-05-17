@@ -29,7 +29,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
-        SortedSet<Game> createdGames = getGames();
+        Set<GameView> createdGames = getGames(); //todo: check
 
         for (Game game: createdGames)
         {
@@ -74,8 +74,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Set<GameView> getGames() {
-        Set<GameView> gameViewSet = new HashSet<>() {
-        };
+        Set<GameView> gameViewSet = new HashSet<>() {};
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;
     }
