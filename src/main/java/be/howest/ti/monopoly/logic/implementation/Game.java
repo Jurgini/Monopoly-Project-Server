@@ -31,7 +31,7 @@ public class Game implements Comparable<Game> {
 
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix; // TODO: Need to be changed with counter.
-        setNumberOfplayers(numberOfPlayers);
+        setNumberOfPlayers(numberOfPlayers);
         this.players = new ArrayList<>();
     }
 
