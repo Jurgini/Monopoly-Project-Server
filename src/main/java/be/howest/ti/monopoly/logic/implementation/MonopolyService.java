@@ -37,6 +37,9 @@ public class MonopolyService extends ServiceAdapter {
                 if (checkPlayerExistence(game, player))
                     throw new IllegalMonopolyActionException("Cannot join a game with this name");
 
+                if (amountOfPlayersReached(game))
+                    throw new IllegalMonopolyActionException("The game is full");
+
                 game.addPlayer(player);
 
                 return new JsonObject()
@@ -45,6 +48,11 @@ public class MonopolyService extends ServiceAdapter {
         }
 
         return new JsonObject();
+    }
+
+    private boolean amountOfPlayersReached(GameView game) {
+        int newAmountOfPlayers = game.getPlayers().size()+1;
+        return newAmountOfPlayers > game.getNumberOfPlayers();
     }
 
     private boolean checkPlayerExistence(GameView game, Player player) {
@@ -76,6 +84,12 @@ public class MonopolyService extends ServiceAdapter {
         Set<GameView> gameViewSet = new HashSet<>() {};
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;
+    }
+
+    @Override
+    public Game getGame(String gameId) {
+        Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
+        return filteredGame;
     }
 
     @Override
@@ -136,10 +150,5 @@ public class MonopolyService extends ServiceAdapter {
                 new Executing("You asked someone to lend money and never payed it back —Receive 100", 100, Action.COLLECT),
                 new Executing("You ask your parents for money to buy a new school laptop and receive 1000", 1000, Action.COLLECT)
         );
-    }
-
-    public Game getGame(String gameId) {
-        Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
-        return filteredGame;
     }
 }
