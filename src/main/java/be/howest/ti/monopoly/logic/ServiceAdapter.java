@@ -63,6 +63,9 @@ public class ServiceAdapter implements IService {
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
         return null;
     }
