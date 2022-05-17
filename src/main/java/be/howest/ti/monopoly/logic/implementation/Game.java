@@ -80,7 +80,7 @@ public class Game implements Comparable<Game> {
         return currentPlayer;
     }
 
-    @JsonProperty("CurrentPlayer")
+    @JsonProperty("currentPlayer")
     public String getCurrentPlayerName() {
         if (getCurrentPlayer() == null) {
             return null;

@@ -68,6 +68,7 @@ public class MonopolyService extends ServiceAdapter {
         Player debtor = game.getPlayer(debtorName);
         Tile property = getTile(propertyName);
 
+
         return null;
     }
 }
