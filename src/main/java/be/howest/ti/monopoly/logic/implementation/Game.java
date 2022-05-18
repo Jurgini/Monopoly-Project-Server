@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -23,18 +24,13 @@ public class Game implements Comparable<Game> {
     private int availableHotels = 12;
 
     //private turns
-    private static final Dice dice = new Dice();
+    private Dice dice;
     private int[] lastDiceRoll;
     private Player currentPlayer;
     private boolean canRoll;
     private Player winner;
 
     private List<Turn> turns;
-
-
-    public void rollDice() {
-        dice.rollDice(currentPlayer, this);
-    }
 
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix;
@@ -57,18 +53,6 @@ public class Game implements Comparable<Game> {
         return numberOfPlayers;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-        // TODO
-        //when game begins
-        // 1st player in players List = currentPlayer
-        // if turn ended --> next player in players List = currentPlayer
-
-        //when does the turn end??
-        // when dice is rolled?
-        // the current card action is over (buying)?
-
-    }
 
     public boolean isStarted() {
         return started;
@@ -82,6 +66,66 @@ public class Game implements Comparable<Game> {
         this.currentPlayer = getPlayers().get(0);
         this.canRoll = true;
     }
+
+    // - Turn Management
+    public void rollDice() {
+        //dice.rollDice(currentPlayer, this);
+        this.dice = new Dice();
+        this.lastDiceRoll = dice.getDiceValues();
+        turnManager(currentPlayer, this);
+
+        if (!dice.isRolledDouble())
+        {
+            setCurrentPlayer(findNextPlayer());
+            this.canRoll = true;
+        }
+
+
+    }
+
+    private void turnManager(Player currentPlayer, Game currentGame) {
+        Tile nexTile = computeTileMoves(currentPlayer, dice.getTotalValue());
+        Turn turn = new Turn(dice.getDiceValues(), currentPlayer, nexTile);
+
+        takeTurn(turn, currentPlayer, currentGame);
+    }
+    private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
+        Tile currentTile = currentPlayer.getCurrentTileDetailed();
+        Tile nextTile = MonopolyBoard.getTile(currentTile.getPosition() + totalRolledDice);
+        return nextTile;
+    }
+    public void takeTurn(Turn turn,  Player currentPlayer, Game currentGame)
+    {
+        Tile nextTile = computeTileMoves(currentPlayer, dice.getTotalValue());
+        currentGame.addTurn(turn);
+        currentPlayer.addMove(nextTile);
+
+        updatePlayerPosition(currentPlayer, turn);
+    }
+    private void updatePlayerPosition(Player currentPlayer, Turn turn) {
+        Tile newTile = turn.getMove();
+        currentPlayer.setCurrentTile(newTile);
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    private Player findNextPlayer()
+    {
+        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++)
+        {
+            if (getPlayers().get(positionInPlayers).equals(currentPlayer))
+            {
+                int positionInPlayerList = positionInPlayers%(getPlayers().size());
+                System.out.println(getPlayers().get((positionInPlayerList+1)%3).getName());
+                return getPlayers().get((positionInPlayerList+1)%getPlayers().size());
+            }
+        }
+        return null;
+    }
+
+    // Getters & Setters
 
     public Property getDirectSale() {
         return directSale;
