@@ -33,7 +33,7 @@ public class Game implements Comparable<Game> {
 
 
     public void rollDice() {
-        dice.rollDice(currentPlayer, id);
+        dice.rollDice(currentPlayer, this);
     }
 
     public Game(String prefix, int numberOfPlayers) {
@@ -42,6 +42,7 @@ public class Game implements Comparable<Game> {
         this.players = new ArrayList<>();
         this.lastDiceRoll = new int[2];
         //this.currentPlayer = players.get(0);
+        this.turns = new ArrayList<>();
     }
 
 
@@ -78,6 +79,8 @@ public class Game implements Comparable<Game> {
         if (isStarted())
             throw new IllegalStateException("The game has already started");
         this.started = true;
+        this.currentPlayer = getPlayers().get(0);
+        this.canRoll = true;
     }
 
     public Property getDirectSale() {
@@ -116,6 +119,11 @@ public class Game implements Comparable<Game> {
         return turns;
     }
 
+    public void addTurn(Turn newTurn)
+    {
+        turns.add(newTurn);
+    }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -133,7 +141,7 @@ public class Game implements Comparable<Game> {
     }
 
     // - JSON Properties
-    @JsonProperty("CurrentPlayer")
+    @JsonProperty("currentPlayer")
     public String getCurrentPlayerName() {
         if (getCurrentPlayer() == null) {
             return null;
@@ -171,5 +179,25 @@ public class Game implements Comparable<Game> {
     @Override
     public int hashCode() {
         return Objects.hash(getNumberOfPlayers(), getId());
+    }
+
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "numberOfPlayers=" + numberOfPlayers +
+                ", started=" + started +
+                ", players=" + players +
+                ", id='" + id + '\'' +
+                ", directSale=" + directSale +
+                ", boughtProperties=" + boughtProperties +
+                ", availableHouses=" + availableHouses +
+                ", availableHotels=" + availableHotels +
+                ", lastDiceRoll=" + Arrays.toString(lastDiceRoll) +
+                ", currentPlayer=" + currentPlayer +
+                ", canRoll=" + canRoll +
+                ", winner=" + winner +
+                ", turns=" + turns +
+                '}';
     }
 }

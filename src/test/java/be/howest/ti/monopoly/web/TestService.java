@@ -86,11 +86,8 @@ public class TestService implements IService {
         return delegate.joinGame(gameId, playerToken, player);
     }
 
-<<<<<<< HEAD
-=======
     @Override
     public Object getGamesLessDetailed() {
         return delegate.getGamesLessDetailed();
     }
->>>>>>> 9a79f0cda51e5d658413b8e44e7cd01627057c38
 }
