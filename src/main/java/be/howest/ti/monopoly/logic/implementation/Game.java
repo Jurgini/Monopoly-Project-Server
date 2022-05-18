@@ -33,7 +33,7 @@ public class Game implements Comparable<Game> {
 
 
     public void rollDice() {
-        this.lastDiceRoll = dice.rollDice(currentPlayer, id);
+        dice.rollDice(currentPlayer, id);
     }
 
     public Game(String prefix, int numberOfPlayers) {
@@ -165,5 +165,4 @@ public class Game implements Comparable<Game> {
     public int hashCode() {
         return Objects.hash(getNumberOfPlayers(), getId());
     }
-
 }

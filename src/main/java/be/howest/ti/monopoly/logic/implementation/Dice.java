@@ -9,13 +9,12 @@ public class Dice {
     private boolean rolledDouble;
     private static final Random diceRandomizer = new Random();
 
-    public int[] rollDice(Player currentPlayer, String gameId) {
+    public void rollDice(Player currentPlayer, String gameId) {
         firstDice = diceRandomizer.nextInt(6) + 1;
         secondDice = diceRandomizer.nextInt(6) + 1;
         if (firstDice == secondDice) {
             rolledDouble = true;
         }
-        return getDiceRoll();
     }
 
     public int getFirstDice() {

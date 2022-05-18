@@ -4,12 +4,14 @@ import be.howest.ti.monopoly.logic.ServiceAdapter;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+
 
 class OpenApiTurnManagementTests extends OpenApiTestsBase {
 
     @Test
     void rollDice(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
+        service.setDelegate(new ServiceAdapter() {
             @Override
             public int[] rollDice(String playerName, String gameId) {
                 return new int[]{};
