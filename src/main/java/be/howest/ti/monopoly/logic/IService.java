@@ -20,10 +20,12 @@ public interface IService {
     Tile getTile(String name);
     Object buyProperty(String gameId, String playerName, String propertyName);
     
-    Set<GameView> getGames();
+    Set<Game> getGames();
 
     Game getGame(String gameId);
 
     Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
     Object joinGame(String gameId, String playerToken, Player player);
+
+    Object getGamesLessDetailed();
 }

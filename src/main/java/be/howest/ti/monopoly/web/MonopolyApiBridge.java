@@ -14,6 +14,7 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
+import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -170,10 +171,7 @@ public class MonopolyApiBridge {
     }
 
     private void getGames(RoutingContext ctx) {
-
-        Response.sendJsonResponse(ctx, 200, service.getGames());
-
-
+        Response.sendJsonResponse(ctx, 200, service.getGamesLessDetailed());
     }
 
     private void joinGame(RoutingContext ctx) {
@@ -191,6 +189,8 @@ public class MonopolyApiBridge {
     private void getGame(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
+
+        // todo: authorise this request
 
         Response.sendJsonResponse(ctx, 200, service.getGame(gameId));
     }
