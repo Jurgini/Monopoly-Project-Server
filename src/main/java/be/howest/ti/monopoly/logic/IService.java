@@ -2,7 +2,6 @@ package be.howest.ti.monopoly.logic;
 
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -19,9 +18,9 @@ public interface IService {
     List<Executing> getCommunityChest();
     Tile getTile(int position);
     Tile getTile(String name);
+    Object buyTile(String gameId, String playerName, String propertyName);
+    Object dontBuyTile(String gameId, String playerName, String propertyName);
 
-    Object buyProperty(String gameId, String playerName, String propertyName);
-    
     Set<Game> getGames();
     Game getGame(String gameId);
     Object joinGame(String gameId, String playerToken, Player player);

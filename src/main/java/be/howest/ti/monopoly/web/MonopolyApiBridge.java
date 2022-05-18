@@ -237,12 +237,24 @@ public class MonopolyApiBridge {
         }
         else
         {
-            Response.sendJsonResponse(ctx, 200, service.buyProperty(gameId, playerName,propertyName));
+            Response.sendJsonResponse(ctx, 200, service.buyTile(gameId, playerName,propertyName));
         }
     }
 
     private void dontBuyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("dontBuyProperty");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+        String propertyName = request.getPropertyName();
+
+       /* if (!request.isAuthorized(gameId, playerName))
+        {
+            throw new IllegalMonopolyActionException("you cannot use this endpoint");
+        }*/
+        //else
+        //{
+            Response.sendJsonResponse(ctx, 200, service.dontBuyTile(gameId, playerName,propertyName));
+        //}
     }
 
     private void collectDebt(RoutingContext ctx) {

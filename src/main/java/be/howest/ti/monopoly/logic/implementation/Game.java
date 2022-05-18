@@ -142,6 +142,9 @@ public class Game implements Comparable<Game> {
         return directSale;
     }
 
+    public void setDirectSale(Property directSale) {
+        this.directSale = directSale;
+    }
     public int getAvailableHouses() {
         return availableHouses;
     }
