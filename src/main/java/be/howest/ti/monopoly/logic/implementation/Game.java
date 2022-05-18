@@ -3,6 +3,7 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import be.howest.ti.monopoly.web.views.GameView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -37,7 +38,6 @@ public class Game implements Comparable<Game> {
         setNumberOfPlayers(numberOfPlayers);
         this.players = new ArrayList<>();
         this.lastDiceRoll = new int[2];
-        //this.currentPlayer = players.get(0);
         this.turns = new ArrayList<>();
     }
 
@@ -68,8 +68,7 @@ public class Game implements Comparable<Game> {
     }
 
     // - Turn Management
-    public void rollDice() {
-        //dice.rollDice(currentPlayer, this);
+    public GameView rollDice() {
         this.dice = new Dice();
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
@@ -79,8 +78,7 @@ public class Game implements Comparable<Game> {
             setCurrentPlayer(findNextPlayer());
             this.canRoll = true;
         }
-
-
+        return new GameView(this);
     }
 
     private void turnManager(Player currentPlayer, Game currentGame) {
@@ -89,11 +87,13 @@ public class Game implements Comparable<Game> {
 
         takeTurn(turn, currentPlayer, currentGame);
     }
+
     private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
         Tile currentTile = currentPlayer.getCurrentTileDetailed();
         Tile nextTile = MonopolyBoard.getTile(currentTile.getPosition() + totalRolledDice);
         return nextTile;
     }
+
     public void takeTurn(Turn turn,  Player currentPlayer, Game currentGame)
     {
         Tile nextTile = computeTileMoves(currentPlayer, dice.getTotalValue());
@@ -102,6 +102,7 @@ public class Game implements Comparable<Game> {
 
         updatePlayerPosition(currentPlayer, turn);
     }
+
     private void updatePlayerPosition(Player currentPlayer, Turn turn) {
         Tile newTile = turn.getMove();
         currentPlayer.setCurrentTile(newTile);
@@ -120,10 +121,19 @@ public class Game implements Comparable<Game> {
             {
                 int positionInPlayerList = positionInPlayers%(getPlayers().size());
                 int nextPlayerPosition = (positionInPlayerList+POSITION_RAISER)%getPlayers().size();
+
                 return getPlayers().get(nextPlayerPosition);
             }
         }
         return null;
+    }
+
+    public Dice getDice() {
+        return dice;
+    }
+
+    public boolean isCanRoll() {
+        return canRoll;
     }
 
     // Getters & Setters
@@ -224,25 +234,5 @@ public class Game implements Comparable<Game> {
     @Override
     public int hashCode() {
         return Objects.hash(getNumberOfPlayers(), getId());
-    }
-
-
-    @Override
-    public String toString() {
-        return "Game{" +
-                "numberOfPlayers=" + numberOfPlayers +
-                ", started=" + started +
-                ", players=" + players +
-                ", id='" + id + '\'' +
-                ", directSale=" + directSale +
-                ", boughtProperties=" + boughtProperties +
-                ", availableHouses=" + availableHouses +
-                ", availableHotels=" + availableHotels +
-                ", lastDiceRoll=" + Arrays.toString(lastDiceRoll) +
-                ", currentPlayer=" + currentPlayer +
-                ", canRoll=" + canRoll +
-                ", winner=" + winner +
-                ", turns=" + turns +
-                '}';
     }
 }

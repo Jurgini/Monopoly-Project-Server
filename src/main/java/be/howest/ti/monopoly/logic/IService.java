@@ -20,8 +20,6 @@ public interface IService {
     Tile getTile(int position);
     Tile getTile(String name);
 
-    int[] rollDice(String playerName, String gameId);
-
     Object buyProperty(String gameId, String playerName, String propertyName);
     
     Set<Game> getGames();
@@ -30,4 +28,6 @@ public interface IService {
     Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 
     Object getGamesLessDetailed();
+
+    GameView rollDice(String playerName, String gameId);
 }

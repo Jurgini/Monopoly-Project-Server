@@ -209,11 +209,11 @@ public class MonopolyApiBridge {
 
     private void rollDice(RoutingContext ctx) {
         Request request = Request.from(ctx);
-        String playerName = request.getPlayerName();
+        String playerName = request.getPlayerNameViaPath();
         String gameId = request.getGameId();
 
         if (!request.isAuthorized(gameId, playerName)) {
-            throw new ForbiddenAccessException("You can't do this!");
+            throw new ForbiddenAccessException("You can't perform this action.");
         }
 
         Response.sendJsonResponse(ctx, 200, service.rollDice(playerName, gameId));

@@ -1,10 +1,10 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
+import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
 
 
 class OpenApiTurnManagementTests extends OpenApiTestsBase {
@@ -13,8 +13,8 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
     void rollDice(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public int[] rollDice(String playerName, String gameId) {
-                return new int[]{};
+            public GameView rollDice(String playerName, String gameId) {
+                return new GameView(new Game("rollDice-test", 2));
             }
         });
         post(

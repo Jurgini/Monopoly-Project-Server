@@ -60,10 +60,6 @@ public class ServiceAdapter implements IService {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public int[] rollDice(String playerName, String gameId) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
@@ -77,6 +73,11 @@ public class ServiceAdapter implements IService {
 
     @Override
     public Object getGamesLessDetailed() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public GameView rollDice(String playerName, String gameId) {
         throw new UnsupportedOperationException();
     }
 
