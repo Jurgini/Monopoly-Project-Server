@@ -125,15 +125,14 @@ public class Player {
         debt += value;
     }
 
-    public void buyProperty(Tile tile) {
+    public Object buyProperty(Tile tile) {
         Property property = ((Property) tile);
         int cost = ((Property) tile).getCost();
 
         if (property.ownerIsNull()) {
             payMoney(cost);
             property.setOwner(this);
-        } else {
-            throw new IllegalMonopolyActionException("This property is already sold!");
         }
+        throw new IllegalMonopolyActionException("This property is already sold!");
     }
 }

@@ -84,11 +84,11 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public void buyTile(String gameId, String playerName, String tileName) {
+    public Object buyTile(String gameId, String playerName, String tileName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
 
-        game.buyProperty(player, tileName);
+        return game.buyProperty(player, tileName);
     }
 
     @Override

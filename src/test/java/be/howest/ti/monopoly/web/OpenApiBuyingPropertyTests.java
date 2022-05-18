@@ -12,7 +12,7 @@ class OpenApiBuyingPropertyTests extends OpenApiTestsBase {
     void buyProperty(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public void buyTile(String gameId, String playerName, String propertyName) {
+            public Object buyTile(String gameId, String playerName, String propertyName) {
                 return new JsonObject(){};
             }
         });
