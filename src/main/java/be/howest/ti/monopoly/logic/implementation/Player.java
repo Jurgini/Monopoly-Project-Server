@@ -11,7 +11,7 @@ public class Player {
     private boolean jailed;
     private int money;
     private boolean bankrupt;
-    private Map<Property, Integer> ownedProperties; //todo: view property
+    private Map<Property, Integer> properties; //todo: view property
     private int debt;
     private String token;
 
@@ -22,8 +22,9 @@ public class Player {
         this.jailed = false;
         this.money = startCapital;
         this.bankrupt = false;
-        this.ownedProperties = new HashMap<>();
+        this.properties = new HashMap<>();
         this.debt = 0;
+
         this.token = token;
     }
 
@@ -67,21 +68,21 @@ public class Player {
         this.bankrupt = true;
     }
 
-    public List<PropertyView> getOwnedProperties() {
+    public List<PropertyView> getProperties() {
         List<PropertyView> propertiesToShow = new ArrayList<>();
 
-        for (Property property : ownedProperties.keySet()) {
+        for (Property property : properties.keySet()) {
             propertiesToShow.add(new PropertyView(property));
         }
         return propertiesToShow;
     }
 
     public void addProperty(Property newProperty) {
-        this.ownedProperties.put(newProperty, 0);
+        this.properties.put(newProperty, 0);
     }
 
     public void removeProperty(Property propertyToRemove) {
-        this.ownedProperties.remove(propertyToRemove);
+        this.properties.remove(propertyToRemove);
     }
 
     public int getDebt() {
@@ -90,7 +91,7 @@ public class Player {
 
     public int getRent(Tile property) {
         if (property instanceof Street) {
-            return ((Street) property).getRent(ownedProperties.get(property));
+            return ((Street) property).getRent(properties.get(property));
         } else if (property instanceof Railroad) {
             return ((Railroad) property).getRent(getOwnedRailroadCards());
         } else if (property instanceof Utility) {

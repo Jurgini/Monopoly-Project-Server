@@ -55,6 +55,8 @@ public class Game implements Comparable<Game> {
         if (isStarted())
             throw new IllegalStateException("The game has already started");
         this.started = true;
+        this.currentPlayer = getPlayers().get(0);
+        this.canRoll = true;
     }
 
     public Property getDirectSale() {

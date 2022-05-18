@@ -94,8 +94,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game getGame(String gameId) {
-        Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
-        return filteredGame;
+        return gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
     }
 
     @Override
@@ -103,7 +102,7 @@ public class MonopolyService extends ServiceAdapter {
 
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
-        for (Tile tile : getTiles()) {
+        for (Tile tile : MonopolyBoard.getTiles()) {
             if (tile.getName().equals(propertyName) && getGame(gameId) != null) {
 
                 player.payMoney(((Property) getTile(propertyName)).getCost());
