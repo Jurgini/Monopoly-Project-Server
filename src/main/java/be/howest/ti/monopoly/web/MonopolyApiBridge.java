@@ -213,7 +213,7 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
 
         if (!request.isAuthorized(gameId, playerName)) {
-            throw new ForbiddenAccessException("You can't perform this action.");
+            throw new IllegalMonopolyActionException("You can't perform this action.");
         }
 
         Response.sendJsonResponse(ctx, 200, service.rollDice(playerName, gameId));
