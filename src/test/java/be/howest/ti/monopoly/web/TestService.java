@@ -35,14 +35,14 @@ public class TestService implements IService {
     public List<Tile> getTiles() {
         return delegate.getTiles();
     }
-    
+
     @Override
     public List<Executing> getCommunityChest() {
         return delegate.getCommunityChest();
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers) {
+    public GameView createGame(String prefix, int numberOfPlayers) {
         return delegate.createGame(prefix, numberOfPlayers);
     }
 
@@ -67,7 +67,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public Set<GameView> getGames() {
+    public Set<Game> getGames() {
         return delegate.getGames();
     }
 
@@ -77,7 +77,17 @@ public class TestService implements IService {
     }
 
     @Override
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        return delegate.collectDebt(gameId, playerName, propertyName, debtorName);
+    }
+    
+    @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
         return delegate.joinGame(gameId, playerToken, player);
+    }
+
+    @Override
+    public Object getGamesLessDetailed() {
+        return delegate.getGamesLessDetailed();
     }
 }

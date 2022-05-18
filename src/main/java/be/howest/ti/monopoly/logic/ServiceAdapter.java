@@ -16,7 +16,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Game createGame(String prefix, int numberOfPlayers) {
+    public GameView createGame(String prefix, int numberOfPlayers) {
         throw new UnsupportedOperationException();
     }
 
@@ -54,7 +54,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Set<GameView> getGames() {
+    public Set<Game> getGames() {
         throw new UnsupportedOperationException();
     }
 
@@ -64,8 +64,18 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
+    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
-        return null;
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Object getGamesLessDetailed() {
+        throw new UnsupportedOperationException();
     }
 
 }
