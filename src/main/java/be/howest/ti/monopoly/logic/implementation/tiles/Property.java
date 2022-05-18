@@ -2,6 +2,8 @@ package be.howest.ti.monopoly.logic.implementation.tiles;
 
 import be.howest.ti.monopoly.logic.implementation.Player;
 
+import java.util.Objects;
+
 public class Property extends Tile {
 
     private final int cost;
@@ -24,7 +26,7 @@ public class Property extends Tile {
     }
 
     public boolean ownerIsNull() {
-        return (owner == null);
+        return Objects.isNull(owner);
     }
 
     public void setOwner(Player player) {

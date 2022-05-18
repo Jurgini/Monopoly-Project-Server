@@ -126,13 +126,16 @@ public class Player {
     }
 
     public Object buyProperty(Tile tile) {
-        Property property = ((Property) tile);
-        int cost = ((Property) tile).getCost();
+        if (currentTile.equals(tile.getName())) {
+            Property property = ((Property) tile);
+            int cost = ((Property) tile).getCost();
 
-        if (property.ownerIsNull()) {
-            payMoney(cost);
-            property.setOwner(this);
+            if (property.ownerIsNull()) {
+                payMoney(cost);
+                property.setOwner(this);
+            }
+            throw new IllegalMonopolyActionException("This property is already sold!");
         }
-        throw new IllegalMonopolyActionException("This property is already sold!");
+        throw new IllegalMonopolyActionException("You are not standing on this tile!");
     }
 }
