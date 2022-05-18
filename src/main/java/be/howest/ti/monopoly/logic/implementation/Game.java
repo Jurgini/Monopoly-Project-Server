@@ -73,6 +73,13 @@ public class Game implements Comparable<Game> {
         return started;
     }
 
+    public void startGame()
+    {
+        if (isStarted())
+            throw new IllegalStateException("The game has already started");
+        this.started = true;
+    }
+
     public Property getDirectSale() {
         return directSale;
     }
@@ -113,14 +120,14 @@ public class Game implements Comparable<Game> {
         return players;
     }
 
-    public void addPlayer(Player player)
-    {
+    public void addPlayer(Player player) {
         players.add(player);
     }
-    public Player getPlayer(String playerName)
-    {
+
+    public Player getPlayer(String playerName) {
         return getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
     }
+
     public String getId() {
         return id;
     }

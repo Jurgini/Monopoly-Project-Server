@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
@@ -14,10 +15,10 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void getGames(final VertxTestContext testContext) {
-        service.setDelegate(new ServiceAdapter(){
+        service.setDelegate(new ServiceAdapter() {
             @Override
-            public Set<GameView> getGames() {
-                return null;
+            public Object getGamesLessDetailed() {
+                return Collections.emptyList();
             }
         });
         get(
@@ -28,12 +29,14 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
         );
     }
 
+//TODO: Fix this test when getgames with params works
+
     @Test
     void getGamesWithAllParams(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Set<GameView> getGames() {
-                return null;
+            public Object getGamesLessDetailed() {
+                return Collections.emptyList();
             }
         });
         get(
@@ -68,7 +71,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void createGameWithEmptyBody(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Game createGame(String prefix, int numberOfPlayers) {
+            public GameView createGame(String prefix, int numberOfPlayers) {
                 return null;
             }
         });
@@ -85,7 +88,7 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
     void createGame(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter(){
             @Override
-            public Game createGame(String prefix, int numberOfPrefix) {
+            public GameView createGame(String prefix, int numberOfPrefix) {
                 return null;
             }
         });
@@ -173,6 +176,12 @@ class OpenApiManagingGamesTests extends OpenApiTestsBase {
 
     @Test
     void joinGame(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object joinGame(String gameId, String playerToken, Player player) {
+                return Collections.emptyList();
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players",

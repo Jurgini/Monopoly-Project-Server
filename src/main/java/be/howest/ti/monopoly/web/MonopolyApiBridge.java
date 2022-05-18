@@ -4,6 +4,7 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import be.howest.ti.monopoly.logic.implementation.MonopolyBoard;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -13,9 +14,9 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
+import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.auth.authentication.TokenCredentials;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BearerAuthHandler;
@@ -170,10 +171,7 @@ public class MonopolyApiBridge {
     }
 
     private void getGames(RoutingContext ctx) {
-
-        Response.sendJsonResponse(ctx, 200, service.getGames());
-
-
+        Response.sendJsonResponse(ctx, 200, service.getGamesLessDetailed());
     }
 
     private void joinGame(RoutingContext ctx) {
@@ -191,6 +189,8 @@ public class MonopolyApiBridge {
     private void getGame(RoutingContext ctx) {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
+
+        // todo: authorise this request
 
         Response.sendJsonResponse(ctx, 200, service.getGame(gameId));
     }
@@ -246,7 +246,13 @@ public class MonopolyApiBridge {
     }
 
     private void collectDebt(RoutingContext ctx) {
-        throw new NotYetImplementedException("collectDebt");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerNameFromPath();
+        String propertyName = request.getPropertyName();
+        String debtorName = request.getDebtorName();
+
+        Response.sendJsonResponse(ctx, 200, service.collectDebt(gameId, playerName, propertyName, debtorName));
     }
 
     private void takeMortgage(RoutingContext ctx) {

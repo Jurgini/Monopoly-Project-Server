@@ -11,8 +11,8 @@ public class Railroad extends Property {
         this.color = "BLACK";
     }
 
-    public int getRent() {
-        return rent;
+    public int getRent(int ownedRailroadCards) {
+        return rent*ownedRailroadCards;
     }
 
     public String getColor() {

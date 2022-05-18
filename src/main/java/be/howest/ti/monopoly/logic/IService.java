@@ -12,9 +12,8 @@ import java.util.*;
 
 public interface IService {
     String getVersion();
-    
-    Game createGame(String prefix, int numberOfPlayers);
 
+    GameView createGame(String prefix, int numberOfPlayers);
     List<Executing> getChance();
     List<Tile> getTiles();
     List<Executing> getCommunityChest();
@@ -24,9 +23,11 @@ public interface IService {
     int[] rollDice(String playerName, String gameId);
 
     Object buyProperty(String gameId, String playerName, String propertyName);
-
-    Set<GameView> getGames();
+    
+    Set<Game> getGames();
     Game getGame(String gameId);
     Object joinGame(String gameId, String playerToken, Player player);
+    Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 
+    Object getGamesLessDetailed();
 }
