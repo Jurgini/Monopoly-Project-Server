@@ -1,7 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -152,5 +152,10 @@ public class Game implements Comparable<Game> {
 
     public List<Turn> getTurns() {
         return turns;
+    }
+
+    public Object buyProperty(Player player, String tileName) {
+        return player.buyProperty(board.getProperty(tileName));
+
     }
 }

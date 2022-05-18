@@ -1,7 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.*;
 
@@ -109,16 +111,28 @@ public class Player {
 
     public void payMoney(int value) {
         if (value <= 0) {
-            throw new IllegalStateException("U can't pay a negative amount of money!");
+            throw new IllegalStateException("You can't pay a negative amount of money!");
+        } else if (this.money - value < 0) {
+            throw new IllegalStateException("You do not have enough money!");
         }
-
         this.money -= value;
     }
 
     public void setDebt(int value) {
         if (value <= 0) {
-            throw new IllegalStateException("U can't set a negative amount of debt!");
+            throw new IllegalStateException("You can't set a negative amount of debt!");
         }
         debt += value;
+    }
+
+    public Object buyProperty(Tile tile) {
+        Property property = ((Property) tile);
+        int cost = ((Property) tile).getCost();
+
+        if (property.ownerIsNull()) {
+            payMoney(cost);
+            property.setOwner(this);
+        }
+        throw new IllegalMonopolyActionException("This property is already sold!");
     }
 }

@@ -1,9 +1,13 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
+import be.howest.ti.monopoly.logic.implementation.Player;
+
 public class Property extends Tile {
 
     private final int cost;
     private final int mortgage;
+
+    private Player owner = null;
 
     public Property(String name, int position, String type, int cost, int mortgage) {
         super(name, position, type);
@@ -19,4 +23,11 @@ public class Property extends Tile {
         return mortgage;
     }
 
+    public boolean ownerIsNull() {
+        return (owner == null);
+    }
+
+    public void setOwner(Player player) {
+        owner = player;
+    }
 }

@@ -3,7 +3,6 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
-import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import io.vertx.core.json.JsonObject;
 import be.howest.ti.monopoly.web.views.GameView;
 
@@ -88,38 +87,10 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Object buyTile(String gameId, String playerName, String tileName) {
-
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
 
-        for (Tile tile : new MonopolyBoard().getTiles()) {
-            if (tile.getName().equals(tileName) && player.getMoney() >= ((Property) getTile(tileName)).getCost()) {
-                if (!tile.getName().equals(tileName)) {
-                    throw new IllegalMonopolyActionException("Property not found");
-                } else if (getGame(gameId) == null) {
-                    throw new IllegalMonopolyActionException("There is no game with this Id");
-                } else if (game.getCurrentPlayer().equals(player)) {
-                    throw new IllegalMonopolyActionException("You cant buy a property only the current player can");
-                }
-
-                if (!player.getCurrentTile().equals(tile.getName())) {
-                    throw new IllegalMonopolyActionException("You are not on this tile");
-                }
-                if (tile instanceof Street) {
-                    player.payMoney(((Property) getTile(tileName)).getCost());
-                    player.addProperty(((Property) getTile(tileName)));
-                } else if (tile instanceof Railroad) {
-                    player.payMoney(((Railroad) getTile(tileName)).getCost());
-                    player.addProperty(((Railroad) getTile(tileName)));
-                } else if (tile instanceof Utility) {
-                    player.payMoney(((Utility) getTile(tileName)).getCost());
-                    player.addProperty(((Utility) getTile(tileName)));
-                }
-                dontBuyTile(gameId, playerName, tileName);
-                throw new IllegalMonopolyActionException("You dont have enough money");
-            }
-        }
-        throw new IllegalMonopolyActionException("Not a buy-able tile");
+        return game.buyProperty(player, tileName);
     }
 
     @Override

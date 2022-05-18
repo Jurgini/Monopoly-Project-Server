@@ -1,7 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.List;
 
@@ -90,9 +92,11 @@ public class MonopolyBoard {
     public List<Tile> getTiles() {
         return tiles;
     }
+
     public static List<Executing> getCommunityChest() {
         return COMMUNITY_CHEST_CARDS;
     }
+
     public static List<Executing> getChance() {
         return CHANCE_CARDS;
     }
@@ -114,6 +118,13 @@ public class MonopolyBoard {
             }
         }
         throw new MonopolyResourceNotFoundException("Tile not found");
+    }
+
+    public Tile getProperty(String tileName) {
+        if (getTile(tileName) instanceof Property) {
+            return getTile(tileName);
+        }
+        throw new IllegalMonopolyActionException("Not a buy-able tile");
     }
 }
 
