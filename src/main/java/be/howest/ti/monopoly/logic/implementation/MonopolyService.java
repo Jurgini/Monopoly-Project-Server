@@ -148,14 +148,10 @@ public class MonopolyService extends ServiceAdapter {
                 } else if (game.getCurrentPlayer().equals(player)) {
                     throw new IllegalMonopolyActionException("You cant deny a property only the current player can");
                 }
-                if (tile instanceof Street) {
-                    //startAuction()
-                } else if (tile instanceof Railroad) {
-                    //startAuction()
-                } else if (tile instanceof Utility) {
+                else
+                {
                     //startAuction()
                 }
-                throw new IllegalMonopolyActionException("Found a tile");
             }
         }
         throw new IllegalMonopolyActionException("Not a buy-able tile");
