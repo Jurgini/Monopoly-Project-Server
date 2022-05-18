@@ -49,8 +49,8 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object buyTile(String gameId, String playerName, String propertyName) {
-        return null;
+    public void buyTile(String gameId, String playerName, String propertyName) {
+        throw new UnsupportedOperationException();
     }
 
     @Override

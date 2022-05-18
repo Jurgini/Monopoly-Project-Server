@@ -154,8 +154,8 @@ public class Game implements Comparable<Game> {
         return turns;
     }
 
-    public Object buyProperty(Player player, String tileName) {
-        return player.buyProperty(board.getProperty(tileName));
+    public void buyProperty(Player player, String tileName) {
+        player.buyProperty(board.getProperty(tileName));
 
     }
 }

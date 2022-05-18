@@ -5,8 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-
 
 class OpenApiBuyingPropertyTests extends OpenApiTestsBase {
 
@@ -14,7 +12,7 @@ class OpenApiBuyingPropertyTests extends OpenApiTestsBase {
     void buyProperty(final VertxTestContext testContext) {
         service.setDelegate(new ServiceAdapter() {
             @Override
-            public Object buyTile(String gameId, String playerName, String propertyName) {
+            public void buyTile(String gameId, String playerName, String propertyName) {
                 return new JsonObject(){};
             }
         });

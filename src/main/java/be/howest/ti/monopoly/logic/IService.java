@@ -17,7 +17,7 @@ public interface IService {
     List<Executing> getCommunityChest();
     Tile getTile(int position);
     Tile getTile(String name);
-    Object buyTile(String gameId, String playerName, String propertyName);
+    void buyTile(String gameId, String playerName, String propertyName);
     Object dontBuyTile(String gameId, String playerName, String propertyName);
 
     Set<Game> getGames();
