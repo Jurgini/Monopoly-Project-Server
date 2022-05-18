@@ -9,6 +9,9 @@ import java.util.*;
 public class Game implements Comparable<Game> {
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 10;
+
+    private MonopolyBoard board = new MonopolyBoard();
+
     private int numberOfPlayers;
     private boolean started;
     private List<Player> players;

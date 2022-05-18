@@ -28,7 +28,7 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public List<Tile> getTiles() {
-        return MonopolyBoard.getTiles();
+        return new MonopolyBoard().getTiles();
     }
 
     @Override
@@ -70,16 +70,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Tile getTile(int position) {
-        return MonopolyBoard.getTile(position);
-    }
-
-    @Override
-    public Tile getTile(String name) {
-        return MonopolyBoard.getTile(name);
-    }
-
-    @Override
     public Set<Game> getGames() {
         return gameSet;
     }
@@ -102,7 +92,7 @@ public class MonopolyService extends ServiceAdapter {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
 
-        for (Tile tile : MonopolyBoard.getTiles()) {
+        for (Tile tile : new MonopolyBoard().getTiles()) {
             if (tile.getName().equals(tileName) && player.getMoney() >= ((Property) getTile(tileName)).getCost()) {
                 if (!tile.getName().equals(tileName)) {
                     throw new IllegalMonopolyActionException("Property not found");
@@ -138,7 +128,7 @@ public class MonopolyService extends ServiceAdapter {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
 
-        for (Tile tile : MonopolyBoard.getTiles()) {
+        for (Tile tile : new MonopolyBoard().getTiles()) {
             if (tile.getName().equals(tileName)) {
                 if (!tile.getName().equals(tileName)) {
                     throw new IllegalMonopolyActionException("Tile not found");
