@@ -150,8 +150,9 @@ public class MonopolyService extends ServiceAdapter {
                 }
                 else
                 {
-                    //startAuction()
+                    return new JsonObject().put("property",tileName).put("purchased",false);
                 }
+
             }
         }
         throw new IllegalMonopolyActionException("Not a buy-able tile");
