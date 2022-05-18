@@ -13,6 +13,15 @@ public class Tile {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "Tile{" +
+                "name='" + name + '\'' +
+                ", position=" + position +
+                ", type='" + type + '\'' +
+                '}';
+    }
+
     public String getName() {
         return name;
     }

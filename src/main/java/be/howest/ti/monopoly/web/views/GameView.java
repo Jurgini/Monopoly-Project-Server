@@ -1,6 +1,12 @@
 package be.howest.ti.monopoly.web.views;
 
+import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.Turn;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +37,28 @@ public class GameView {
     public boolean isStarted() {
         return game.isStarted();
     }
+
+    public Property getDirectSale()
+    {
+        return game.getDirectSale();
+    }
+
+    public int getAvailableHouses()
+    {
+        return game.getAvailableHouses();
+    }
+
+    public int getAvailableHotels()
+    {
+        return game.getAvailableHotels();
+    }
+
+    public List<Turn> getTurns()
+    {
+        return game.getTurns();
+    }
+
+
+
 
 }

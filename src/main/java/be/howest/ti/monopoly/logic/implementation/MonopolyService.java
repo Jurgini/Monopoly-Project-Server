@@ -20,15 +20,15 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public List<Tile> getTiles() {
+        return MonopolyBoard.getTiles();
+    }
+
+    @Override
     public GameView createGame(String prefix, int numberOfPlayers) {
         Game game = new Game(prefix, numberOfPlayers);
         gameSet.add(game);
         return new GameView(game);
-    }
-
-    @Override
-    public List<Tile> getTiles() {
-        return MonopolyBoard.getTiles();
     }
 
     @Override
@@ -168,6 +168,7 @@ public class MonopolyService extends ServiceAdapter {
         return MonopolyBoard.getCommunityChest();
     }
 
+    @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
@@ -186,5 +187,16 @@ public class MonopolyService extends ServiceAdapter {
         player.receiveMoney(rent);
 
         return null;
+    }
+
+
+    public Player getPlayer(String gameId, String playerName){
+        Player foundPlayer = getGame(gameId).getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+        return foundPlayer;
+    }
+
+    @Override
+    public GameView rollDice(String playerName, String gameId) {
+        return getGame(gameId).rollDice();
     }
 }

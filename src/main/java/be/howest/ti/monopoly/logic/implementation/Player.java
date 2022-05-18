@@ -2,40 +2,48 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
+import be.howest.ti.monopoly.web.views.TileView;
 
 import java.util.*;
 
 public class Player {
     private final String name;
-    private String currentTile;
+    private Tile currentTile;
     private boolean jailed;
     private int money;
     private boolean bankrupt;
     private Map<Property, Integer> ownedProperties; //todo: view property
     private int debt;
     private String token;
+    private List<Tile> moves;
 
     public Player(String name, String token) {
         final int startCapital = 15000;
         this.name = name;
-        this.currentTile = "Go";
+        this.currentTile = MonopolyBoard.getTile(0);
         this.jailed = false;
         this.money = startCapital;
         this.bankrupt = false;
         this.ownedProperties = new HashMap<>();
         this.debt = 0;
         this.token = token;
+        this.moves = new ArrayList<>();
     }
 
     public String getName() {
         return name;
     }
 
-    public String getCurrentTile() {
+    public Tile getCurrentTileDetailed() {
         return currentTile;
     }
 
-    public void setCurrentTile(String currentTile) {
+    public TileView getCurrentTile()
+    {
+        return new TileView(currentTile);
+    }
+
+    public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
     }
 
@@ -119,5 +127,14 @@ public class Player {
             throw new IllegalStateException("U can't set a negative amount of debt!");
         }
         debt += value;
+    }
+
+    public void addMove(Tile move)
+    {
+        moves.add(move);
+    }
+
+    public List<Tile> getMoves() {
+        return moves;
     }
 }

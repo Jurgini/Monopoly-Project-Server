@@ -1,5 +1,6 @@
 package be.howest.ti.monopoly.logic;
 
+import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
@@ -10,7 +11,7 @@ import java.util.*;
 
 public interface IService {
     String getVersion();
-    
+
     GameView createGame(String prefix, int numberOfPlayers);
     List<Executing> getChance();
     List<Tile> getTiles();
@@ -21,11 +22,11 @@ public interface IService {
     Object dontBuyTile(String gameId, String playerName, String propertyName);
 
     Set<Game> getGames();
-
     Game getGame(String gameId);
-
-    Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
     Object joinGame(String gameId, String playerToken, Player player);
+    Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 
     Object getGamesLessDetailed();
+
+    GameView rollDice(String playerName, String gameId);
 }
