@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import java.util.List;
-import java.util.SortedSet;
 
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
@@ -58,8 +57,13 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object buyProperty(String gameId, String playerName, String propertyName) {
-        return delegate.buyProperty(gameId, playerName, propertyName);
+    public Object buyTile(String gameId, String playerName, String propertyName) {
+        return delegate.buyTile(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object dontBuyTile(String gameId, String playerName, String propertyName) {
+        return delegate.dontBuyTile(gameId, playerName, propertyName);
     }
 
     @Override
