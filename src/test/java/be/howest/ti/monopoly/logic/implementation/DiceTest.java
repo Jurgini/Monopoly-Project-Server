@@ -28,14 +28,5 @@ class DiceTest {
         g.rollDice();
         System.out.println(g.getLastDiceRoll());
         System.out.println(g);
-        g.rollDice();
-        System.out.println(g.getLastDiceRoll());
-        System.out.println(g);
-        g.rollDice();
-        System.out.println(g.getLastDiceRoll());
-        System.out.println(g);
-        g.rollDice();
-        System.out.println(g.getLastDiceRoll());
-        System.out.println(g);
     }
 }

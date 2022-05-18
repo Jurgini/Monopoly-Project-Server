@@ -113,13 +113,14 @@ public class Game implements Comparable<Game> {
 
     private Player findNextPlayer()
     {
+        final int POSITION_RAISER = 1;
         for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++)
         {
             if (getPlayers().get(positionInPlayers).equals(currentPlayer))
             {
                 int positionInPlayerList = positionInPlayers%(getPlayers().size());
-                System.out.println(getPlayers().get((positionInPlayerList+1)%3).getName());
-                return getPlayers().get((positionInPlayerList+1)%getPlayers().size());
+                int nextPlayerPosition = (positionInPlayerList+POSITION_RAISER)%getPlayers().size();
+                return getPlayers().get(nextPlayerPosition);
             }
         }
         return null;
