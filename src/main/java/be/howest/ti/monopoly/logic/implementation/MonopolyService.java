@@ -3,7 +3,6 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
-import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import io.vertx.core.json.JsonObject;
 import be.howest.ti.monopoly.web.views.GameView;
 
@@ -37,36 +36,15 @@ public class MonopolyService extends ServiceAdapter {
         {
             if (game.getId().equals(gameId))
             {
-                if (checkPlayerExistence(game, player))
-                    throw new IllegalMonopolyActionException("Cannot join a game with this name");
-
-                if (amountOfPlayersReached(game))
-                    throw new IllegalMonopolyActionException("The game is full");
-
-                game.addPlayer(player);
-
-                if (gameCanStart(game))
-                    game.startGame();
+                game.join(player);
 
                 return new JsonObject()
                         .put("token", playerToken);
+
             }
         }
 
         return new JsonObject();
-    }
-
-    private boolean gameCanStart(Game game) {
-        return game.getNumberOfPlayers() == game.getPlayers().size();
-    }
-
-    private boolean amountOfPlayersReached(Game game) {
-        int newAmountOfPlayers = game.getPlayers().size()+1;
-        return newAmountOfPlayers > game.getNumberOfPlayers();
-    }
-
-    private boolean checkPlayerExistence(Game game, Player player) {
-        return game.getPlayers().contains(player);
     }
 
     @Override
