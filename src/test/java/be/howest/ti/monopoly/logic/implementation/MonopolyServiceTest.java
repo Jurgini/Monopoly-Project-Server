@@ -65,32 +65,53 @@ class MonopolyServiceTest {
         service.createGame("someprefix", 2);
         service.joinGame("someprefix", "someprefix-player1", new Player("player1", "someprefix-player1"));
         service.joinGame("someprefix", "someprefix-player2", new Player("player2", "someprefix-player2"));
-        assertThrows(MonopolyResourceNotFoundException.class, () -> {
-            service.buyTile("someprefix", "player1", "t Zand");
+        assertThrows(IllegalMonopolyActionException.class, () -> {
+            service.buyTile("someprefix", "player1", "Marksesteenweg");
         });
     }
 
     @Test
     void dontBuyTile() {
+        MonopolyService service = new MonopolyService();
+        service.createGame("someprefix", 2);
+        service.joinGame("someprefix", "someprefix-player1", new Player("player1", "someprefix-player1"));
+        service.joinGame("someprefix", "someprefix-player2", new Player("player2", "someprefix-player2"));
+        assertThrows(IllegalMonopolyActionException.class, () -> {
+            service.buyTile("someprefix", "player1", "Marksesteenweg");
+        });
     }
 
     @Test
     void getChance() {
+        assertEquals(15, new MonopolyService().getChance().size());
     }
 
     @Test
     void getCommunityChest() {
-    }
-
-    @Test
-    void collectDebt() {
+        assertEquals(17, new MonopolyService().getCommunityChest().size());
     }
 
     @Test
     void getPlayer() {
+        MonopolyService service = new MonopolyService();
+        service.createGame("someprefix", 2);
+        service.joinGame("someprefix", "someprefix-player1", new Player("player1", "someprefix-player1"));
+        service.joinGame("someprefix", "someprefix-player2", new Player("player2", "someprefix-player2"));
+        assertEquals("player1", service.getGame("someprefix").getPlayer("player1").getName());
     }
 
     @Test
     void rollDice() {
+        MonopolyService service = new MonopolyService();
+        service.createGame("someprefix", 2);
+        Player player1 = new Player("player1", "someprefix-player1");
+        Player player2 = new Player("player2", "someprefix-player2");
+        service.joinGame("someprefix", "someprefix-player1", player1);
+        service.joinGame("someprefix", "someprefix-player2", player2);
+        Game game = service.getGame("someprefix");
+        game.rollDice();
+        assertEquals(player2, game.getCurrentPlayer());
+        assertNotEquals(0, player1.getCurrentTileDetailed().getPosition());
+        assertEquals(player1.getCurrentTileDetailed().getPosition(), game.getDice().getTotalValue());
     }
 }
