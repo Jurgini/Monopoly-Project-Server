@@ -113,4 +113,5 @@ class MonopolyServiceTest {
         assertEquals(player2, game.getCurrentPlayer());
         assertNotEquals(0, player1.getCurrentTileDetailed().getPosition());
     }
+
 }
