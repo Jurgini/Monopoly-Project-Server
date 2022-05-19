@@ -83,6 +83,7 @@ public class Player {
                 ", currentTile=" + currentTile +
                 ", money=" + money +
                 ", properties=" + properties +
+                ", debt=" + debt +
                 '}';
     }
 

@@ -15,6 +15,7 @@ class GameTest {
         game.setCurrentPlayer(tap);
         game.addPlayer(tom);
         game.addPlayer(tap);
+        tap.payMoney(15000);
         game.rollDice();
         tom.setCurrentTile(new MonopolyBoard().getTile(1));
         tom.buyProperty(tom.getCurrentTileDetailed());
@@ -23,7 +24,7 @@ class GameTest {
         System.out.println(tap.getCurrentTile().getCurrentTile());
 
         game.collectDebt(tom, tap, new MonopolyBoard().getTile(1));
-        System.out.println(tap.getMoney());
-        System.out.println(tom.getMoney());
+        System.out.println(tap);
+        System.out.println(tom);
     }
 }
