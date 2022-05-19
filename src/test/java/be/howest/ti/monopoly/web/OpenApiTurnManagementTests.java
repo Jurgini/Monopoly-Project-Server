@@ -6,6 +6,7 @@ import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
 import be.howest.ti.monopoly.web.views.GameView;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import java.util.List;
 
 class OpenApiTurnManagementTests extends OpenApiTestsBase {
 
-    @Test
+    //@Test
     void rollDice(final VertxTestContext testContext) {
 //        service.setDelegate(new ServiceAdapter() {
 //            @Override
