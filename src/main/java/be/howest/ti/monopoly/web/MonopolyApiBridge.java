@@ -228,7 +228,7 @@ public class MonopolyApiBridge {
         if (!request.isAuthorized(gameId, playerName)) {
             throw new IllegalMonopolyActionException("you cannot use this endpoint ");
         }
-        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(playerName, gameId));
+        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(playerName));
     }
 
     private void buyProperty(RoutingContext ctx)

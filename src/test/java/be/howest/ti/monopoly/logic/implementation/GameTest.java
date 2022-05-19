@@ -10,19 +10,25 @@ class GameTest {
 
     @Test
     void declareBankruptcy() {
-        Game g = new Game("test", 2);
-        Dice d = new Dice();
+        Game g = new Game("test", 3);
         Player p1 = new Player("Alice", "test-Alice");
         Player p2 = new Player("Bob", "test-Bob");
+        Player p3 = new Player("Carol", "test-Carol");
 
         g.addPlayer(p1);
         g.addPlayer(p2);
+        g.addPlayer(p3);
         g.setCurrentPlayer(p1);
+        g.declareBankruptcy("Alice");
+        System.out.println("LIST IDX : " + g.getPlayers().get(0));
+        System.out.println("CURRENT : " + g.getCurrentPlayer().getName());
+
         g.rollDice();
 
-
-        g.declareBankruptcy("Alice", "test-Alice");
         System.out.println(g.getPlayers());
+        System.out.println("NEXT PLAYER : " + g.getCurrentPlayer().getName());
+
+
     }
 
     void collectDebt() {

@@ -85,7 +85,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Object declareBankruptcy(String playerName, String gameId){
+    public Object declareBankruptcy(String playerName){
         throw new UnsupportedOperationException();
     }
 

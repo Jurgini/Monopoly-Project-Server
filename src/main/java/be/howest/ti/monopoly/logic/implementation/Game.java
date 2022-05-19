@@ -45,16 +45,20 @@ public class Game implements Comparable<Game> {
         this.turns = new ArrayList<>();
     }
 
-    public void declareBankruptcy(String playerName, String gameId) {
+    public void declareBankruptcy(String playerName) {
 
-        if (currentPlayer.getMoney() <= 0 && currentPlayer.getName().equals(playerName)) {
+        if (currentPlayer.getName().equals(playerName)) {
+            System.out.println("the right player");
             if (players.size() > 1) {
+                System.out.println("more than 1 player");
                 currentPlayer.setBankrupt(); // this needed if player gets removed?
                 players.remove(currentPlayer);
-            }
-            else {
-                setWinner(currentPlayer);
-                setEnded(true);
+
+                if(players.size() <= 1){
+                    setWinner(players.get(0));
+                    setEnded(true);
+                    System.out.println("1 player remaining = WiINNER! is: " + getWinner());
+                }
             }
             // only if:
                 // geen kaarten meer
@@ -65,7 +69,18 @@ public class Game implements Comparable<Game> {
                 // winner?
                 // ended
                 // bankrupt
+
+            // game start
+                // bankrupt
+                    // removed from list
+                    // current player changes?
+                    // next player can roll if there is one
+                // rolldice
+                    //current player changes
+
         }
+        System.out.println("reached end");
+        //throw new IllegalMonopolyActionException("you cannot declare bankruptcy yet.");
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
@@ -135,7 +150,7 @@ public class Game implements Comparable<Game> {
         this.currentPlayer = currentPlayer;
     }
 
-    private Player findNextPlayer() {
+    public Player findNextPlayer() {
         final int POSITION_RAISER = 1;
         for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++) {
             if (getPlayers().get(positionInPlayers).equals(currentPlayer)) {

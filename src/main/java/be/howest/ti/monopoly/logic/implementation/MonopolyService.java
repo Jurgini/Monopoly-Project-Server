@@ -152,7 +152,7 @@ public class MonopolyService extends ServiceAdapter {
         return getGame(gameId).rollDice();
     }
 
-    public Object declareBankruptcy(String playerName, String gameId){
-        return declareBankruptcy(playerName, gameId);
+    public Object declareBankruptcy(String playerName){
+        return declareBankruptcy(playerName);
     }
 }
