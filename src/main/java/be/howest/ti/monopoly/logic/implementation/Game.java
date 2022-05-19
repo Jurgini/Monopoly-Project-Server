@@ -1,9 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
-import be.howest.ti.monopoly.web.views.GameView;
+import be.howest.ti.monopoly.logic.implementation.tiles.*;
+import be.howest.ti.monopoly.web.views.PropertyView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -13,15 +13,18 @@ public class Game implements Comparable<Game> {
     // - Info
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 10;
+
+    private MonopolyBoard board = new MonopolyBoard();
+
     private int numberOfPlayers;
     private boolean started;
     private List<Player> players;
-    private String id;
+    private final String id;
 
     private Property directSale = null;
     private Map<Property, Player> boughtProperties = new HashMap<Property, Player>();
 
-    private int availableHouses = 32;
+    private int  availableHouses = 32;
     private int availableHotels = 12;
 
     //private turns
@@ -46,7 +49,7 @@ public class Game implements Comparable<Game> {
 
         if (currentPlayer.getMoney() <= 0 && currentPlayer.getName().equals(playerName)) {
             if (players.size() > 1) {
-                currentPlayer.setBankrupt(true); // this needed if player gets removed?
+                currentPlayer.setBankrupt(); // this needed if player gets removed?
                 players.remove(currentPlayer);
             }
             else {
@@ -90,7 +93,7 @@ public class Game implements Comparable<Game> {
     }
 
     // - Turn Management
-    public GameView rollDice() {
+    public Game rollDice() {
         this.dice = new Dice();
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
@@ -99,7 +102,7 @@ public class Game implements Comparable<Game> {
             setCurrentPlayer(findNextPlayer());
             this.canRoll = true;
         }
-        return new GameView(this);
+        return this;
     }
 
     private void turnManager(Player currentPlayer, Game currentGame) {
@@ -111,7 +114,7 @@ public class Game implements Comparable<Game> {
 
     private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
         Tile currentTile = currentPlayer.getCurrentTileDetailed();
-        Tile nextTile = MonopolyBoard.getTile(currentTile.getPosition() + totalRolledDice);
+        Tile nextTile = board.getTile(currentTile.getPosition() + totalRolledDice);
         return nextTile;
     }
 
@@ -145,6 +148,7 @@ public class Game implements Comparable<Game> {
         return null;
     }
 
+    @JsonIgnore
     public Dice getDice() {
         return dice;
     }
@@ -171,7 +175,7 @@ public class Game implements Comparable<Game> {
         return availableHotels;
     }
 
-    protected int[] getLastDiceRoll() {
+    public int[] getLastDiceRoll() {
         return lastDiceRoll;
     }
 
@@ -265,6 +269,7 @@ public class Game implements Comparable<Game> {
         return Objects.hash(getNumberOfPlayers(), getId());
     }
 
+
     @Override
     public String toString() {
         return "Game{" +
@@ -284,5 +289,41 @@ public class Game implements Comparable<Game> {
                 ", ended=" + ended +
                 ", turns=" + turns +
                 '}';
+    }
+    public Object buyProperty(Player player, String tileName) {
+        Tile tile = board.getProperty(tileName);
+        if (!getAllBoughtProperties().contains(new PropertyView((Property) tile))) {
+            return player.buyProperty(tile);
+        }
+        throw new IllegalMonopolyActionException("This property is already bought!");
+    }
+
+    public List<PropertyView> getAllBoughtProperties() {
+        List<PropertyView> properties = new ArrayList<>();
+        for (Player p : players) {
+            properties.addAll(p.getProperties());
+        }
+        return properties;
+    }
+
+    public Game collectDebt(Player player, Player debtor, Tile property) {
+        if (debtor.getCurrentTile().getCurrentTile().equals(property.getName())) {
+            if (property instanceof Property) {
+                if (player.getProperties().contains(new PropertyView((Property) property))) {
+                    int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
+                    if (debtor.getMoney() - rent >= 0) {
+                        debtor.payMoney(rent);
+                    } else {
+                        debtor.setDebt(rent);
+                    }
+                    player.receiveMoney(rent);
+                    return this;
+                }
+                throw new IllegalMonopolyActionException(player.getName() + " does not own this property!");
+            }
+            throw new IllegalMonopolyActionException("This tile is not a property!");
+        }
+        throw new IllegalMonopolyActionException(debtor.getName() + " does not stand on this tile!");
+
     }
 }
