@@ -112,6 +112,6 @@ class MonopolyServiceTest {
         game.rollDice();
         assertEquals(player2, game.getCurrentPlayer());
         assertNotEquals(0, player1.getCurrentTileDetailed().getPosition());
-        assertEquals(player1.getCurrentTileDetailed().getPosition(), game.getDice().getTotalValue());
     }
+
 }
