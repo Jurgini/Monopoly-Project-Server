@@ -30,6 +30,7 @@ public class Game implements Comparable<Game> {
     private Player currentPlayer;
     private boolean canRoll;
     private Player winner;
+    private boolean ended;
 
     private List<Turn> turns;
 
@@ -41,6 +42,28 @@ public class Game implements Comparable<Game> {
         this.turns = new ArrayList<>();
     }
 
+    public void declareBankruptcy(String playerName, String gameId) {
+
+        if (currentPlayer.getMoney() <= 0 && currentPlayer.getName().equals(playerName)) {
+            if (players.size() > 1) {
+                currentPlayer.setBankrupt(true); // this needed if player gets removed?
+                players.remove(currentPlayer);
+            }
+            else {
+                setWinner(currentPlayer);
+                setEnded(true);
+            }
+            // only if:
+                // geen kaarten meer
+                // geen properties meer
+                // geen geld meer
+                // je hebt schulden
+            // fields to change:
+                // winner?
+                // ended
+                // bankrupt
+        }
+    }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
         if (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
@@ -58,8 +81,7 @@ public class Game implements Comparable<Game> {
         return started;
     }
 
-    public void startGame()
-    {
+    public void startGame() {
         if (isStarted())
             throw new IllegalStateException("The game has already started");
         this.started = true;
@@ -73,8 +95,7 @@ public class Game implements Comparable<Game> {
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
 
-        if (!dice.isRolledDouble())
-        {
+        if (!dice.isRolledDouble()) {
             setCurrentPlayer(findNextPlayer());
             this.canRoll = true;
         }
@@ -94,8 +115,7 @@ public class Game implements Comparable<Game> {
         return nextTile;
     }
 
-    public void takeTurn(Turn turn,  Player currentPlayer, Game currentGame)
-    {
+    public void takeTurn(Turn turn, Player currentPlayer, Game currentGame) {
         Tile nextTile = computeTileMoves(currentPlayer, dice.getTotalValue());
         currentGame.addTurn(turn);
         currentPlayer.addMove(nextTile);
@@ -112,15 +132,12 @@ public class Game implements Comparable<Game> {
         this.currentPlayer = currentPlayer;
     }
 
-    private Player findNextPlayer()
-    {
+    private Player findNextPlayer() {
         final int POSITION_RAISER = 1;
-        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++)
-        {
-            if (getPlayers().get(positionInPlayers).equals(currentPlayer))
-            {
-                int positionInPlayerList = positionInPlayers%(getPlayers().size());
-                int nextPlayerPosition = (positionInPlayerList+POSITION_RAISER)%getPlayers().size();
+        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++) {
+            if (getPlayers().get(positionInPlayers).equals(currentPlayer)) {
+                int positionInPlayerList = positionInPlayers % (getPlayers().size());
+                int nextPlayerPosition = (positionInPlayerList + POSITION_RAISER) % getPlayers().size();
 
                 return getPlayers().get(nextPlayerPosition);
             }
@@ -145,6 +162,7 @@ public class Game implements Comparable<Game> {
     public void setDirectSale(Property directSale) {
         this.directSale = directSale;
     }
+
     public int getAvailableHouses() {
         return availableHouses;
     }
@@ -165,20 +183,28 @@ public class Game implements Comparable<Game> {
         return winner;
     }
 
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
     public Map<Property, Player> getBoughtProperties() {
         return boughtProperties;
     }
 
     public boolean isEnded() {
-        return getWinner() != null;
+        // return getWinner() != null; TODO: WHY WAS THIS HERE?
+        return ended;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 
     public List<Turn> getTurns() {
         return turns;
     }
 
-    public void addTurn(Turn newTurn)
-    {
+    public void addTurn(Turn newTurn) {
         turns.add(newTurn);
     }
 
@@ -237,5 +263,26 @@ public class Game implements Comparable<Game> {
     @Override
     public int hashCode() {
         return Objects.hash(getNumberOfPlayers(), getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "numberOfPlayers=" + numberOfPlayers +
+                ", started=" + started +
+                ", players=" + players +
+                ", id='" + id + '\'' +
+                ", directSale=" + directSale +
+                ", boughtProperties=" + boughtProperties +
+                ", availableHouses=" + availableHouses +
+                ", availableHotels=" + availableHotels +
+                ", dice=" + dice +
+                ", lastDiceRoll=" + Arrays.toString(lastDiceRoll) +
+                ", currentPlayer=" + currentPlayer +
+                ", canRoll=" + canRoll +
+                ", winner=" + winner +
+                ", ended=" + ended +
+                ", turns=" + turns +
+                '}';
     }
 }

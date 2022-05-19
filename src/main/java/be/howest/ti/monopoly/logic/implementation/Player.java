@@ -30,6 +30,7 @@ public class Player {
         this.moves = new ArrayList<>();
     }
 
+
     public String getName() {
         return name;
     }
@@ -110,6 +111,10 @@ public class Player {
 
     }
 
+    public void setBankrupt(boolean bankrupt) {
+        this.bankrupt = bankrupt;
+    }
+
     private int getOwnedRailroadCards() {
         return 1; //todo: calculate this.
     }
@@ -136,5 +141,20 @@ public class Player {
 
     public List<Tile> getMoves() {
         return moves;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", currentTile=" + currentTile +
+                ", jailed=" + jailed +
+                ", money=" + money +
+                ", bankrupt=" + bankrupt +
+                ", ownedProperties=" + ownedProperties +
+                ", debt=" + debt +
+                ", token='" + token + '\'' +
+                ", moves=" + moves +
+                '}';
     }
 }

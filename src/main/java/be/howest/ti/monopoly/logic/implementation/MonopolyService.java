@@ -199,4 +199,8 @@ public class MonopolyService extends ServiceAdapter {
     public GameView rollDice(String playerName, String gameId) {
         return getGame(gameId).rollDice();
     }
+
+    public Object declareBankruptcy(String playerName, String gameId){
+        return declareBankruptcy(playerName, gameId);
+    }
 }

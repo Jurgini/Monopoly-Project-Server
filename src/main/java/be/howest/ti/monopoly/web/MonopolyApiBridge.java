@@ -221,7 +221,14 @@ public class MonopolyApiBridge {
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        throw new NotYetImplementedException("declareBankruptcy");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new IllegalMonopolyActionException("you cannot use this endpoint ");
+        }
+        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(playerName, gameId));
     }
 
     private void buyProperty(RoutingContext ctx)
