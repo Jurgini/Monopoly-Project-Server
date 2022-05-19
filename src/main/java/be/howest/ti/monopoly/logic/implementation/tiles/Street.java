@@ -91,6 +91,10 @@ public class Street extends Property {
         return rentWithHotel;
     }
 
+    public int getRent() {
+        return rent;
+    }
+
     public void computeHouses()
     {
     }
