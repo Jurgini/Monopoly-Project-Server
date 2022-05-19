@@ -50,16 +50,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Tile getTile(int position) {
-        return MonopolyBoard.getTile(position);
-    }
-
-    @Override
-    public Tile getTile(String name) {
-        return MonopolyBoard.getTile(name);
-    }
-
-    @Override
     public List<Game> getGames() {
         return gameSet;
     }
