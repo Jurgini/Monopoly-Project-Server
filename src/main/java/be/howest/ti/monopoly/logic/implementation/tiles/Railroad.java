@@ -1,5 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
+import be.howest.ti.monopoly.web.views.PropertyView;
+
+import java.util.List;
+
 public class Railroad extends Property {
     public static final int COST = 2000;
     private final int rent;
@@ -11,8 +15,9 @@ public class Railroad extends Property {
         this.color = "BLACK";
     }
 
-    public int getRent(int ownedRailroadCards) {
-        return rent*ownedRailroadCards;
+    @Override
+    public int computeRent(List<PropertyView> properties, int totalValueDice) {
+        return rent * (int) properties.stream().filter(property -> (property).getType().equals("railroad")).count();
     }
 
     public String getColor() {

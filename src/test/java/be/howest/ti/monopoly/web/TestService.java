@@ -57,8 +57,13 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object buyProperty(String gameId, String playerName, String propertyName) {
-        return delegate.buyProperty(gameId, playerName, propertyName);
+    public Object buyTile(String gameId, String playerName, String propertyName) {
+        return delegate.buyTile(gameId, playerName, propertyName);
+    }
+
+    @Override
+    public Object dontBuyTile(String gameId, String playerName, String propertyName) {
+        return delegate.dontBuyTile(gameId, playerName, propertyName);
     }
 
     @Override
@@ -77,7 +82,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+    public Game collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         return delegate.collectDebt(gameId, playerName, propertyName, debtorName);
     }
     

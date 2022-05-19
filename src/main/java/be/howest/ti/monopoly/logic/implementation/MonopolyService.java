@@ -3,8 +3,6 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.ServiceAdapter;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
-import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import be.howest.ti.monopoly.web.views.GameView;
 
@@ -21,11 +19,6 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public List<Tile> getTiles() {
-        return MonopolyBoard.getTiles();
-    }
-
-    @Override
     public GameView createGame(String prefix, int numberOfPlayers) {
         Game game = new Game(prefix, numberOfPlayers);
         gameSet.add(game);
@@ -33,11 +26,14 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public List<Tile> getTiles() {
+        return new MonopolyBoard().getTiles();
+    }
+
+    @Override
     public Object joinGame(String gameId, String playerToken, Player player) {
-        for (Game game: getGames())
-        {
-            if (game.getId().equals(gameId))
-            {
+        for (Game game : getGames()) {
+            if (game.getId().equals(gameId)) {
                 if (checkPlayerExistence(game, player))
                     throw new IllegalMonopolyActionException("Cannot join a game with this name");
 
@@ -62,7 +58,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     private boolean amountOfPlayersReached(Game game) {
-        int newAmountOfPlayers = game.getPlayers().size()+1;
+        int newAmountOfPlayers = game.getPlayers().size() + 1;
         return newAmountOfPlayers > game.getNumberOfPlayers();
     }
 
@@ -71,20 +67,10 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Tile getTile(int position) {
-        return MonopolyBoard.getTile(position);
-    }
-
-    @Override
-    public Tile getTile(String name) {
-        return MonopolyBoard.getTile(name);
-    }
-
-    @Override
     public Set<Game> getGames() {
         return gameSet;
     }
-
+    
     public Set<GameView> getGamesLessDetailed()
     {
         Set<GameView> gameViewSet = new HashSet<>() {};
@@ -94,29 +80,43 @@ public class MonopolyService extends ServiceAdapter {
                 gameViewSet.add(new GameView(game));
             }
         });
-
         return gameViewSet;
     }
 
     @Override
     public Game getGame(String gameId) {
-        Game filteredGame = gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
-        return filteredGame;
+        return gameSet.stream().filter(game -> game.getId().equals(gameId)).findFirst().orElseThrow();
     }
 
     @Override
-    public Object buyProperty(String gameId, String playerName, String propertyName) {
+    public Object buyTile(String gameId, String playerName, String tileName) {
+        Game game = getGame(gameId);
+        Player player = game.getPlayer(playerName);
+
+        return game.buyProperty(player, tileName);
+    }
+
+    @Override
+    public Object dontBuyTile(String gameId, String playerName, String tileName) {
 
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
-        for (Tile tile : getTiles()) {
-            if (tile.getName().equals(propertyName) && getGame(gameId) != null) {
 
-                player.payMoney(((Property) getTile(propertyName)).getCost());
-                player.addProperty(((Property) getTile(propertyName)));
+        for (Tile tile : new MonopolyBoard().getTiles()) {
+            if (tile.getName().equals(tileName)) {
+                if (!tile.getName().equals(tileName)) {
+                    throw new IllegalMonopolyActionException("Tile not found");
+                } else if (getGame(gameId) == null) {
+                    throw new IllegalMonopolyActionException("There is no game with this Id");
+                } else if (game.getCurrentPlayer().equals(player)) {
+                    throw new IllegalMonopolyActionException("You cant deny a property only the current player can");
+                } else {
+                    return new JsonObject().put("property", tileName).put("purchased", false);
+                }
+
             }
         }
-        return null;
+        throw new IllegalMonopolyActionException("Not a buy-able tile");
     }
 
     @Override
@@ -130,28 +130,19 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+    public Game collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
         Player debtor = game.getPlayer(debtorName); // moet betalen
         Tile property = getTile(propertyName);
 
         // todo: Check if player can pay, otherwise set debt.
-        int rent = player.getRent(property);
+        return game.collectDebt(player, debtor, property);
 
-        if (debtor.getMoney()-rent >= 0){
-            debtor.payMoney(rent);
-        }
-        else {
-            debtor.setDebt(rent);
-        }
-        player.receiveMoney(rent);
-
-        return null;
     }
 
 
-    public Player getPlayer(String gameId, String playerName){
+    public Player getPlayer(String gameId, String playerName) {
         Player foundPlayer = getGame(gameId).getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
         return foundPlayer;
     }
