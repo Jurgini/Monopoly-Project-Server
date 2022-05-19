@@ -4,6 +4,8 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
 import be.howest.ti.monopoly.web.views.TileView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.*;
@@ -36,12 +38,19 @@ public class Player {
         return name;
     }
 
+    @JsonIgnore
     public Tile getCurrentTileDetailed() {
         return currentTile;
     }
 
+    @JsonIgnore
     public TileView getCurrentTile() {
         return new TileView(currentTile);
+    }
+
+    @JsonProperty("currentTile")
+    public String getCurrentTileName() {
+        return new TileView(currentTile).getCurrentTile();
     }
 
     public void setCurrentTile(Tile currentTile) {
@@ -132,4 +141,18 @@ public class Player {
     public List<Tile> getMoves() {
         return moves;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(name, player.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
 }
