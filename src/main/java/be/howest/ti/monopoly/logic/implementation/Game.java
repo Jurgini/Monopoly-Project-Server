@@ -61,12 +61,45 @@ public class Game implements Comparable<Game> {
         return started;
     }
 
-    public void startGame() {
+    public void join(Player player)
+    {
+
+        if (isStarted())
+            throw new IllegalMonopolyActionException("The game has already started");
+        if (checkPlayerExistence(this, player))
+            throw new IllegalMonopolyActionException("Cannot join a game with this name");
+
+        if (amountOfPlayersReached(this))
+            throw new IllegalMonopolyActionException("The game is full");
+
+        players.add(player);
+
+        if (gameCanStart(this))
+            this.start();
+
+    }
+
+    private boolean checkPlayerExistence(Game game, Player player) {
+        return game.getPlayers().contains(player);
+    }
+
+
+    private boolean amountOfPlayersReached(Game game) {
+        int newAmountOfPlayers = game.getPlayers().size()+1;
+        return newAmountOfPlayers > game.getNumberOfPlayers();
+    }
+
+    public void start()
+    {
         if (isStarted())
             throw new IllegalStateException("The game has already started");
         this.started = true;
         this.currentPlayer = getPlayers().get(0);
         this.canRoll = true;
+    }
+
+    private boolean gameCanStart(Game game) {
+        return getNumberOfPlayers() == getPlayers().size();
     }
 
     // - Turn Management

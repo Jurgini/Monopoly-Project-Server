@@ -67,7 +67,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public Set<Game> getGames() {
+    public List<Game> getGames() {
         return delegate.getGames();
     }
 

@@ -56,6 +56,11 @@ public class Request {
                 Objects.equals(expectedPlayerName, user.getPlayerName());
     }
 
+    public boolean isAuthorized(String expectedGameId, String expectedPlayerName, String expectedCurrentPlayerName) {
+        return Objects.equals(expectedGameId, user.getGameId()) && Objects.equals(expectedPlayerName, user.getPlayerName())
+                && Objects.equals(user.getPlayerName(), expectedCurrentPlayerName);
+    }
+
     public String getPlayerName() {
         return params.body().getJsonObject().getString("playerName");
     }
@@ -121,4 +126,6 @@ public class Request {
     public String getDebtorName() {
         return params.pathParameter("debtorName").getString();
     }
+
+
 }
