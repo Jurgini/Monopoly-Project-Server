@@ -1,5 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
+import java.util.Objects;
+
 public class Tile {
     private final String name;
     private final int position;
@@ -34,5 +36,16 @@ public class Tile {
         return type;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tile tile = (Tile) o;
+        return Objects.equals(getName(), tile.getName());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
+    }
 }
