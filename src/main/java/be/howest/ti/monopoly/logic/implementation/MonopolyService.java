@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import be.howest.ti.monopoly.web.views.GameView;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class MonopolyService extends ServiceAdapter {
@@ -82,7 +83,8 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Set<Game> getGames() {
-        return gameSet;
+        Set<Game> filteredGames = gameSet.stream().filter(game -> !game.isStarted()).collect(Collectors.toSet());
+        return filteredGames;
     }
 
     public Set<GameView> getGamesLessDetailed()
@@ -151,7 +153,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public GameView rollDice(String playerName, String gameId) {
+    public Game rollDice(String playerName, String gameId) {
         return getGame(gameId).rollDice();
     }
 }

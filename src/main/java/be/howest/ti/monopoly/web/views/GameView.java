@@ -38,21 +38,7 @@ public class GameView {
         return game.isStarted();
     }
 
-    public Property getDirectSale()
-    {
-        return game.getDirectSale();
-    }
-
-    public int getAvailableHouses()
-    {
-        return game.getAvailableHouses();
-    }
-
-    public int getAvailableHotels()
-    {
-        return game.getAvailableHotels();
-    }
-
+    @JsonIgnore
     public List<Turn> getTurns()
     {
         return game.getTurns();

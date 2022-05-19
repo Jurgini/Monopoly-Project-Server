@@ -77,7 +77,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public GameView rollDice(String playerName, String gameId) {
+    public Game rollDice(String playerName, String gameId) {
         throw new UnsupportedOperationException();
     }
 
