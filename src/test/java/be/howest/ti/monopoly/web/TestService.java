@@ -82,7 +82,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+    public Game collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         return delegate.collectDebt(gameId, playerName, propertyName, debtorName);
     }
     

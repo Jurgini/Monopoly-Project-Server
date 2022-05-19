@@ -125,7 +125,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+    public Game collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
         Player debtor = game.getPlayer(debtorName); // moet betalen

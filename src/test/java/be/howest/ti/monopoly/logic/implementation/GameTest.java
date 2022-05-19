@@ -9,9 +9,9 @@ class GameTest {
 
     @Test
     void collectDebt() {
-        Game game = new Game("server",2);
-        Player tom = new Player("Tom","server-Tom");
-        Player tap = new Player("Tap","server-Tap");
+        Game game = new Game("server", 2);
+        Player tom = new Player("Tom", "server-Tom");
+        Player tap = new Player("Tap", "server-Tap");
         game.setCurrentPlayer(tap);
         game.addPlayer(tom);
         game.addPlayer(tap);
@@ -19,12 +19,8 @@ class GameTest {
         game.rollDice();
         tom.setCurrentTile(new MonopolyBoard().getTile(1));
         tom.buyProperty(tom.getCurrentTileDetailed());
-        System.out.println(tom.getProperties());
         tap.setCurrentTile(new MonopolyBoard().getTile(1));
-        System.out.println(tap.getCurrentTile().getCurrentTile());
-
         game.collectDebt(tom, tap, new MonopolyBoard().getTile(1));
-        System.out.println(tap);
-        System.out.println(tom);
+        assertEquals(tap.getDebt(), 20);
     }
 }

@@ -24,7 +24,7 @@ public interface IService {
     Set<Game> getGames();
     Game getGame(String gameId);
     Object joinGame(String gameId, String playerToken, Player player);
-    Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);
+    Game collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 
     Object getGamesLessDetailed();
 

@@ -253,7 +253,7 @@ public class Game implements Comparable<Game> {
         return properties;
     }
 
-    public Object collectDebt(Player player, Player debtor, Tile property) {
+    public Game collectDebt(Player player, Player debtor, Tile property) {
         if (debtor.getCurrentTile().getCurrentTile().equals(property.getName())) {
             if (property instanceof Property) {
                 if (player.getProperties().contains(new PropertyView((Property) property))) {
@@ -264,7 +264,7 @@ public class Game implements Comparable<Game> {
                         debtor.setDebt(rent);
                     }
                     player.receiveMoney(rent);
-                    return null;
+                    return this;
                 }
                 throw new IllegalMonopolyActionException(player.getName() + " does not own this property!");
             }

@@ -9,13 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
 
 public class PropertyView {
-    @Override
-    public String toString() {
-        return "PropertyView{" +
-                "property=" + property +
-                '}';
-    }
-
     private final Property property;
 
     public PropertyView(Property property)

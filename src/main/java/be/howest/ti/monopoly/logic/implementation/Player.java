@@ -76,17 +76,6 @@ public class Player {
         this.bankrupt = true;
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", currentTile=" + currentTile +
-                ", money=" + money +
-                ", properties=" + properties +
-                ", debt=" + debt +
-                '}';
-    }
-
     public List<PropertyView> getProperties() {
         List<PropertyView> propertiesToShow = new ArrayList<>();
 
