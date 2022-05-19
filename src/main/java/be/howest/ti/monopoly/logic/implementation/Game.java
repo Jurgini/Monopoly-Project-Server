@@ -3,6 +3,8 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.GameView;
+import be.howest.ti.monopoly.web.views.PropertyView;
+import be.howest.ti.monopoly.web.views.TileView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -60,8 +62,7 @@ public class Game implements Comparable<Game> {
         return started;
     }
 
-    public void startGame()
-    {
+    public void startGame() {
         if (isStarted())
             throw new IllegalStateException("The game has already started");
         this.started = true;
@@ -75,8 +76,7 @@ public class Game implements Comparable<Game> {
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
 
-        if (!dice.isRolledDouble())
-        {
+        if (!dice.isRolledDouble()) {
             setCurrentPlayer(findNextPlayer());
             this.canRoll = true;
         }
@@ -96,8 +96,7 @@ public class Game implements Comparable<Game> {
         return nextTile;
     }
 
-    public void takeTurn(Turn turn,  Player currentPlayer, Game currentGame)
-    {
+    public void takeTurn(Turn turn, Player currentPlayer, Game currentGame) {
         Tile nextTile = computeTileMoves(currentPlayer, dice.getTotalValue());
         currentGame.addTurn(turn);
         currentPlayer.addMove(nextTile);
@@ -114,15 +113,12 @@ public class Game implements Comparable<Game> {
         this.currentPlayer = currentPlayer;
     }
 
-    private Player findNextPlayer()
-    {
+    private Player findNextPlayer() {
         final int POSITION_RAISER = 1;
-        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++)
-        {
-            if (getPlayers().get(positionInPlayers).equals(currentPlayer))
-            {
-                int positionInPlayerList = positionInPlayers%(getPlayers().size());
-                int nextPlayerPosition = (positionInPlayerList+POSITION_RAISER)%getPlayers().size();
+        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++) {
+            if (getPlayers().get(positionInPlayers).equals(currentPlayer)) {
+                int positionInPlayerList = positionInPlayers % (getPlayers().size());
+                int nextPlayerPosition = (positionInPlayerList + POSITION_RAISER) % getPlayers().size();
 
                 return getPlayers().get(nextPlayerPosition);
             }
@@ -147,6 +143,7 @@ public class Game implements Comparable<Game> {
     public void setDirectSale(Property directSale) {
         this.directSale = directSale;
     }
+
     public int getAvailableHouses() {
         return availableHouses;
     }
@@ -179,8 +176,7 @@ public class Game implements Comparable<Game> {
         return turns;
     }
 
-    public void addTurn(Turn newTurn)
-    {
+    public void addTurn(Turn newTurn) {
         turns.add(newTurn);
     }
 
@@ -242,8 +238,35 @@ public class Game implements Comparable<Game> {
     }
 
     public Object buyProperty(Player player, String tileName) {
-        player.buyProperty(board.getProperty(tileName));
+        Tile tile = board.getProperty(tileName);
+        if (!getAllBoughtProperties().contains(new PropertyView((Property) tile))) {
+            return player.buyProperty(tile);
+        }
+        throw new IllegalMonopolyActionException("This property is already bought!");
+    }
 
-        return null;
+    public List<PropertyView> getAllBoughtProperties() {
+        List<PropertyView> properties = new ArrayList<>();
+        for (Player p : players) {
+            properties.addAll(p.getProperties());
+        }
+        return properties;
+    }
+
+    public Object collectDebt(Player player, Player debtor, Tile property) {
+        if (Objects.equals(debtor.getCurrentTile(), new TileView(property))) {
+            if (property instanceof Property) {
+                int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
+                if (debtor.getMoney() - rent >= 0) {
+                    debtor.payMoney(rent);
+                } else {
+                    debtor.setDebt(rent);
+                }
+                player.receiveMoney(rent);
+                return null;
+            }
+            throw new IllegalMonopolyActionException("This tile is not a property!");
+        }
+        throw new IllegalMonopolyActionException(debtor.getName()+" does not stand on this tile!");
     }
 }

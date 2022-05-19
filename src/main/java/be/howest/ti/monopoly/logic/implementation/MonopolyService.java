@@ -132,20 +132,12 @@ public class MonopolyService extends ServiceAdapter {
         Tile property = getTile(propertyName);
 
         // todo: Check if player can pay, otherwise set debt.
-        int rent = player.getRent(property);
+        return game.collectDebt(player, debtor, property);
 
-        if (debtor.getMoney() - rent >= 0) {
-            debtor.payMoney(rent);
-        } else {
-            debtor.setDebt(rent);
-        }
-        player.receiveMoney(rent);
-
-        return null;
     }
 
 
-    public Player getPlayer(String gameId, String playerName){
+    public Player getPlayer(String gameId, String playerName) {
         Player foundPlayer = getGame(gameId).getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
         return foundPlayer;
     }

@@ -2,6 +2,8 @@ package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import be.howest.ti.monopoly.logic.implementation.tiles.Street;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PropertyView {
@@ -35,5 +37,10 @@ public class PropertyView {
     public int getHotels()
     {
         return 0; //todo: same problem
+    }
+
+    @JsonIgnore()
+    public String getType() {
+        return ((Tile)property).getType();
     }
 }

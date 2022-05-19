@@ -14,7 +14,7 @@ public class Player {
     private boolean jailed;
     private int money;
     private boolean bankrupt;
-    private Map<Property, Integer> properties; //todo: view property
+    private List<Property> properties; //todo: view property
     private int debt;
     private String token;
     private List<Tile> moves;
@@ -26,7 +26,7 @@ public class Player {
         this.jailed = false;
         this.money = startCapital;
         this.bankrupt = false;
-        this.properties = new HashMap<>();
+        this.properties = new ArrayList<>();
         this.debt = 0;
         this.moves = new ArrayList<>();
         this.token = token;
@@ -79,14 +79,14 @@ public class Player {
     public List<PropertyView> getProperties() {
         List<PropertyView> propertiesToShow = new ArrayList<>();
 
-        for (Property property : properties.keySet()) {
+        for (Property property : properties) {
             propertiesToShow.add(new PropertyView(property));
         }
         return propertiesToShow;
     }
 
     public void addProperty(Property newProperty) {
-        this.properties.put(newProperty, 0);
+        this.properties.add(newProperty);
     }
 
     public void removeProperty(Property propertyToRemove) {
@@ -95,24 +95,6 @@ public class Player {
 
     public int getDebt() {
         return debt;
-    }
-
-    public int getRent(Tile property) {
-        if (property instanceof Street) {
-            return ((Street) property).getRent(properties.get(property));
-        } else if (property instanceof Railroad) {
-            return ((Railroad) property).getRent(getOwnedRailroadCards());
-        } else if (property instanceof Utility) {
-            //TODO: Utility calculation
-            return 0;
-        } else {
-            throw new IllegalArgumentException("Not possible to get rent of this tile.");
-        }
-
-    }
-
-    private int getOwnedRailroadCards() {
-        return 1; //todo: calculate this.
     }
 
     public void payMoney(int value) {
@@ -138,7 +120,7 @@ public class Player {
 
             if (property.ownerIsNull()) {
                 payMoney(cost);
-                property.setOwner(this);
+                properties.add(property);
             }
             throw new IllegalMonopolyActionException("This property is already sold!");
         }
