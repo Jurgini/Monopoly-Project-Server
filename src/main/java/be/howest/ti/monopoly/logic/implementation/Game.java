@@ -1,9 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
-import be.howest.ti.monopoly.web.views.GameView;
+import be.howest.ti.monopoly.logic.implementation.tiles.*;
+import be.howest.ti.monopoly.web.views.PropertyView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -13,6 +13,9 @@ public class Game implements Comparable<Game> {
     // - Info
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 10;
+
+    private MonopolyBoard board = new MonopolyBoard();
+
     private int numberOfPlayers;
     private boolean started;
     private List<Player> players;
@@ -100,17 +103,16 @@ public class Game implements Comparable<Game> {
     }
 
     // - Turn Management
-    public GameView rollDice() {
+    public Game rollDice() {
         this.dice = new Dice();
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
 
-        if (!dice.isRolledDouble())
-        {
+        if (!dice.isRolledDouble()) {
             setCurrentPlayer(findNextPlayer());
             this.canRoll = true;
         }
-        return new GameView(this);
+        return this;
     }
 
     private void turnManager(Player currentPlayer, Game currentGame) {
@@ -122,12 +124,11 @@ public class Game implements Comparable<Game> {
 
     private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
         Tile currentTile = currentPlayer.getCurrentTileDetailed();
-        Tile nextTile = MonopolyBoard.getTile(currentTile.getPosition() + totalRolledDice);
+        Tile nextTile = board.getTile(currentTile.getPosition() + totalRolledDice);
         return nextTile;
     }
 
-    public void takeTurn(Turn turn,  Player currentPlayer, Game currentGame)
-    {
+    public void takeTurn(Turn turn, Player currentPlayer, Game currentGame) {
         Tile nextTile = computeTileMoves(currentPlayer, dice.getTotalValue());
         currentGame.addTurn(turn);
         currentPlayer.addMove(nextTile);
@@ -144,15 +145,12 @@ public class Game implements Comparable<Game> {
         this.currentPlayer = currentPlayer;
     }
 
-    private Player findNextPlayer()
-    {
+    private Player findNextPlayer() {
         final int POSITION_RAISER = 1;
-        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++)
-        {
-            if (getPlayers().get(positionInPlayers).equals(currentPlayer))
-            {
-                int positionInPlayerList = positionInPlayers%(getPlayers().size());
-                int nextPlayerPosition = (positionInPlayerList+POSITION_RAISER)%getPlayers().size();
+        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++) {
+            if (getPlayers().get(positionInPlayers).equals(currentPlayer)) {
+                int positionInPlayerList = positionInPlayers % (getPlayers().size());
+                int nextPlayerPosition = (positionInPlayerList + POSITION_RAISER) % getPlayers().size();
 
                 return getPlayers().get(nextPlayerPosition);
             }
@@ -160,6 +158,7 @@ public class Game implements Comparable<Game> {
         return null;
     }
 
+    @JsonIgnore
     public Dice getDice() {
         return dice;
     }
@@ -177,6 +176,7 @@ public class Game implements Comparable<Game> {
     public void setDirectSale(Property directSale) {
         this.directSale = directSale;
     }
+
     public int getAvailableHouses() {
         return availableHouses;
     }
@@ -185,7 +185,7 @@ public class Game implements Comparable<Game> {
         return availableHotels;
     }
 
-    protected int[] getLastDiceRoll() {
+    public int[] getLastDiceRoll() {
         return lastDiceRoll;
     }
 
@@ -209,8 +209,7 @@ public class Game implements Comparable<Game> {
         return turns;
     }
 
-    public void addTurn(Turn newTurn)
-    {
+    public void addTurn(Turn newTurn) {
         turns.add(newTurn);
     }
 
@@ -269,5 +268,41 @@ public class Game implements Comparable<Game> {
     @Override
     public int hashCode() {
         return Objects.hash(getNumberOfPlayers(), getId());
+    }
+
+    public Object buyProperty(Player player, String tileName) {
+        Tile tile = board.getProperty(tileName);
+        if (!getAllBoughtProperties().contains(new PropertyView((Property) tile))) {
+            return player.buyProperty(tile);
+        }
+        throw new IllegalMonopolyActionException("This property is already bought!");
+    }
+
+    public List<PropertyView> getAllBoughtProperties() {
+        List<PropertyView> properties = new ArrayList<>();
+        for (Player p : players) {
+            properties.addAll(p.getProperties());
+        }
+        return properties;
+    }
+
+    public Game collectDebt(Player player, Player debtor, Tile property) {
+        if (debtor.getCurrentTile().getCurrentTile().equals(property.getName())) {
+            if (property instanceof Property) {
+                if (player.getProperties().contains(new PropertyView((Property) property))) {
+                    int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
+                    if (debtor.getMoney() - rent >= 0) {
+                        debtor.payMoney(rent);
+                    } else {
+                        debtor.setDebt(rent);
+                    }
+                    player.receiveMoney(rent);
+                    return this;
+                }
+                throw new IllegalMonopolyActionException(player.getName() + " does not own this property!");
+            }
+            throw new IllegalMonopolyActionException("This tile is not a property!");
+        }
+        throw new IllegalMonopolyActionException(debtor.getName() + " does not stand on this tile!");
     }
 }

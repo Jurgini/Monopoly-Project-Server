@@ -50,7 +50,7 @@ public class ServiceAdapter implements IService {
 
     @Override
     public Object buyTile(String gameId, String playerName, String propertyName) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ServiceAdapter implements IService {
 
 
     @Override
-    public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
+    public Game collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         throw new UnsupportedOperationException();
     }
 
@@ -80,7 +80,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public GameView rollDice(String playerName, String gameId) {
+    public Game rollDice(String playerName, String gameId) {
         throw new UnsupportedOperationException();
     }
 

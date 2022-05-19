@@ -5,8 +5,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.junit5.VertxTestContext;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-
 
 class OpenApiBuyingPropertyTests extends OpenApiTestsBase {
 

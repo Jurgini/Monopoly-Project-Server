@@ -1,12 +1,14 @@
 package be.howest.ti.monopoly.logic.implementation;
 
+import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.List;
 
 public class MonopolyBoard {
-    private static final List<Tile> TILES = List.of(
+    private List<Tile> tiles = List.of(
             new Tile("Go", 0, "Go"),
             new Street("Marksesteenweg", 1, 600, 300, 500, "PURPLE", "PURPLE", 20, 100, 300, 900, 1600, 2500),
             new Tile("Community Chest I", 2, "community chest"),
@@ -87,18 +89,20 @@ public class MonopolyBoard {
             new Executing("You ask your parents for money to buy a new school laptop and receive 1000", 1000, Action.COLLECT)
     );
 
-    public static List<Tile> getTiles() {
-        return TILES;
+    public List<Tile> getTiles() {
+        return tiles;
     }
+
     public static List<Executing> getCommunityChest() {
         return COMMUNITY_CHEST_CARDS;
     }
+
     public static List<Executing> getChance() {
         return CHANCE_CARDS;
     }
 
 
-    public static Tile getTile(int position) {
+    public Tile getTile(int position) {
         for (Tile tile : getTiles()) {
             if (tile.getPosition() == position) {
                 return tile;
@@ -107,13 +111,24 @@ public class MonopolyBoard {
         throw new MonopolyResourceNotFoundException("Tile not found");
     }
 
-    public static Tile getTile(String name) {
+    public Tile getTile(String name) {
         for (Tile tile : getTiles()) {
             if (tile.getName().equals(name)) {
                 return tile;
             }
         }
         throw new MonopolyResourceNotFoundException("Tile not found");
+    }
+
+    public Tile getProperty(String tileName) {
+        if (getTile(tileName) instanceof Property) {
+            return getTile(tileName);
+        }
+        throw new IllegalMonopolyActionException("Not a buy-able tile");
+    }
+
+    public Tile getStartTile() {
+        return getTile(0);
     }
 }
 

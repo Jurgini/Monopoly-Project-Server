@@ -1,5 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
+import be.howest.ti.monopoly.web.views.PropertyView;
+
+import java.util.List;
+
 public class Street extends Property {
     private final int housePrice;
     private final String streetColor;
@@ -10,6 +14,9 @@ public class Street extends Property {
     private final int rentWithThreeHouses;
     private final int rentWithFourHouses;
     private final int rentWithHotel;
+
+    private int qtyOfHotels = 0;
+    private int qtyOfHouses = 0;
 
     public Street(String name, int position, int cost, int mortgage, int housePrice, String streetColor, String color, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
         super(name, position, "street", cost, mortgage);
@@ -36,9 +43,10 @@ public class Street extends Property {
         return color;
     }
 
-    public int getRent(Integer totalBuildings) {
+    @Override
+    public int computeRent(List<PropertyView> properties, int totalValueDice) {
         int calculatedRent;
-        switch (totalBuildings) {
+        switch (qtyOfHotels+qtyOfHouses) {
             case 0:
                 calculatedRent = rent;
                 break;

@@ -39,7 +39,7 @@ public class GameView {
         return game.isStarted();
     }
 
-
+    @JsonIgnore
     public List<Turn> getTurns()
     {
         return game.getTurns();
