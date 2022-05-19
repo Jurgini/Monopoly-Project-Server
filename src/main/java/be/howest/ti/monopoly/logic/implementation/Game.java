@@ -60,6 +60,7 @@ public class Game implements Comparable<Game> {
 
     public void join(Player player)
     {
+
         if (isStarted())
             throw new IllegalMonopolyActionException("The game has already started");
         if (checkPlayerExistence(this, player))

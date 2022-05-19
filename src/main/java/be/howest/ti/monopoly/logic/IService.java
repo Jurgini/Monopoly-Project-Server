@@ -21,7 +21,7 @@ public interface IService {
     Object buyTile(String gameId, String playerName, String propertyName);
     Object dontBuyTile(String gameId, String playerName, String propertyName);
 
-    Set<Game> getGames();
+    List<Game> getGames();
     Game getGame(String gameId);
     Object joinGame(String gameId, String playerToken, Player player);
     Object collectDebt(String gameId, String playerName, String propertyName, String debtorName);

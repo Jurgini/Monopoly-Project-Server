@@ -11,7 +11,7 @@ import java.util.*;
 
 public class MonopolyService extends ServiceAdapter {
 
-    private final SortedSet<Game> gameSet = new TreeSet<>();
+    private final List<Game> gameSet = new ArrayList<>();
 
     @Override
     public String getVersion() {
@@ -26,6 +26,8 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public GameView createGame(String prefix, int numberOfPlayers) {
         Game game = new Game(prefix, numberOfPlayers);
+        if (getGames().contains(game))
+            throw new IllegalArgumentException("A game with the name " + prefix + " already exists");
         gameSet.add(game);
         return new GameView(game);
     }
@@ -58,13 +60,13 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public Set<Game> getGames() {
+    public List<Game> getGames() {
         return gameSet;
     }
 
-    public Set<GameView> getGamesLessDetailed()
+    public List<GameView> getGamesLessDetailed()
     {
-        Set<GameView> gameViewSet = new HashSet<>() {};
+        List<GameView> gameViewSet = new ArrayList<>() {};
         gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;
     }

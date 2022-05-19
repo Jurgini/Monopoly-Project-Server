@@ -18,9 +18,11 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
             @Override
             public GameView rollDice(String playerName, String gameId) {
                 Game g = new Game("testgame", 2);
-                        g.addPlayer(new Player("Alice", "testgame-Alice"));
-                        g.addPlayer(new Player("Bob", "testgame-Bob"));
+                        g.join(new Player("Alice", "testgame-Alice"));
+                        g.join(new Player("Bob", "testgame-Bob"));
+                        g.rollDice();
                 return new GameView(g);
+
             }
         });
         post(
