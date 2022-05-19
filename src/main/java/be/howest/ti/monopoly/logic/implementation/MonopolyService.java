@@ -151,4 +151,14 @@ public class MonopolyService extends ServiceAdapter {
     public Game rollDice(String playerName, String gameId) {
         return getGame(gameId).rollDice();
     }
+
+    @Override
+    public Tile getTile(int position) {
+        return new MonopolyBoard().getTile(position);
+    }
+
+    @Override
+    public Tile getTile(String name) {
+        return new MonopolyBoard().getTile(name);
+    }
 }

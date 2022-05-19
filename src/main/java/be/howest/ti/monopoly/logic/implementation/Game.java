@@ -91,7 +91,7 @@ public class Game implements Comparable<Game> {
 
     private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
         Tile currentTile = currentPlayer.getCurrentTileDetailed();
-        Tile nextTile = board.getTile(currentTile.getPosition() + totalRolledDice);
+        Tile nextTile = board.getTile((currentTile.getPosition() + totalRolledDice)%board.getTiles().size());
         return nextTile;
     }
 
