@@ -72,7 +72,7 @@ public class TestService implements IService {
     }
 
     @Override
-    public GameView rollDice(String playerName, String gameId) {
+    public Game rollDice(String playerName, String gameId) {
         return delegate.rollDice(playerName, gameId);
     }
 

@@ -28,5 +28,5 @@ public interface IService {
 
     Object getGamesLessDetailed();
 
-    GameView rollDice(String playerName, String gameId);
+    Game rollDice(String playerName, String gameId);
 }

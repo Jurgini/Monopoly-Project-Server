@@ -70,11 +70,16 @@ public class MonopolyService extends ServiceAdapter {
     public Set<Game> getGames() {
         return gameSet;
     }
-
-    public Set<GameView> getGamesLessDetailed() {
-        Set<GameView> gameViewSet = new HashSet<>() {
-        };
-        gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
+    
+    public Set<GameView> getGamesLessDetailed()
+    {
+        Set<GameView> gameViewSet = new HashSet<>() {};
+        gameSet.forEach(game -> {
+            if(!game.isStarted())
+            {
+                gameViewSet.add(new GameView(game));
+            }
+        });
         return gameViewSet;
     }
 
@@ -143,7 +148,7 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
-    public GameView rollDice(String playerName, String gameId) {
+    public Game rollDice(String playerName, String gameId) {
         return getGame(gameId).rollDice();
     }
 }

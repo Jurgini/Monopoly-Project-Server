@@ -2,9 +2,8 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
-import be.howest.ti.monopoly.web.views.GameView;
 import be.howest.ti.monopoly.web.views.PropertyView;
-import be.howest.ti.monopoly.web.views.TileView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
@@ -71,7 +70,7 @@ public class Game implements Comparable<Game> {
     }
 
     // - Turn Management
-    public GameView rollDice() {
+    public Game rollDice() {
         this.dice = new Dice();
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
@@ -80,7 +79,7 @@ public class Game implements Comparable<Game> {
             setCurrentPlayer(findNextPlayer());
             this.canRoll = true;
         }
-        return new GameView(this);
+        return this;
     }
 
     private void turnManager(Player currentPlayer, Game currentGame) {
@@ -126,6 +125,7 @@ public class Game implements Comparable<Game> {
         return null;
     }
 
+    @JsonIgnore
     public Dice getDice() {
         return dice;
     }
@@ -152,7 +152,7 @@ public class Game implements Comparable<Game> {
         return availableHotels;
     }
 
-    protected int[] getLastDiceRoll() {
+    public int[] getLastDiceRoll() {
         return lastDiceRoll;
     }
 
