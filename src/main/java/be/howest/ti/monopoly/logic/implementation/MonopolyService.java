@@ -154,11 +154,15 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Tile getTile(int position) {
-        return new MonopolyBoard().getTile(position);
+        List<Tile> tiles = new MonopolyBoard().getTiles();
+        Tile foundTile = tiles.stream().filter(tile -> tile.getPosition() == position).findFirst().orElseThrow();
+        return foundTile;
     }
 
     @Override
     public Tile getTile(String name) {
-        return new MonopolyBoard().getTile(name);
+        List<Tile> tiles = new MonopolyBoard().getTiles();
+        Tile foundTile = tiles.stream().filter(tile -> tile.getName().equals(name)).findFirst().orElseThrow();
+        return foundTile;
     }
 }
