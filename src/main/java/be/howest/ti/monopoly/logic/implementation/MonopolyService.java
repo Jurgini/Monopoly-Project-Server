@@ -124,6 +124,7 @@ public class MonopolyService extends ServiceAdapter {
         return MonopolyBoard.getCommunityChest();
     }
 
+    @Override
     public Object collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
@@ -141,5 +142,16 @@ public class MonopolyService extends ServiceAdapter {
         player.receiveMoney(rent);
 
         return null;
+    }
+
+
+    public Player getPlayer(String gameId, String playerName){
+        Player foundPlayer = getGame(gameId).getPlayers().stream().filter(player -> player.getName().equals(playerName)).findFirst().orElseThrow();
+        return foundPlayer;
+    }
+
+    @Override
+    public GameView rollDice(String playerName, String gameId) {
+        return getGame(gameId).rollDice();
     }
 }

@@ -126,6 +126,10 @@ public class MonopolyBoard {
         }
         throw new IllegalMonopolyActionException("Not a buy-able tile");
     }
+
+    public Tile getStartTile() {
+        return getTile(0);
+    }
 }
 
 

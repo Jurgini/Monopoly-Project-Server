@@ -3,30 +3,32 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
+import be.howest.ti.monopoly.web.views.TileView;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.*;
 
 public class Player {
     private final String name;
-    private String currentTile;
+    private Tile currentTile;
     private boolean jailed;
     private int money;
     private boolean bankrupt;
     private Map<Property, Integer> properties; //todo: view property
     private int debt;
     private String token;
+    private List<Tile> moves;
 
     public Player(String name, String token) {
         final int startCapital = 15000;
         this.name = name;
-        this.currentTile = "Go";
+        this.currentTile = new MonopolyBoard().getStartTile();
         this.jailed = false;
         this.money = startCapital;
         this.bankrupt = false;
         this.properties = new HashMap<>();
         this.debt = 0;
-
+        this.moves = new ArrayList<>();
         this.token = token;
     }
 
@@ -34,11 +36,15 @@ public class Player {
         return name;
     }
 
-    public String getCurrentTile() {
+    public Tile getCurrentTileDetailed() {
         return currentTile;
     }
 
-    public void setCurrentTile(String currentTile) {
+    public TileView getCurrentTile() {
+        return new TileView(currentTile);
+    }
+
+    public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
     }
 
@@ -137,5 +143,14 @@ public class Player {
             throw new IllegalMonopolyActionException("This property is already sold!");
         }
         throw new IllegalMonopolyActionException("You are not standing on this tile!");
+    }
+
+    public void addMove(Tile move)
+    {
+        moves.add(move);
+    }
+
+    public List<Tile> getMoves() {
+        return moves;
     }
 }

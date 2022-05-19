@@ -2,11 +2,14 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
+import be.howest.ti.monopoly.web.views.GameView;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 
 public class Game implements Comparable<Game> {
+
+    // - Info
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 10;
 
@@ -17,13 +20,14 @@ public class Game implements Comparable<Game> {
     private List<Player> players;
     private String id;
 
-    // DETAILED!!!
     private Property directSale = null;
+    private Map<Property, Player> boughtProperties = new HashMap<Property, Player>();
 
     private int availableHouses = 32;
     private int availableHotels = 12;
 
     //private turns
+    private Dice dice;
     private int[] lastDiceRoll;
     private Player currentPlayer;
     private boolean canRoll;
@@ -32,22 +36,25 @@ public class Game implements Comparable<Game> {
     private List<Turn> turns;
 
     public Game(String prefix, int numberOfPlayers) {
-        this.id = prefix; // TODO: Need to be changed with counter.
+        this.id = prefix;
         setNumberOfPlayers(numberOfPlayers);
         this.players = new ArrayList<>();
+        this.lastDiceRoll = new int[2];
+        this.turns = new ArrayList<>();
     }
+
 
     private void setNumberOfPlayers(int numberOfPlayers) {
         if (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS) {
             throw new IllegalMonopolyActionException("You can only create a game when you have between 2 and 10 players");
         }
         this.numberOfPlayers = numberOfPlayers;
-
     }
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
     }
+
 
     public boolean isStarted() {
         return started;
@@ -62,16 +69,79 @@ public class Game implements Comparable<Game> {
         this.canRoll = true;
     }
 
-    public Property getDirectSale() {
-        return directSale;
+    // - Turn Management
+    public GameView rollDice() {
+        this.dice = new Dice();
+        this.lastDiceRoll = dice.getDiceValues();
+        turnManager(currentPlayer, this);
+
+        if (!dice.isRolledDouble())
+        {
+            setCurrentPlayer(findNextPlayer());
+            this.canRoll = true;
+        }
+        return new GameView(this);
     }
 
-    @JsonProperty("directSale")
-    public String getDirectSalePropertyName() {
-        if (getDirectSale() == null) {
-            return null;
+    private void turnManager(Player currentPlayer, Game currentGame) {
+        Tile nexTile = computeTileMoves(currentPlayer, dice.getTotalValue());
+        Turn turn = new Turn(dice.getDiceValues(), currentPlayer, nexTile);
+
+        takeTurn(turn, currentPlayer, currentGame);
+    }
+
+    private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
+        Tile currentTile = currentPlayer.getCurrentTileDetailed();
+        Tile nextTile = board.getTile(currentTile.getPosition() + totalRolledDice);
+        return nextTile;
+    }
+
+    public void takeTurn(Turn turn,  Player currentPlayer, Game currentGame)
+    {
+        Tile nextTile = computeTileMoves(currentPlayer, dice.getTotalValue());
+        currentGame.addTurn(turn);
+        currentPlayer.addMove(nextTile);
+
+        updatePlayerPosition(currentPlayer, turn);
+    }
+
+    private void updatePlayerPosition(Player currentPlayer, Turn turn) {
+        Tile newTile = turn.getMove();
+        currentPlayer.setCurrentTile(newTile);
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    private Player findNextPlayer()
+    {
+        final int POSITION_RAISER = 1;
+        for (int positionInPlayers = 0; positionInPlayers <= getPlayers().size(); positionInPlayers++)
+        {
+            if (getPlayers().get(positionInPlayers).equals(currentPlayer))
+            {
+                int positionInPlayerList = positionInPlayers%(getPlayers().size());
+                int nextPlayerPosition = (positionInPlayerList+POSITION_RAISER)%getPlayers().size();
+
+                return getPlayers().get(nextPlayerPosition);
+            }
         }
-        return getDirectSale().getName();
+        return null;
+    }
+
+    public Dice getDice() {
+        return dice;
+    }
+
+    public boolean isCanRoll() {
+        return canRoll;
+    }
+
+    // Getters & Setters
+
+    public Property getDirectSale() {
+        return directSale;
     }
 
     public void setDirectSale(Property directSale) {
@@ -85,7 +155,7 @@ public class Game implements Comparable<Game> {
         return availableHotels;
     }
 
-    public int[] getLastDiceRoll() {
+    protected int[] getLastDiceRoll() {
         return lastDiceRoll;
     }
 
@@ -93,26 +163,25 @@ public class Game implements Comparable<Game> {
         return currentPlayer;
     }
 
-    @JsonProperty("currentPlayer")
-    public String getCurrentPlayerName() {
-        if (getCurrentPlayer() == null) {
-            return null;
-        }
-        return getCurrentPlayer().getName();
-    }
-
     public Player getWinner() {
         return winner;
+    }
+
+    public Map<Property, Player> getBoughtProperties() {
+        return boughtProperties;
     }
 
     public boolean isEnded() {
         return getWinner() != null;
     }
 
+    public List<Turn> getTurns() {
+        return turns;
+    }
 
-    @JsonProperty("canRoll")
-    public boolean canRoll() {
-        return canRoll;
+    public void addTurn(Turn newTurn)
+    {
+        turns.add(newTurn);
     }
 
     public List<Player> getPlayers() {
@@ -131,7 +200,29 @@ public class Game implements Comparable<Game> {
         return id;
     }
 
+    // - JSON Properties
+    @JsonProperty("currentPlayer")
+    public String getCurrentPlayerName() {
+        if (getCurrentPlayer() == null) {
+            return null;
+        }
+        return getCurrentPlayer().getName();
+    }
 
+    @JsonProperty("directSale")
+    public String getDirectSalePropertyName() {
+        if (getDirectSale() == null) {
+            return null;
+        }
+        return getDirectSale().getName();
+    }
+
+    @JsonProperty("canRoll")
+    public boolean canRoll() {
+        return canRoll;
+    }
+
+    // - Generated Methods
     @Override
     public int compareTo(Game o) {
         return this.getId().compareTo(o.getId());
@@ -148,10 +239,6 @@ public class Game implements Comparable<Game> {
     @Override
     public int hashCode() {
         return Objects.hash(getNumberOfPlayers(), getId());
-    }
-
-    public List<Turn> getTurns() {
-        return turns;
     }
 
     public Object buyProperty(Player player, String tileName) {
