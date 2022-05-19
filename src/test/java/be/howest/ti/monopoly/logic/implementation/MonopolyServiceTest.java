@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -110,7 +111,7 @@ class MonopolyServiceTest {
         service.joinGame("someprefix", "someprefix-player2", player2);
         Game game = service.getGame("someprefix");
         game.rollDice();
-        assertEquals(player2, game.getCurrentPlayer());
+        assertEquals(player2.getName(), game.getCurrentPlayer().getName());
         assertNotEquals(0, player1.getCurrentTileDetailed().getPosition());
     }
 
