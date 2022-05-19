@@ -254,19 +254,22 @@ public class Game implements Comparable<Game> {
     }
 
     public Object collectDebt(Player player, Player debtor, Tile property) {
-        if (Objects.equals(debtor.getCurrentTile(), new TileView(property))) {
+        if (debtor.getCurrentTile().getCurrentTile().equals(property.getName())) {
             if (property instanceof Property) {
-                int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
-                if (debtor.getMoney() - rent >= 0) {
-                    debtor.payMoney(rent);
-                } else {
-                    debtor.setDebt(rent);
+                if (player.getProperties().contains(new PropertyView((Property) property))) {
+                    int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
+                    if (debtor.getMoney() - rent >= 0) {
+                        debtor.payMoney(rent);
+                    } else {
+                        debtor.setDebt(rent);
+                    }
+                    player.receiveMoney(rent);
+                    return null;
                 }
-                player.receiveMoney(rent);
-                return null;
+                throw new IllegalMonopolyActionException(player.getName() + " does not own this property!");
             }
             throw new IllegalMonopolyActionException("This tile is not a property!");
         }
-        throw new IllegalMonopolyActionException(debtor.getName()+" does not stand on this tile!");
+        throw new IllegalMonopolyActionException(debtor.getName() + " does not stand on this tile!");
     }
 }

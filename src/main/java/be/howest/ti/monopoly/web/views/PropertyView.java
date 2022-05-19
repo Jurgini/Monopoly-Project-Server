@@ -6,7 +6,15 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 public class PropertyView {
+    @Override
+    public String toString() {
+        return "PropertyView{" +
+                "property=" + property +
+                '}';
+    }
 
     private final Property property;
 
@@ -42,5 +50,18 @@ public class PropertyView {
     @JsonIgnore()
     public String getType() {
         return ((Tile)property).getType();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PropertyView that = (PropertyView) o;
+        return Objects.equals(property, that.property);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(property);
     }
 }

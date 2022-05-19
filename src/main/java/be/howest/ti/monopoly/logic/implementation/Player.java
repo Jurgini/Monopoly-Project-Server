@@ -76,6 +76,16 @@ public class Player {
         this.bankrupt = true;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", currentTile=" + currentTile +
+                ", money=" + money +
+                ", properties=" + properties +
+                '}';
+    }
+
     public List<PropertyView> getProperties() {
         List<PropertyView> propertiesToShow = new ArrayList<>();
 
@@ -114,15 +124,12 @@ public class Player {
     }
 
     public Object buyProperty(Tile tile) {
-        if (currentTile.equals(tile.getName())) {
+        if (currentTile.getName().equals(tile.getName())) {
             Property property = ((Property) tile);
             int cost = ((Property) tile).getCost();
-
-            if (property.ownerIsNull()) {
                 payMoney(cost);
                 properties.add(property);
-            }
-            throw new IllegalMonopolyActionException("This property is already sold!");
+                return null;
         }
         throw new IllegalMonopolyActionException("You are not standing on this tile!");
     }
