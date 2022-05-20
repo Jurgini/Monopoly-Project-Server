@@ -108,8 +108,6 @@ public class Game implements Comparable<Game> {
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
 
-        // todo: check if turn taking player can take the turn
-
         if (!dice.isRolledDouble()) {
             setCurrentPlayer(findNextPlayer());
         }
