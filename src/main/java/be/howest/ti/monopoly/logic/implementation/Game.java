@@ -5,6 +5,7 @@ import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.vertx.core.json.JsonObject;
 
 import java.util.*;
 
@@ -21,8 +22,7 @@ public class Game implements Comparable<Game> {
     private List<Player> players;
     private String id;
 
-    private Property directSale = null;
-    private Map<Property, Player> boughtProperties = new HashMap<Property, Player>();
+    private String directSale = null;
 
     private int availableHouses = 32;
     private int availableHotels = 12;
@@ -61,8 +61,7 @@ public class Game implements Comparable<Game> {
         return started;
     }
 
-    public void join(Player player)
-    {
+    public void join(Player player) {
 
         if (isStarted())
             throw new IllegalMonopolyActionException("The game has already started");
@@ -85,12 +84,11 @@ public class Game implements Comparable<Game> {
 
 
     private boolean amountOfPlayersReached(Game game) {
-        int newAmountOfPlayers = game.getPlayers().size()+1;
+        int newAmountOfPlayers = game.getPlayers().size() + 1;
         return newAmountOfPlayers > game.getNumberOfPlayers();
     }
 
-    public void start()
-    {
+    public void start() {
         if (isStarted())
             throw new IllegalStateException("The game has already started");
         this.started = true;
@@ -110,21 +108,26 @@ public class Game implements Comparable<Game> {
 
         if (!dice.isRolledDouble()) {
             setCurrentPlayer(findNextPlayer());
-            this.canRoll = true;
         }
         return this;
     }
 
     private void turnManager(Player currentPlayer, Game currentGame) {
+        // - Tile Replacement
         Tile nexTile = computeTileMoves(currentPlayer, dice.getTotalValue());
         Turn turn = new Turn(dice.getDiceValues(), currentPlayer, nexTile);
 
         takeTurn(turn, currentPlayer, currentGame);
+
+        // - Replacement Action
+        Tile newCurrentTile = currentPlayer.getCurrentTileDetailed();
+        decideTileAction(newCurrentTile);
     }
 
+    // - Tile Replacement
     private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
         Tile currentTile = currentPlayer.getCurrentTileDetailed();
-        Tile nextTile = board.getTile((currentTile.getPosition() + totalRolledDice)%board.getTiles().size());
+        Tile nextTile = board.getTile((currentTile.getPosition() + totalRolledDice) % board.getTiles().size());
         return nextTile;
     }
 
@@ -158,6 +161,57 @@ public class Game implements Comparable<Game> {
         return null;
     }
 
+    // - Replacement Action
+
+    private void decideTileAction(Tile newCurrentTile) {
+        String currentTileType = translateToEnumType(newCurrentTile.getType());
+
+        switch (currentTileType) {
+            case "STREET":
+            case "RAILROAD":
+            case "UTILITY":
+                // Check if Tile is bought
+                // Yes: directSale null
+                // No: Set directSale on NOT BOUGHT FOUND PROPERTY NAME (currentTile)
+                if (checkIfTileIsAvailableForSale(newCurrentTile)) {
+                    setDirectSale(newCurrentTile.getName());
+                    this.canRoll = false;
+                } else {
+                    this.canRoll = true;
+                }
+
+                break;
+            case "COMMUNITY_CHEST":
+                System.out.println("On a community-chest card");
+                break;
+            case "CHANCE":
+                System.out.println("On a chance card");
+                break;
+            case "JAIL":
+                System.out.println("On a jail card");
+                break;
+            case "FREE_PARKING":
+                System.out.println("On a free parking card");
+                break;
+            case "GO_TO_JAIL":
+                System.out.println("On a go to jail card");
+                break;
+            case "INCOME_TAX":
+            case "LUXURY_TAX":
+                System.out.println("On a tax card");
+                break;
+        }
+
+    }
+
+    public boolean checkIfTileIsAvailableForSale(Tile newCurrentTile) {
+        return !getAllBoughtProperties().contains(new PropertyView((Property) newCurrentTile));
+    }
+
+    private String translateToEnumType(String type) {
+        return type.toUpperCase().replace(" ", "_");
+    }
+
     @JsonIgnore
     public Dice getDice() {
         return dice;
@@ -169,12 +223,13 @@ public class Game implements Comparable<Game> {
 
     // Getters & Setters
 
-    public Property getDirectSale() {
+    public String getDirectSale() {
         return directSale;
     }
 
-    public void setDirectSale(Property directSale) {
-        this.directSale = directSale;
+    public void setDirectSale(String propertyName) {
+        System.out.println("SET THE DIRECT SALE");
+        this.directSale = propertyName;
     }
 
     public int getAvailableHouses() {
@@ -195,10 +250,6 @@ public class Game implements Comparable<Game> {
 
     public Player getWinner() {
         return winner;
-    }
-
-    public Map<Property, Player> getBoughtProperties() {
-        return boughtProperties;
     }
 
     public boolean isEnded() {
@@ -243,7 +294,7 @@ public class Game implements Comparable<Game> {
         if (getDirectSale() == null) {
             return null;
         }
-        return getDirectSale().getName();
+        return getDirectSale();
     }
 
     @JsonProperty("canRoll")
@@ -251,29 +302,22 @@ public class Game implements Comparable<Game> {
         return canRoll;
     }
 
-    // - Generated Methods
-    @Override
-    public int compareTo(Game o) {
-        return this.getId().compareTo(o.getId());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Game game = (Game) o;
-        return getNumberOfPlayers() == game.getNumberOfPlayers() && Objects.equals(getId(), game.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getNumberOfPlayers(), getId());
-    }
-
     public Object buyProperty(Player player, String tileName) {
         Tile tile = board.getProperty(tileName);
         if (!getAllBoughtProperties().contains(new PropertyView((Property) tile))) {
+            this.directSale = null;
+            this.canRoll = true;
             return player.buyProperty(tile);
+        }
+        throw new IllegalMonopolyActionException("This property is already bought!");
+    }
+
+    public Object dontBuyProperty(Player player, String tileName) {
+        Tile tile = board.getProperty(tileName);
+        if (!getAllBoughtProperties().contains(new PropertyView((Property) tile))) {
+            this.directSale = null;
+            this.canRoll = true;
+            return new JsonObject().put("property", tileName).put("purchased", false);
         }
         throw new IllegalMonopolyActionException("This property is already bought!");
     }
@@ -305,4 +349,25 @@ public class Game implements Comparable<Game> {
         }
         throw new IllegalMonopolyActionException(debtor.getName() + " does not stand on this tile!");
     }
+
+    // - Generated Methods
+    @Override
+    public int compareTo(Game o) {
+        return this.getId().compareTo(o.getId());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return getNumberOfPlayers() == game.getNumberOfPlayers() && Objects.equals(getId(), game.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getNumberOfPlayers(), getId());
+    }
+
+
 }

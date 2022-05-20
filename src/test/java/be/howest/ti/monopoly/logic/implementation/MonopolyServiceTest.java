@@ -111,7 +111,14 @@ class MonopolyServiceTest {
         service.joinGame("someprefix", "someprefix-player2", player2);
         Game game = service.getGame("someprefix");
         game.rollDice();
-        assertEquals(player2.getName(), game.getCurrentPlayer().getName());
+        if (game.getLastDiceRoll()[0] == game.getLastDiceRoll()[1])
+        {
+            assertEquals(player1.getName(), game.getCurrentPlayer().getName());
+        }
+        else
+        {
+            assertEquals(player2.getName(), game.getCurrentPlayer().getName());
+        }
         assertNotEquals(0, player1.getCurrentTileDetailed().getPosition());
     }
 
