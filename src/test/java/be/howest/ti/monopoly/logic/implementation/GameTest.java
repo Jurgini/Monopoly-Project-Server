@@ -19,7 +19,7 @@ class GameTest {
         g.addPlayer(p2);
         g.addPlayer(p3);
         g.setCurrentPlayer(p1);
-        g.declareBankruptcy("Alice");
+        g.declareBankruptcy("test-Alice", p1.getName());
         System.out.println("LIST IDX : " + g.getPlayers().get(0));
         System.out.println("CURRENT : " + g.getCurrentPlayer().getName());
 

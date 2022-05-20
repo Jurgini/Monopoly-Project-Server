@@ -129,8 +129,8 @@ public class MonopolyService extends ServiceAdapter {
     }
 
 
-    public Object declareBankruptcy(String playerName) {
-        return declareBankruptcy(playerName);
+    public Object declareBankruptcy(String gameId, String player) {
+        return getGame(gameId).declareBankruptcy(gameId, player);
     }
 
     @Override

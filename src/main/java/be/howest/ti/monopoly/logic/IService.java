@@ -30,5 +30,5 @@ public interface IService {
 
     Game rollDice(String playerName, String gameId);
 
-    Object declareBankruptcy(String playerName);
+    Object declareBankruptcy(String gameId, String playerName);
 }
