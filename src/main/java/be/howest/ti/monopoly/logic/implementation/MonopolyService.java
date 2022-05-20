@@ -57,7 +57,12 @@ public class MonopolyService extends ServiceAdapter {
     public List<GameView> getGamesLessDetailed()
     {
         List<GameView> gameViewSet = new ArrayList<>() {};
-        gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
+        gameSet.forEach(game -> {
+            if (!game.isStarted())
+            {
+                gameViewSet.add(new GameView(game));
+            }
+        });
         return gameViewSet;
     }
 
@@ -80,21 +85,7 @@ public class MonopolyService extends ServiceAdapter {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
 
-        for (Tile tile : new MonopolyBoard().getTiles()) {
-            if (tile.getName().equals(tileName)) {
-                if (!tile.getName().equals(tileName)) {
-                    throw new IllegalMonopolyActionException("Tile not found");
-                } else if (getGame(gameId) == null) {
-                    throw new IllegalMonopolyActionException("There is no game with this Id");
-                } else if (game.getCurrentPlayer().equals(player)) {
-                    throw new IllegalMonopolyActionException("You cant deny a property only the current player can");
-                } else {
-                    return new JsonObject().put("property", tileName).put("purchased", false);
-                }
-
-            }
-        }
-        throw new IllegalMonopolyActionException("Not a buy-able tile");
+        return game.dontBuyProperty(player, tileName);
     }
 
     @Override

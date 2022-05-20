@@ -17,24 +17,22 @@ import java.util.List;
 
 class OpenApiTurnManagementTests extends OpenApiTestsBase {
 
-    //@Test
+    @Test
     void rollDice(final VertxTestContext testContext) {
-//        service.setDelegate(new ServiceAdapter() {
-//            @Override
-//            public Game rollDice(String playerName, String gameId) {
-//                return getGame(gameId).rollDice();
-//            }
-//
-//            @Override
-//            public Game getGame(String gameId) {
-//                return new Game("testgame", 2);
-//            }
-//        });
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Game rollDice(String playerName, String gameId) {
+
+                Game g = new Game("testgame", 2);
+                        g.addPlayer(new Player("Alice", "testgame-Alice"));
+                return g;
+            }
+        });
         post(
                 testContext,
                 "/games/testgame/players/Alice/dice",
                 "testgame-Alice",
-                response -> assertNotYetImplemented(response, "rollDice") //todo check gives error
+                response -> assertOkResponse(response) //todo check gives error
         );
     }
 

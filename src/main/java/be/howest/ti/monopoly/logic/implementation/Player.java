@@ -7,6 +7,7 @@ import be.howest.ti.monopoly.web.views.TileView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import io.vertx.core.json.JsonObject;
 
 import java.util.*;
 
@@ -128,7 +129,7 @@ public class Player {
             int cost = ((Property) tile).getCost();
                 payMoney(cost);
                 properties.add(property);
-                return null;
+                return new JsonObject();
         }
         throw new IllegalMonopolyActionException("You are not standing on this tile!");
     }

@@ -13,7 +13,7 @@ public class MonopolyBoard {
             new Street("Marksesteenweg", 1, 600, 300, 500, "PURPLE", "PURPLE", 20, 100, 300, 900, 1600, 2500),
             new Tile("Community Chest I", 2, "community chest"),
             new Street("Etienne Sabbelaan", 3, 600, 300, 500, "PURPLE", "PURPLE", 40, 200, 600, 1800, 3200, 4500),
-            new Tile("Tax Income", 4, "Tax Income"),
+            new Tax("Tax Income", 4, "Tax Income", "You hold a dorm party, you pay 200 EUR for the preparations"),
             new Railroad("Station Gent-Sint-Pieters", 5),
             new Street("Martelarenlaan", 6, 1000, 500, 500, "LIGHTBLUE", "LIGHTBLUE", 60, 300, 900, 2700, 4000, 5500),
             new Tile("Chance I", 7, "chance"),
@@ -32,8 +32,8 @@ public class MonopolyBoard {
             new Tile("Free Parking", 20, "Free Parking"),
             new Street("Rue Saint-Gilles", 21, 2200, 1100, 1500, "RED", "RED", 180, 900, 2500, 7000, 8750, 10500),
             new Tile("Chance II", 22, "chance"),
-            new Street("Rue des Célestines", 23, 2200, 1100, 1500, "RED", "RED", 180, 900, 2500, 7000, 8750, 10500),
-            new Street("Boulevard d'Avroy", 24, 2400, 1200, 1500, "RED", "RED", 200, 1000, 3000, 7500, 9250, 1100),
+            new Street("Rue des Celestines", 23, 2200, 1100, 1500, "RED", "RED", 180, 900, 2500, 7000, 8750, 10500),
+            new Street("Boulevard dAvroy", 24, 2400, 1200, 1500, "RED", "RED", 200, 1000, 3000, 7500, 9250, 1100),
             new Railroad("Station Brussels", 25),
             new Street("Vrijwilligerslaan", 26, 2600, 1300, 1500, "YELLOW", "YELLOW", 220, 1100, 3300, 8000, 9750, 11500),
             new Street("Kroonlaan", 27, 2600, 130, 1500, "YELLOW", "YELLOW", 220, 1100, 3300, 8000, 9750, 11500),
@@ -47,7 +47,7 @@ public class MonopolyBoard {
             new Railroad("Station Leuven", 35),
             new Tile("Chance III", 36, "chance"),
             new Street("Naamsestraat", 37, 3500, 1750, 2000, "DARKBLUE", "DARKBLUE", 350, 1750, 5000, 11000, 13000, 15000),
-            new Tile("Luxury Tax", 38, "Luxury Tax"),
+            new Tax("Luxury Tax", 38, "Luxury Tax", "You are feeling good, you buy everyone a round of drinks!", true),
             new Street("Oude Markt", 39, 4000, 2000, 2000, "DARKBLUE", "DARKBLUE", 500, 2000, 6000, 14000, 17000, 20000)
     );
 
@@ -100,7 +100,6 @@ public class MonopolyBoard {
     public static List<Executing> getChance() {
         return CHANCE_CARDS;
     }
-
 
     public Tile getTile(int position) {
         for (Tile tile : getTiles()) {
