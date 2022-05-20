@@ -5,6 +5,7 @@ import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 
 import java.util.*;
@@ -33,7 +34,7 @@ public class Game implements Comparable<Game> {
     private int[] lastDiceRoll;
     private Player currentPlayer;
     private boolean canRoll;
-    private Player winner;
+    private String winner;
     private boolean ended;
 
     private List<Turn> turns;
@@ -45,47 +46,60 @@ public class Game implements Comparable<Game> {
         this.lastDiceRoll = new int[2];
         this.turns = new ArrayList<>();
     }
-
-    @JsonProperty
-    public Object declareBankruptcy(String gameId, String player) {
-        Player player1 = null;
-        for (Player individual : players) {
-            if (player.equals(individual.getName()) ) {
-                player1 = (individual);
-                checkIfPlayerHasWon(player1);
-
-
-                System.out.println(players.size());
+    public void automaticBankruptcy(){
+        //if
+            // no more money
+            // no more cards
+            // no more properties
+            // you're in debt
+        //declareBankruptcy(gameId, player);
+    }
+    public Object declareBankruptcy(String gameId, Player player) {
+        for (Player p : players) {
+            if (player.getName().equals(p.getName())) {
+                checkIfPlayerHasWon(player);
                 setCurrentPlayer(findNextPlayer());
 
-                return new JsonObject()
+                JsonObject j = new JsonObject()
                         .put("gameId", gameId)
                         .put("playerName", player)
-                        .put("isBankrupt", player1.isBankrupt())
-                        .put("hasWon", getWinner());
+                        .put("isBankrupt", player.isBankrupt())
+                        .put("hasWon", getWinner())
+                        .put("ended", isEnded());
+                handBelongingsOver();
+                players.remove(player);
+                return j;
             }
         }
-        throw new IllegalMonopolyActionException("Unauthorized");
+        return new JsonObject();
     }
 
     private Player checkIfPlayerHasWon(Player player) {
 
         if (currentPlayer.getName().equals(player.getName())) {
 
-            if (players.size() <= 1) {
-                setWinner(players.get(0));
+            if (getPlayers().size() == 2) {
                 setEnded(true);
-                System.out.println("1 player remaining = WiINNER! is: " + getWinner());
+                setWinner(findNextPlayer().getName());
+                System.out.println("1 player remaining = WINNER! is: " + getWinner());
                 return player;
             }
-
-            if (players.size() >= 2) {
+            else if (getPlayers().size() >= 3) {
                 currentPlayer.setBankrupt(); // this needed if player gets removed?
                 return player;
+            }
+            else if (isEnded()) {
+                throw new IllegalMonopolyActionException("the game is already over");
             }
 
         }
         return null;
+    }
+
+    private void handBelongingsOver() {
+        // sell properties
+        // give all money to correct player/bank
+
     }
 
     private void setNumberOfPlayers(int numberOfPlayers) {
@@ -234,11 +248,11 @@ public class Game implements Comparable<Game> {
         return currentPlayer;
     }
 
-    public Player getWinner() {
+    public String getWinner() {
         return winner;
     }
 
-    public void setWinner(Player winner) {
+    public void setWinner(String winner) {
         this.winner = winner;
     }
 
@@ -247,8 +261,7 @@ public class Game implements Comparable<Game> {
     }
 
     public boolean isEnded() {
-        // getWinner() != null; TODO: get this back?
-        return ended;
+        return getWinner() != null;
     }
 
     public void setEnded(boolean ended) {

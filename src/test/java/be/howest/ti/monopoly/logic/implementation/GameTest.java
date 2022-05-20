@@ -16,10 +16,12 @@ class GameTest {
         Player p3 = new Player("Carol", "test-Carol");
 
         g.addPlayer(p1);
-        g.addPlayer(p2);
+        //g.addPlayer(p2);
         g.addPlayer(p3);
         g.setCurrentPlayer(p1);
-        g.declareBankruptcy("test-Alice", p1.getName());
+
+        g.declareBankruptcy("test-Alice", p1);
+
         System.out.println("LIST IDX : " + g.getPlayers().get(0));
         System.out.println("CURRENT : " + g.getCurrentPlayer().getName());
 
@@ -27,6 +29,9 @@ class GameTest {
 
         System.out.println(g.getPlayers());
         System.out.println("NEXT PLAYER : " + g.getCurrentPlayer().getName());
+
+        System.out.println(g.getWinner());
+        System.out.println(g.getPlayers().size());
 
 
     }
