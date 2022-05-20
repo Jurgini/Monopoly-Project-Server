@@ -61,8 +61,7 @@ public class Game implements Comparable<Game> {
         return started;
     }
 
-    public void join(Player player)
-    {
+    public void join(Player player) {
 
         if (isStarted())
             throw new IllegalMonopolyActionException("The game has already started");
@@ -85,12 +84,11 @@ public class Game implements Comparable<Game> {
 
 
     private boolean amountOfPlayersReached(Game game) {
-        int newAmountOfPlayers = game.getPlayers().size()+1;
+        int newAmountOfPlayers = game.getPlayers().size() + 1;
         return newAmountOfPlayers > game.getNumberOfPlayers();
     }
 
-    public void start()
-    {
+    public void start() {
         if (isStarted())
             throw new IllegalStateException("The game has already started");
         this.started = true;
@@ -129,7 +127,7 @@ public class Game implements Comparable<Game> {
     // - Tile Replacement
     private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
         Tile currentTile = currentPlayer.getCurrentTileDetailed();
-        Tile nextTile = board.getTile((currentTile.getPosition() + totalRolledDice)%board.getTiles().size());
+        Tile nextTile = board.getTile((currentTile.getPosition() + totalRolledDice) % board.getTiles().size());
         return nextTile;
     }
 
@@ -168,31 +166,39 @@ public class Game implements Comparable<Game> {
     private void decideTileAction(Tile newCurrentTile) {
         String currentTileType = translateToEnumType(newCurrentTile.getType());
 
-        switch (currentTileType)
-        {
-            case "CHANCE":
-                System.out.println("On a chance card");
-
-                break;
+        switch (currentTileType) {
             case "STREET":
             case "RAILROAD":
             case "UTILITY":
                 // Check if Tile is bought
-                    // Yes: directSale null
-                    // No: Set directSale on NOT BOUGHT FOUND PROPERTY NAME (currentTile)
-                if (checkIfTileIsAvailableForSale(newCurrentTile))
-                {
-                    System.out.println("TILE IS AVAILABLE");
+                // Yes: directSale null
+                // No: Set directSale on NOT BOUGHT FOUND PROPERTY NAME (currentTile)
+                if (checkIfTileIsAvailableForSale(newCurrentTile)) {
                     setDirectSale(newCurrentTile.getName());
                     this.canRoll = false;
-                }
-                else
-                {
-                    System.out.println("TILE IS OCCUPIED, CONTINUE");
+                } else {
                     this.canRoll = true;
-                   // this.directSale = null;
                 }
 
+                break;
+            case "COMMUNITY_CHEST":
+                System.out.println("On a community-chest card");
+                break;
+            case "CHANCE":
+                System.out.println("On a chance card");
+                break;
+            case "JAIL":
+                System.out.println("On a jail card");
+                break;
+            case "FREE_PARKING":
+                System.out.println("On a free parking card");
+                break;
+            case "GO_TO_JAIL":
+                System.out.println("On a go to jail card");
+                break;
+            case "INCOME_TAX":
+            case "LUXURY_TAX":
+                System.out.println("On a tax card");
                 break;
         }
 

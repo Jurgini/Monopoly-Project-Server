@@ -13,7 +13,7 @@ public class MonopolyBoard {
             new Street("Marksesteenweg", 1, 600, 300, 500, "PURPLE", "PURPLE", 20, 100, 300, 900, 1600, 2500),
             new Tile("Community Chest I", 2, "community chest"),
             new Street("Etienne Sabbelaan", 3, 600, 300, 500, "PURPLE", "PURPLE", 40, 200, 600, 1800, 3200, 4500),
-            new Tax("Tax Income", 4, "Tax Income", "You hold a dorm party, you pay 200 EUR for the preparations"),
+            new Tax("Tax Income", 4, "Tax Income", "You hold a dorm party, you pay for the preparations"),
             new Railroad("Station Gent-Sint-Pieters", 5),
             new Street("Martelarenlaan", 6, 1000, 500, 500, "LIGHTBLUE", "LIGHTBLUE", 60, 300, 900, 2700, 4000, 5500),
             new Tile("Chance I", 7, "chance"),
