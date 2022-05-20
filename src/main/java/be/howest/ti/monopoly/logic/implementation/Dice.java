@@ -9,10 +9,10 @@ public class Dice {
     private int secondDice;
     private int[] values;
     private boolean rolledDouble;
-    private static final Random diceRandomizer = new Random();
+    private static Random diceRandomizer;
 
-    public Dice()
-    {
+    public Dice() {
+        diceRandomizer = new Random();
         firstDice = diceRandomizer.nextInt(6) + 1;
         secondDice = diceRandomizer.nextInt(6) + 1;
 
@@ -28,8 +28,7 @@ public class Dice {
         return values;
     }
 
-    public int getTotalValue()
-    {
+    public int getTotalValue() {
         return Arrays.stream(getDiceValues()).sum();
     }
 

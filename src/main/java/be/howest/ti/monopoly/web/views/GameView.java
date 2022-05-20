@@ -2,6 +2,7 @@ package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.Turn;
 import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,10 +27,10 @@ public class GameView {
         return game.getNumberOfPlayers();
     }
 
-    public List<String> getPlayers() {
-        List<String> players = new ArrayList<>();
+    public List<Player> getPlayers() {
+        List<Player> players = new ArrayList<>();
         for (int i = 0; i < game.getPlayers().size(); i++) {
-            players.add(game.getPlayers().get(i).getName());
+            players.add(game.getPlayers().get(i));
         }
         return players;
     }

@@ -211,8 +211,10 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String playerName = request.getPlayerNameViaPath();
         String gameId = request.getGameId();
+        String currentPlayerName = service.getGame(gameId).getCurrentPlayer().getName();
 
-        if (!request.isAuthorized(gameId, playerName)) {
+
+        if (!request.isAuthorized(gameId, playerName, currentPlayerName)) {
             throw new IllegalMonopolyActionException("You can't perform this action.");
         }
 

@@ -22,7 +22,7 @@ public class MonopolyBoard {
             new Tile("Jail", 10, "Jail"),
             new Street("Rijsselstraat", 11, 1400, 700, 1000, "VIOLET", "VIOLET", 100, 500, 1500, 4500, 6250, 7500),
             new Utility("Electric Company", 12),
-            new Street("'t Zand", 13, 1400, 700, 1000, "VIOLET", "VIOLET", 100, 500, 1500, 4500, 6250, 7500),
+            new Street("t Zand", 13, 1400, 700, 1000, "VIOLET", "VIOLET", 100, 500, 1500, 4500, 6250, 7500),
             new Street("Eiermarkt", 14, 1600, 800, 1000, "VIOLET", "VIOLET", 120, 600, 1800, 5000, 7000, 9000),
             new Railroad("Station Antwerp-Central", 15),
             new Street("Sint-Pietersplein", 16, 1800, 900, 1000, "ORANGE", "ORANGE", 140, 700, 2000, 5500, 7500, 9500),

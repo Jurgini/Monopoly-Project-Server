@@ -11,7 +11,7 @@ import java.util.*;
 
 public class MonopolyService extends ServiceAdapter {
 
-    private final SortedSet<Game> gameSet = new TreeSet<>();
+    private final List<Game> gameSet = new ArrayList<>();
 
     @Override
     public String getVersion() {
@@ -21,6 +21,8 @@ public class MonopolyService extends ServiceAdapter {
     @Override
     public GameView createGame(String prefix, int numberOfPlayers) {
         Game game = new Game(prefix, numberOfPlayers);
+        if (getGames().contains(game))
+            throw new IllegalArgumentException("A game with the name " + prefix + " already exists");
         gameSet.add(game);
         return new GameView(game);
     }
@@ -34,52 +36,26 @@ public class MonopolyService extends ServiceAdapter {
     public Object joinGame(String gameId, String playerToken, Player player) {
         for (Game game : getGames()) {
             if (game.getId().equals(gameId)) {
-                if (checkPlayerExistence(game, player))
-                    throw new IllegalMonopolyActionException("Cannot join a game with this name");
-
-                if (amountOfPlayersReached(game))
-                    throw new IllegalMonopolyActionException("The game is full");
-
-                game.addPlayer(player);
-
-                if (gameCanStart(game))
-                    game.startGame();
+                game.join(player);
 
                 return new JsonObject()
                         .put("token", playerToken);
+
             }
         }
 
         return new JsonObject();
     }
 
-    private boolean gameCanStart(Game game) {
-        return game.getNumberOfPlayers() == game.getPlayers().size();
-    }
-
-    private boolean amountOfPlayersReached(Game game) {
-        int newAmountOfPlayers = game.getPlayers().size() + 1;
-        return newAmountOfPlayers > game.getNumberOfPlayers();
-    }
-
-    private boolean checkPlayerExistence(Game game, Player player) {
-        return game.getPlayers().contains(player);
-    }
-
     @Override
-    public Set<Game> getGames() {
+    public List<Game> getGames() {
         return gameSet;
     }
-    
-    public Set<GameView> getGamesLessDetailed()
-    {
-        Set<GameView> gameViewSet = new HashSet<>() {};
-        gameSet.forEach(game -> {
-            if(!game.isStarted())
-            {
-                gameViewSet.add(new GameView(game));
-            }
-        });
+
+    public List<GameView> getGamesLessDetailed() {
+        List<GameView> gameViewSet = new ArrayList<>() {
+        };
+        gameSet.forEach(game -> gameViewSet.add(new GameView(game)));
         return gameViewSet;
     }
 
@@ -152,7 +128,25 @@ public class MonopolyService extends ServiceAdapter {
         return getGame(gameId).rollDice();
     }
 
-    public Object declareBankruptcy(String playerName){
+
+    public Object declareBankruptcy(String playerName) {
         return declareBankruptcy(playerName);
     }
+
+    @Override
+    public Tile getTile(int position) {
+        List<Tile> tiles = new MonopolyBoard().getTiles();
+        Tile foundTile = tiles.stream().filter(tile -> tile.getPosition() == position).findFirst().orElseThrow();
+        return foundTile;
+    }
+
+
+    @Override
+    public Tile getTile(String name) {
+        List<Tile> tiles = new MonopolyBoard().getTiles();
+        Tile foundTile = tiles.stream().filter(tile -> tile.getName().equals(name)).findFirst().orElseThrow();
+        return foundTile;
+
+    }
 }
+

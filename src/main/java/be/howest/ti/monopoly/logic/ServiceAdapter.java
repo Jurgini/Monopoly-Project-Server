@@ -54,7 +54,7 @@ public class ServiceAdapter implements IService {
     }
 
     @Override
-    public Set<Game> getGames() {
+    public List<Game> getGames() {
         throw new UnsupportedOperationException();
     }
 
