@@ -118,6 +118,10 @@ public class MonopolyService extends ServiceAdapter {
 
     @Override
     public Game rollDice(String playerName, String gameId) {
+        if(!getGame(gameId).getCurrentPlayer().getName().equals(playerName))
+        {
+            throw new IllegalMonopolyActionException("You can't roll the dice!");
+        }
         return getGame(gameId).rollDice();
     }
 
