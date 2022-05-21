@@ -164,7 +164,9 @@ public class Game implements Comparable<Game> {
 
     // bankruptcy
     public void automaticBankruptcy(Player player) {
+        System.out.println("hi fuk u");
         if (player.getDebt() > 0) {
+            System.out.println("hi it work");
             sellFirstBoughtHouse(player);
         }
     }
@@ -175,11 +177,10 @@ public class Game implements Comparable<Game> {
             declareBankruptcy(id, player);
         } else {
             String firstProperty = player.getProperties().get(0).getPropertyName();
-            int mortgage;
 
             for (Tile tile : board.getTiles()) {
                 if (tile instanceof Street && firstProperty.equals(tile.getName())) {
-                    mortgage = ((Street) tile).getMortgage();
+                    int mortgage = ((Street) tile).getMortgage();
 
                     System.out.println("MONEY BEFORE MORGAGE " + player.getMoney());
                     System.out.println("MY MORGAGE IS " + mortgage);
@@ -188,7 +189,7 @@ public class Game implements Comparable<Game> {
                     player.removePropertyByIndex(0);
 
                     if(player.getDebt() > 0) { // debt still not paid off fully
-                        automaticBankruptcy(player);
+                        sellFirstBoughtHouse(player);
                     }
                 }
             }
@@ -396,7 +397,7 @@ public class Game implements Comparable<Game> {
         if (!getAllBoughtProperties().contains(new PropertyView((Property) tile))) {
             this.directSale = null;
             this.canRoll = true;
-            return player.buyProperty(tile);
+            return player.buyProperty(this, tile);
         }
         throw new IllegalMonopolyActionException("This property is already bought!");
     }
@@ -425,7 +426,7 @@ public class Game implements Comparable<Game> {
                 if (player.getProperties().contains(new PropertyView((Property) property))) {
                     int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
                     if (debtor.getMoney() - rent >= 0) {
-                        debtor.payMoney(rent);
+                        debtor.payMoney(this, rent);
                     } else {
                         debtor.setDebt(rent);
                     }

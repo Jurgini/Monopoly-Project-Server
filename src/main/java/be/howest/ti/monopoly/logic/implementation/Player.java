@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import io.vertx.core.json.JsonObject;
+import be.howest.ti.monopoly.logic.implementation.Game;
 
 import java.util.*;
 
@@ -70,6 +71,18 @@ public class Player {
         return money;
     }
 
+    public void payMoney(Game game, int value) {
+        if (value <= 0) {
+            throw new IllegalStateException("You can't pay a negative amount of money!");
+        } else if (this.money - value < 0) {
+            this.money = 0;
+            this.debt += value - money;
+
+            game.automaticBankruptcy(this);
+        }
+        this.money -= value;
+    }
+
     public void receiveMoney(int amount) {
         if (amount <= 0) {
             throw new IllegalStateException("U can't receive a negative amount of money!");
@@ -78,12 +91,11 @@ public class Player {
         if(money <= 0) {
             if(debt <= 0){
                 this.money += amount;
-
             } else {
                 if(debt > amount){
                     this.debt -= amount;
                 }
-                else if(debt <= amount){
+                if(debt <= amount){
                     this.money = amount - debt;
                     this.debt = 0;
                 }
@@ -126,15 +138,6 @@ public class Player {
         return debt;
     }
 
-    public void payMoney(int value) {
-        if (value <= 0) {
-            throw new IllegalStateException("You can't pay a negative amount of money!");
-        } else if (this.money - value < 0) {
-            throw new IllegalStateException("You do not have enough money!");
-        }
-        this.money -= value;
-    }
-
     public void setDebt(int value) {
         if (value <= 0) {
             throw new IllegalStateException("You can't set a negative amount of debt!");
@@ -142,11 +145,11 @@ public class Player {
         debt += value;
     }
 
-    public Object buyProperty(Tile tile) {
+    public Object buyProperty(Game game, Tile tile) {
         if (currentTile.getName().equals(tile.getName())) {
             Property property = ((Property) tile);
             int cost = ((Property) tile).getCost();
-                payMoney(cost);
+                payMoney(game, cost);
                 properties.add(property);
                 return new JsonObject();
         }
