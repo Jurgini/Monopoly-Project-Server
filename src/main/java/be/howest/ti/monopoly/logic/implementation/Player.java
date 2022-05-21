@@ -74,35 +74,22 @@ public class Player {
     public void payMoney(Game game, int value) {
         if (value <= 0) {
             throw new IllegalStateException("You can't pay a negative amount of money!");
-        } else if (this.money - value < 0) {
-            this.money = 0;
-            this.debt += value - money;
-
-            game.automaticBankruptcy(this);
         }
-        this.money -= value;
+        else if (money - value < 0) {
+            game.declareBankruptcy(game.getId(), this);
+            System.out.println("here u are");
+        } else{
+            this.money -= value;
+        }
+
     }
 
     public void receiveMoney(int amount) {
         if (amount <= 0) {
             throw new IllegalStateException("U can't receive a negative amount of money!");
         }
-        // getting rid of debt when receiving money
-        if(money <= 0) {
-            if(debt <= 0){
-                this.money += amount;
-            } else {
-                if(debt > amount){
-                    this.debt -= amount;
-                }
-                if(debt <= amount){
-                    this.money = amount - debt;
-                    this.debt = 0;
-                }
-            }
-        } else {
-            this.money += amount;
-        }
+
+        this.money += amount;
     }
 
     public boolean isBankrupt() {

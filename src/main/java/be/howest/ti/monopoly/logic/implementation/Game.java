@@ -165,7 +165,7 @@ public class Game implements Comparable<Game> {
     // bankruptcy
     public void automaticBankruptcy(Player player) {
         System.out.println("hi fuk u");
-        if (player.getDebt() > 0) {
+        if (player.getMoney() < 0) {
             System.out.println("hi it work");
             sellFirstBoughtHouse(player);
         }
@@ -208,7 +208,6 @@ public class Game implements Comparable<Game> {
                     .put("isBankrupt", player.isBankrupt())
                     .put("hasWon", getWinner())
                     .put("ended", isEnded());
-            handBelongingsOver(player);
             players.remove(player);
             return j;
         }
@@ -230,18 +229,6 @@ public class Game implements Comparable<Game> {
         }
         return null;
     }
-
-    private void handBelongingsOver(Player player) {
-        for (PropertyView property : player.getProperties()) {
-            // remove properties
-            // give them to correct people
-        }
-
-        // sell properties
-        // give all money to correct player/bank
-
-    }
-
 
     // - Replacement Action
 
