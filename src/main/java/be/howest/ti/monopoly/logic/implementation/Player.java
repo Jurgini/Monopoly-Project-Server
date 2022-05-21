@@ -5,6 +5,12 @@ import be.howest.ti.monopoly.logic.implementation.tiles.*;
 import be.howest.ti.monopoly.web.views.PropertyView;
 import be.howest.ti.monopoly.web.views.TileView;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import io.vertx.core.json.JsonObject;
+
+
 import java.util.*;
 
 public class Player {
@@ -63,8 +69,19 @@ public class Player {
         if (amount <= 0) {
             throw new IllegalStateException("U can't receive a negative amount of money!");
         }
+        // getting rid of debt when receiving money
+        if(debt <= 0){
+            this.money += amount;
 
-        this.money += amount;
+        } else {
+            if(debt > amount){
+                this.debt -= amount;
+            }
+            else if(debt <= amount){
+                this.money = amount - debt;
+                this.debt = 0;
+            }
+        }
     }
 
     public boolean isBankrupt() {
@@ -96,6 +113,12 @@ public class Player {
         return debt;
     }
 
+    public void setDebt(int value) {
+        if (value <= 0) {
+            throw new IllegalStateException("You can't set a negative amount of debt!");
+        }
+        debt += value;
+    }
     public void payMoney(int value) {
         if (value <= 0) {
             throw new IllegalStateException("You can't pay a negative amount of money!");
@@ -105,12 +128,7 @@ public class Player {
         this.money -= value;
     }
 
-    public void setDebt(int value) {
-        if (value <= 0) {
-            throw new IllegalStateException("You can't set a negative amount of debt!");
-        }
-        debt += value;
-    }
+
 
     public Object buyProperty(Tile tile) {
         if (currentTile.getName().equals(tile.getName())) {
@@ -118,9 +136,12 @@ public class Player {
             int cost = ((Property) tile).getCost();
                 payMoney(cost);
                 properties.add(property);
-                return null;
+                return new JsonObject();
         }
         throw new IllegalMonopolyActionException("You are not standing on this tile!");
+    }
+    public void removePropertyByIndex(int index){
+        this.properties.remove(properties.get(index));
     }
 
     public void addMove(Tile move)
@@ -132,20 +153,6 @@ public class Player {
         return moves;
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", currentTile=" + currentTile +
-                ", jailed=" + jailed +
-                ", money=" + money +
-                ", bankrupt=" + bankrupt +
-                ", properties=" + properties +
-                ", debt=" + debt +
-                ", token='" + token + '\'' +
-                ", moves=" + moves +
-                '}';
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

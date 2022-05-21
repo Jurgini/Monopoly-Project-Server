@@ -57,4 +57,11 @@ public class PropertyView {
     public int hashCode() {
         return Objects.hash(property);
     }
+
+    @Override
+    public String toString() {
+        return "PropertyView{" +
+                "property=" + property +
+                '}';
+    }
 }
