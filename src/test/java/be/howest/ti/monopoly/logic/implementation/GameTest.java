@@ -30,7 +30,7 @@ class GameTest {
         System.out.println("bought properties " + p1.getProperties());
 
 
-        p1.setDebt(900);
+        //p1.setDebt(900);
         g.sellFirstBoughtHouse(p1);
         System.out.println("PLAYER DEBT " + p1.getDebt());
 

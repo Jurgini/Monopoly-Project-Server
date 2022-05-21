@@ -70,18 +70,23 @@ public class Player {
             throw new IllegalStateException("U can't receive a negative amount of money!");
         }
         // getting rid of debt when receiving money
-        if(debt <= 0){
-            this.money += amount;
+        if(money <= 0) {
+            if(debt <= 0){
+                this.money += amount;
 
+            } else {
+                if(debt > amount){
+                    this.debt -= amount;
+                }
+                else if(debt <= amount){
+                    this.money = amount - debt;
+                    this.debt = 0;
+                }
+            }
         } else {
-            if(debt > amount){
-                this.debt -= amount;
-            }
-            else if(debt <= amount){
-                this.money = amount - debt;
-                this.debt = 0;
-            }
+            this.money += amount;
         }
+
     }
 
     public boolean isBankrupt() {
