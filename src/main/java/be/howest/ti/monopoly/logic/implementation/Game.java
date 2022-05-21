@@ -162,56 +162,23 @@ public class Game implements Comparable<Game> {
         return null;
     }
 
-    // bankruptcy
-    public void automaticBankruptcy(Player player) {
-        System.out.println("hi fuk u");
-        if (player.getMoney() < 0) {
-            System.out.println("hi it work");
-            sellFirstBoughtHouse(player);
-        }
-    }
+    public Object declareBankruptcy(String gameId, String playerName) {
+        Player declarePlayer = getPlayer(playerName);
+        if (currentPlayer.getName().equals(playerName)) {
 
-    public void sellFirstBoughtHouse(Player player) {
-
-        if (player.getProperties().isEmpty()) {
-            declareBankruptcy(id, player);
-        } else {
-            String firstProperty = player.getProperties().get(0).getPropertyName();
-
-            for (Tile tile : board.getTiles()) {
-                if (tile instanceof Street && firstProperty.equals(tile.getName())) {
-                    int mortgage = ((Street) tile).getMortgage();
-
-                    System.out.println("MONEY BEFORE MORGAGE " + player.getMoney());
-                    System.out.println("MY MORGAGE IS " + mortgage);
-                    player.receiveMoney(mortgage);
-                    System.out.println("MONEY AFTER MORGAGE " + player.getMoney());
-                    player.removePropertyByIndex(0);
-
-                    if(player.getDebt() > 0) { // debt still not paid off fully
-                        sellFirstBoughtHouse(player);
-                    }
-                }
-            }
-        }
-    }
-
-    public Object declareBankruptcy(String gameId, Player player) {
-        if (currentPlayer.getName().equals(player.getName())) {
-
-            checkIfPlayerHasWon(player);
+            checkIfPlayerHasWon(declarePlayer);
             setCurrentPlayer(findNextPlayer());
 
             JsonObject j = new JsonObject()
                     .put("gameId", gameId)
-                    .put("playerName", player)
-                    .put("isBankrupt", player.isBankrupt())
+                    .put("playerName", declarePlayer)
+                    .put("isBankrupt", declarePlayer.isBankrupt())
                     .put("hasWon", getWinner())
                     .put("ended", isEnded());
-            players.remove(player);
+            players.remove(declarePlayer);
             return j;
         }
-        return new JsonObject();
+        throw new IllegalMonopolyActionException("You can't perform this action.");
     }
 
     private Player checkIfPlayerHasWon(Player player) {

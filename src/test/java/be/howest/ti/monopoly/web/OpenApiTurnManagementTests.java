@@ -32,7 +32,7 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
                 testContext,
                 "/games/testgame/players/Alice/dice",
                 "testgame-Alice",
-                response -> assertOkResponse(response) //todo check gives error
+                response -> assertOkResponse(response)
         );
     }
 
@@ -48,16 +48,34 @@ class OpenApiTurnManagementTests extends OpenApiTestsBase {
 
     @Test
     void declareBankruptcy(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter(){
+            @Override
+            public Object declareBankruptcy(String gameId, String playerName) {
+                Game g = new Game("testgame", 2);
+                Player p1 = new Player("Alice", "testgame-Alice");
+                g.addPlayer(p1);
+                g.addPlayer(new Player("Bob", "testgame-Bob"));
+                g.start();
+                g.declareBankruptcy("testgame","Alice");
+                return g;
+            }
+        });
         post(
                 testContext,
-                "/games/game-id/players/Alice/bankruptcy",
-                "some-token",
-                response -> assertNotYetImplemented(response, "declareBankruptcy")
+                "/games/testgame/players/Alice/bankruptcy",
+                "testgame-Alice",
+                response -> assertOkResponse(response)
         );
     }
 
     @Test
     void declareBankruptcyUnauthorized(final VertxTestContext testContext) {
+        service.setDelegate(new ServiceAdapter() {
+            @Override
+            public Object declareBankruptcy(String gameId, String playerName) {
+                return new JsonObject();
+            }
+        });
         post(
                 testContext,
                 "/games/game-id/players/Alice/bankruptcy",

@@ -76,7 +76,7 @@ public class Player {
             throw new IllegalStateException("You can't pay a negative amount of money!");
         }
         else if (money - value < 0) {
-            game.declareBankruptcy(game.getId(), this);
+            game.declareBankruptcy(game.getId(), getName());
             System.out.println("here u are");
         } else{
             this.money -= value;
