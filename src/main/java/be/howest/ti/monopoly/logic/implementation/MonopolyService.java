@@ -102,7 +102,7 @@ public class MonopolyService extends ServiceAdapter {
     public Game collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
-        Player debtor = game.getPlayer(debtorName); // moet betalen
+        Player debtor = game.getPlayer(debtorName);
         Tile property = getTile(propertyName);
 
         // todo: Check if player can pay, otherwise set debt.

@@ -32,6 +32,7 @@ public class Game implements Comparable<Game> {
     private Dice dice;
     private int[] lastDiceRoll;
     private Player currentPlayer;
+    private Tile currentTile;
     private String currentTileType;
     private String currentTileOwner = null;
     private boolean canRoll;
@@ -95,6 +96,8 @@ public class Game implements Comparable<Game> {
             throw new IllegalStateException("The game has already started");
         this.started = true;
         this.currentPlayer = getPlayers().get(0);
+        this.currentTile = board.getTile(0);
+        this.currentTileType = currentTile.getType();
         this.canRoll = true;
     }
 
@@ -107,7 +110,8 @@ public class Game implements Comparable<Game> {
         this.dice = new Dice();
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
-        this.currentTileType = getCurrentTileType();
+        this.currentTile = currentPlayer.getCurrentTileDetailed();
+        this.currentTileType = currentTile.getType();
         this.currentTileOwner = getCurrentTileOwner();
         if (!dice.isRolledDouble()) {
             setCurrentPlayer(findNextPlayer());
@@ -123,8 +127,7 @@ public class Game implements Comparable<Game> {
         takeTurn(turn, currentPlayer, currentGame);
 
         // - Replacement Action
-        Tile newCurrentTile = currentPlayer.getCurrentTileDetailed();
-        decideTileAction(newCurrentTile);
+        //todo maybe place back decideAction function or let it stay on place it is now
     }
 
     // - Tile Replacement
@@ -135,6 +138,7 @@ public class Game implements Comparable<Game> {
 
     public void takeTurn(Turn turn, Player currentPlayer, Game currentGame) {
         Tile nextTile = computeTileMoves(currentPlayer, dice.getTotalValue());
+        decideTileAction(nextTile);
         currentGame.addTurn(turn);
         currentPlayer.addMove(nextTile);
 
@@ -219,29 +223,36 @@ public class Game implements Comparable<Game> {
 
     // - Tile Management
 
+    @JsonProperty("currentTile")
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+
     @JsonProperty("currentTileOwner")
     public String getCurrentTileOwner() {
-        if (!isStarted())
-        {
+        if (!isStarted()) {
             return null;
         }
-        for (Player p: players)
-        {
-            if (p.getProperties().stream().anyMatch(propertyView -> propertyView.getPropertyName().equals(currentPlayer.getCurrentTileDetailed().getName())))
-            {
-                return p.getName();
+        List<String> propertyTiles = List.of("RAILROAD", "STREET", "UTILITY");
+        if (propertyTiles.contains(changeToCapsAndRemoveSpaces(currentTile.getType()))) {
+            for (Player player : players) {
+                if (getAllBoughtProperties().contains(new PropertyView((Property) currentTile))) {
+                    if (player.getProperties().contains(new PropertyView((Property) currentTile))) {
+                        return player.getName();
+                    }
+                }
             }
+            return null;
         }
         return null;
     }
 
     @JsonProperty("currentTileType")
     public String getCurrentTileType() {
-        if (!isStarted())
-        {
+        if (!isStarted()) {
             return null;
         }
-        return changeToCapsAndRemoveSpaces(currentPlayer.getCurrentTileDetailed().getType());
+        return changeToCapsAndRemoveSpaces(currentTileType);
     }
 
     @JsonIgnore
