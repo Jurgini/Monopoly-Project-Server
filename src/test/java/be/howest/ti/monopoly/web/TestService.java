@@ -77,6 +77,11 @@ public class TestService implements IService {
     }
 
     @Override
+    public Object declareBankruptcy(String gameId, Player player) {
+        return delegate.declareBankruptcy(gameId, player);
+    }
+
+    @Override
     public Game getGame(String gameId) {
         return delegate.getGame(gameId);
     }

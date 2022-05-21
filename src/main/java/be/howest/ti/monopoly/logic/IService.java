@@ -29,4 +29,6 @@ public interface IService {
     Object getGamesLessDetailed();
 
     Game rollDice(String playerName, String gameId);
+
+    Object declareBankruptcy(String gameId, Player playerName);
 }

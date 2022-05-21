@@ -138,4 +138,8 @@ public class MonopolyService extends ServiceAdapter {
         Tile foundTile = tiles.stream().filter(tile -> tile.getName().equals(name)).findFirst().orElseThrow();
         return foundTile;
     }
+
+    public Object declareBankruptcy(String gameId, Player player) {
+        return getGame(gameId).declareBankruptcy(gameId, player);
+    }
 }

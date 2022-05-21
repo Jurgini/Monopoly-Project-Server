@@ -161,6 +161,86 @@ public class Game implements Comparable<Game> {
         return null;
     }
 
+    // bankruptcy
+    public void automaticBankruptcy(Player player) {
+        if (player.getDebt() > 0) {
+            sellFirstBoughtHouse(player);
+        }
+    }
+
+    public void sellFirstBoughtHouse(Player player) {
+
+        if (player.getProperties().isEmpty()) {
+            declareBankruptcy(id, player);
+        } else {
+            String firstProperty = player.getProperties().get(0).getPropertyName();
+            int mortgage;
+
+            for (Tile tile : board.getTiles()) {
+                if (tile instanceof Street && firstProperty.equals(tile.getName())) {
+                    mortgage = ((Street) tile).getMortgage();
+
+                    System.out.println("MONEY BEFORE MORGAGE " + player.getMoney());
+                    System.out.println("MY MORGAGE IS " + mortgage);
+                    player.receiveMoney(mortgage);
+                    System.out.println("MONEY AFTER MORGAGE " + player.getMoney());
+                    player.removePropertyByIndex(0);
+
+                    if(player.getDebt() > 0) { // debt still not paid off fully
+                        automaticBankruptcy(player);
+                    }
+                }
+            }
+        }
+    }
+
+    public Object declareBankruptcy(String gameId, Player player) {
+        if (currentPlayer.getName().equals(player.getName())) {
+
+            checkIfPlayerHasWon(player);
+            setCurrentPlayer(findNextPlayer());
+
+            JsonObject j = new JsonObject()
+                    .put("gameId", gameId)
+                    .put("playerName", player)
+                    .put("isBankrupt", player.isBankrupt())
+                    .put("hasWon", getWinner())
+                    .put("ended", isEnded());
+            handBelongingsOver(player);
+            players.remove(player);
+            return j;
+        }
+        return new JsonObject();
+    }
+
+    private Player checkIfPlayerHasWon(Player player) {
+
+        if (getPlayers().size() == 2) {
+            setEnded(true);
+            setWinner(findNextPlayer().getName());
+            System.out.println("1 player remaining = WINNER! is: " + getWinner());
+            return player;
+        } else if (getPlayers().size() >= 3) {
+            currentPlayer.setBankrupt();
+            return player;
+        } else if (isEnded()) {
+            throw new IllegalMonopolyActionException("the game is already over");
+        }
+        return null;
+    }
+
+    private void handBelongingsOver(Player player) {
+        for (PropertyView property : player.getProperties()) {
+            // remove properties
+            // give them to correct people
+        }
+
+        // sell properties
+        // give all money to correct player/bank
+
+    }
+
+
     // - Replacement Action
 
     private void decideTileAction(Tile newCurrentTile) {
