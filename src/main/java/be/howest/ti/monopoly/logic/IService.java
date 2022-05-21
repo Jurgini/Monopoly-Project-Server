@@ -26,6 +26,7 @@ public interface IService {
     Object joinGame(String gameId, String playerToken, Player player);
     Game collectDebt(String gameId, String playerName, String propertyName, String debtorName);
 
+    Object clearGameList();
     Object getGamesLessDetailed();
 
     Game rollDice(String playerName, String gameId);

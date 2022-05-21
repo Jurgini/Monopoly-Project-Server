@@ -138,4 +138,16 @@ public class MonopolyService extends ServiceAdapter {
         Tile foundTile = tiles.stream().filter(tile -> tile.getName().equals(name)).findFirst().orElseThrow();
         return foundTile;
     }
+
+    @Override
+    public Object clearGameList()
+    {
+        for (Game game : gameSet) {
+            if (!game.isStarted() || game.isEnded()) {
+                gameSet.remove(game);
+            }
+        }
+        return gameSet;
+    }
+
 }

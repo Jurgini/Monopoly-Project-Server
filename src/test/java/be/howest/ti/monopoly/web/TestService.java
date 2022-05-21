@@ -95,4 +95,7 @@ public class TestService implements IService {
     public Object getGamesLessDetailed() {
         return delegate.getGamesLessDetailed();
     }
+
+    @Override
+    public Object clearGameList() {return delegate.clearGameList();}
 }
