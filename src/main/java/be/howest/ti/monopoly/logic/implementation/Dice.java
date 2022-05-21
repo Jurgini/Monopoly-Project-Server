@@ -5,16 +5,17 @@ import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import java.util.*;
 
 public class Dice {
+    private final int MIN = 1;
+    private final int MAX = 6;
     private int firstDice;
     private int secondDice;
     private int[] values;
     private boolean rolledDouble;
-    private static Random diceRandomizer;
 
     public Dice() {
-        diceRandomizer = new Random();
-        firstDice = diceRandomizer.nextInt(6) + 1;
-        secondDice = diceRandomizer.nextInt(6) + 1;
+
+        firstDice = generateRandomNumber();
+        secondDice = generateRandomNumber();
 
         values = new int[]{firstDice, secondDice};
 
@@ -22,6 +23,11 @@ public class Dice {
             rolledDouble = true;
         }
 
+    }
+
+    private int generateRandomNumber()
+    {
+        return MIN + (int)(Math.random() * ((MAX - MIN) + 1));
     }
 
     public int[] getDiceValues() {

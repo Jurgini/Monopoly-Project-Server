@@ -12,25 +12,28 @@ import java.util.*;
 public class Game implements Comparable<Game> {
 
     // - Info
-    public static final int MIN_PLAYERS = 2;
-    public static final int MAX_PLAYERS = 10;
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 10;
 
-    private MonopolyBoard board = new MonopolyBoard();
+    private final MonopolyBoard board = new MonopolyBoard();
 
     private int numberOfPlayers;
     private boolean started;
     private List<Player> players;
-    private String id;
+    private final String id;
 
+    // - Property Management
     private String directSale = null;
 
     private int availableHouses = 32;
     private int availableHotels = 12;
 
-    //private turns
+    // - Turn Management
     private Dice dice;
     private int[] lastDiceRoll;
     private Player currentPlayer;
+    private String currentTileType;
+    private String currentTileOwner = null;
     private boolean canRoll;
     private Player winner;
 
@@ -75,7 +78,6 @@ public class Game implements Comparable<Game> {
 
         if (gameCanStart(this))
             this.start();
-
     }
 
     private boolean checkPlayerExistence(Game game, Player player) {
@@ -105,7 +107,8 @@ public class Game implements Comparable<Game> {
         this.dice = new Dice();
         this.lastDiceRoll = dice.getDiceValues();
         turnManager(currentPlayer, this);
-
+        this.currentTileType = getCurrentTileType();
+        this.currentTileOwner = getCurrentTileOwner();
         if (!dice.isRolledDouble()) {
             setCurrentPlayer(findNextPlayer());
         }
@@ -127,8 +130,7 @@ public class Game implements Comparable<Game> {
     // - Tile Replacement
     private Tile computeTileMoves(Player currentPlayer, int totalRolledDice) {
         Tile currentTile = currentPlayer.getCurrentTileDetailed();
-        Tile nextTile = board.getTile((currentTile.getPosition() + totalRolledDice) % board.getTiles().size());
-        return nextTile;
+        return board.getTile((currentTile.getPosition() + totalRolledDice) % board.getTiles().size());
     }
 
     public void takeTurn(Turn turn, Player currentPlayer, Game currentGame) {
@@ -164,15 +166,12 @@ public class Game implements Comparable<Game> {
     // - Replacement Action
 
     private void decideTileAction(Tile newCurrentTile) {
-        String currentTileType = translateToEnumType(newCurrentTile.getType());
+        String currentTileType = changeToCapsAndRemoveSpaces(newCurrentTile.getType());
 
         switch (currentTileType) {
             case "STREET":
             case "RAILROAD":
             case "UTILITY":
-                // Check if Tile is bought
-                // Yes: directSale null
-                // No: Set directSale on NOT BOUGHT FOUND PROPERTY NAME (currentTile)
                 if (checkIfTileIsAvailableForSale(newCurrentTile)) {
                     setDirectSale(newCurrentTile.getName());
                     this.canRoll = false;
@@ -196,9 +195,15 @@ public class Game implements Comparable<Game> {
             case "GO_TO_JAIL":
                 System.out.println("On a go to jail card");
                 break;
-            case "INCOME_TAX":
+            case "TAX_INCOME":
             case "LUXURY_TAX":
                 System.out.println("On a tax card");
+                break;
+            case "GO":
+                System.out.println("On GO");
+                break;
+            default:
+                // do nothing: free parking, visiting jail
                 break;
         }
 
@@ -208,8 +213,35 @@ public class Game implements Comparable<Game> {
         return !getAllBoughtProperties().contains(new PropertyView((Property) newCurrentTile));
     }
 
-    private String translateToEnumType(String type) {
+    private String changeToCapsAndRemoveSpaces(String type) {
         return type.toUpperCase().replace(" ", "_");
+    }
+
+    // - Tile Management
+
+    @JsonProperty("currentTileOwner")
+    public String getCurrentTileOwner() {
+        if (!isStarted())
+        {
+            return null;
+        }
+        for (Player p: players)
+        {
+            if (p.getProperties().stream().anyMatch(propertyView -> propertyView.getPropertyName().equals(currentPlayer.getCurrentTileDetailed().getName())))
+            {
+                return p.getName();
+            }
+        }
+        return null;
+    }
+
+    @JsonProperty("currentTileType")
+    public String getCurrentTileType() {
+        if (!isStarted())
+        {
+            return null;
+        }
+        return changeToCapsAndRemoveSpaces(currentPlayer.getCurrentTileDetailed().getType());
     }
 
     @JsonIgnore
@@ -331,7 +363,7 @@ public class Game implements Comparable<Game> {
     }
 
     public Game collectDebt(Player player, Player debtor, Tile property) {
-        if (debtor.getCurrentTile().getCurrentTile().equals(property.getName())) {
+        if (debtor.getCurrentTile().getCurrentTileName().equals(property.getName())) {
             if (property instanceof Property) {
                 if (player.getProperties().contains(new PropertyView((Property) property))) {
                     int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
