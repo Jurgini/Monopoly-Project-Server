@@ -6,7 +6,6 @@ import be.howest.ti.monopoly.web.views.PropertyView;
 import be.howest.ti.monopoly.web.views.TileView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import io.vertx.core.json.JsonObject;
 
 import java.util.*;
@@ -51,7 +50,7 @@ public class Player {
 
     @JsonProperty("currentTile")
     public String getCurrentTileName() {
-        return new TileView(currentTile).getCurrentTile();
+        return new TileView(currentTile).getCurrentTileName();
     }
 
     public void setCurrentTile(Tile currentTile) {
@@ -142,6 +141,8 @@ public class Player {
     public List<Tile> getMoves() {
         return moves;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
