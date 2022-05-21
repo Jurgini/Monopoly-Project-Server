@@ -32,9 +32,10 @@ public class Game implements Comparable<Game> {
     private int[] lastDiceRoll;
     private Player currentPlayer;
     private boolean canRoll;
-    private Player winner;
+    private String winner;
 
     private List<Turn> turns;
+    private boolean ended;
 
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix;
@@ -328,12 +329,20 @@ public class Game implements Comparable<Game> {
         return currentPlayer;
     }
 
-    public Player getWinner() {
+    public String getWinner() {
         return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public boolean isEnded() {
         return getWinner() != null;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 
     public List<Turn> getTurns() {

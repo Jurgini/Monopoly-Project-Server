@@ -97,7 +97,7 @@ public class Player {
         return bankrupt;
     }
 
-    public void makeBankrupt() {
+    public void setBankrupt() {
         this.bankrupt = true;
     }
 
@@ -116,6 +116,10 @@ public class Player {
 
     public void removeProperty(Property propertyToRemove) {
         this.properties.remove(propertyToRemove);
+    }
+
+    public void removePropertyByIndex(int index){
+        this.properties.remove(properties.get(index));
     }
 
     public int getDebt() {
