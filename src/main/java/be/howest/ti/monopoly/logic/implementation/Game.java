@@ -186,7 +186,6 @@ public class Game implements Comparable<Game> {
         if (getPlayers().size() == 2) {
             setEnded(true);
             setWinner(findNextPlayer().getName());
-            System.out.println("1 player remaining = WINNER! is: " + getWinner());
             return player;
         } else if (getPlayers().size() >= 3) {
             currentPlayer.setBankrupt();

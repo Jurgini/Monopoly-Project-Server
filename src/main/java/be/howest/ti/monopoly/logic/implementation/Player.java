@@ -1,16 +1,17 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.tiles.*;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.PropertyView;
 import be.howest.ti.monopoly.web.views.TileView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import io.vertx.core.json.JsonObject;
-import be.howest.ti.monopoly.logic.implementation.Game;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Player {
     private final String name;
@@ -77,7 +78,6 @@ public class Player {
         }
         else if (money - value < 0) {
             game.declareBankruptcy(game.getId(), getName());
-            System.out.println("here u are");
         } else{
             this.money -= value;
         }
