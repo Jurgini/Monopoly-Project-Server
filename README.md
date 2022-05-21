@@ -29,7 +29,7 @@ Dit is de server-repo van de monopoly versie van groep 18.
 |        |**Turn Management**                                                                                         |                      |                 |                             |                             |
 |MUSTHAVE|POST /games /{gameId} /players /{playerName} /dice                                                      |            70%          |      YES           |                 YES            |                 70%            |
 |        |With jail                                                                                               |                      |                 |                             |                             |
-|MUSTHAVE|POST /games /{gameId} /players /{playerName} /bankruptcy                                                |              90%        |       YES          |                 NO            |                 70%            |
+|MUSTHAVE|POST /games /{gameId} /players /{playerName} /bankruptcy                                                |              95%        |       YES          |                 YES            |                 90%            |
 |        |Decent distribution of assets                                                                           |                      |                 |                             |                             |
 |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Tax Management**                                                                                          |                   |                |                          |                         |
@@ -50,7 +50,7 @@ Dit is de server-repo van de monopoly versie van groep 18.
 |        |POST /games /{gameId} /players /{playerName} /properties /{propertyName} /mortgage                      |             0%         |        NO         |                NO             |          10%                   |
 |        |DELETE /games /{gameId} /players /{playerName} /properties /{propertyName} /mortgage|                            0%         |        NO         |                NO             |          10%       |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Interaction with another player**                                                                         |                      |                 |                             |                             |
-|MUSTHAVE|DELETE /games /{gameId} /players /{playerName} /properties /{propertyName} /visitors /{debtorName} /rent|              60%        |         NO        |               YES              |             100%                |
+|MUSTHAVE|DELETE /games /{gameId} /players /{playerName} /properties /{propertyName} /visitors /{debtorName} /rent|              99%        |         YES        |               YES              |             100%                |
 |        |With potential debt    |                      |                 |                             |                             |
 |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Prison**                                                                                                  |                      |                 |                             |                             |
@@ -62,10 +62,9 @@ Dit is de server-repo van de monopoly versie van groep 18.
 |        |POST /games /{gameId} /bank /auctions /{propertyName} /bid                                              |            0%          |            NO     |              NO               |                 0%            |
 
 
+
 ## Known bugs
 
 | Bug behaviour  | How to reproduce  | Why it hasn't been fixed    |
 |---|---|---|
-|  ?  | ?  | ?  |
-|   |   |   |
 |   |   |   |
