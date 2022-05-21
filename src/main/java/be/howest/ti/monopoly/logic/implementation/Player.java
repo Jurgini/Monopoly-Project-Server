@@ -53,7 +53,7 @@ public class Player {
 
     @JsonProperty("currentTile")
     public String getCurrentTileName() {
-        return new TileView(currentTile).getCurrentTile();
+        return new TileView(currentTile).getCurrentTileName();
     }
 
     public void setCurrentTile(Tile currentTile) {
@@ -151,6 +151,8 @@ public class Player {
     public List<Tile> getMoves() {
         return moves;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

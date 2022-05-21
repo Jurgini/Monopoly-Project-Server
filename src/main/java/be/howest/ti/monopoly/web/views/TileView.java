@@ -1,7 +1,6 @@
 package be.howest.ti.monopoly.web.views;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TileView {
     private final Tile tile;
@@ -11,7 +10,7 @@ public class TileView {
         this.tile = tile;
     }
 
-    public String getCurrentTile()
+    public String getCurrentTileName()
     {
      return tile.getName();
     }
