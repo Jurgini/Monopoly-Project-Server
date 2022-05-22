@@ -221,26 +221,20 @@ public class Game implements Comparable<Game> {
 
                 break;
             case "COMMUNITY_CHEST":
-
+                // no yet implemented
                 break;
             case "CHANCE":
                 // no yet implemented
-                break;
-            case "JAIL":
-                //
-                break;
-            case "FREE_PARKING":
-                //no yet implemented
                 break;
             case "GO_TO_JAIL":
                 //no yet implemented
                 break;
             case "TAX_INCOME":
             case "LUXURY_TAX":
-                //no yet implemented
+                currentPlayer.payMoney(this, ((Tax)newCurrentTile).getAmount());
                 break;
             case "GO":
-                //no yet implemented
+                currentPlayer.receiveMoney(2000);
                 break;
             default:
                 // do nothing: free parking, visiting jail
