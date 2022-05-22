@@ -73,15 +73,17 @@ public class Player {
     }
 
     public void payMoney(Game game, int value) {
-        if (value <= 0) {
-            throw new IllegalStateException("You can't pay a negative amount of money!");
-        }
-        else if (money - value < 0) {
-            game.declareBankruptcy(game.getId(), getName());
-        } else{
+        if (money >= 0) {
+            if (value <= 0) {
+                throw new IllegalStateException("You can't pay a negative amount of money!");
+            } else if (money - value < 0) {
+                this.money -= value;
+                game.declareBankruptcy(game.getId(), getName());
+            }
             this.money -= value;
+        } else {
+            game.declareBankruptcy(game.getId(), getName());
         }
-
     }
 
     public void receiveMoney(int amount) {
