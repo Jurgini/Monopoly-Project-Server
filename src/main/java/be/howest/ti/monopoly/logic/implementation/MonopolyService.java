@@ -141,6 +141,17 @@ public class MonopolyService extends ServiceAdapter {
     }
 
     @Override
+    public Object clearGameList()
+    {
+        for (Game game : gameSet) {
+            if (!game.isStarted() || game.isEnded()) {
+                gameSet.remove(game);
+            }
+        }
+        return gameSet;
+    }
+
+    @Override
     public Object declareBankruptcy(String gameId, String playerName) {
         return getGame(gameId).declareBankruptcy(gameId, playerName);
     }

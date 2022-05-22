@@ -1,9 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -121,5 +121,32 @@ class MonopolyServiceTest {
         }
         assertNotEquals(0, player1.getCurrentTileDetailed().getPosition());
     }
+  /*  @Test
+    void clearGameList()
+    {
+        MonopolyService service = new MonopolyService();
+        service.createGame("someprefix", 2);
+        service.createGame("someprefix2", 2);
+        service.createGame("someprefix3", 2);
+        Game game = service.getGame("someprefix");
+        Game game2 = service.getGame("someprefix2");
+        Game game3 = service.getGame("someprefix3");
+        List<Game> allGames = service.getGames();
+        List<Game> testGames = null;
+        testGames.add(game2);
+        testGames.add(game3);
+        Player player1 = new Player("player1", "someprefix-player1");
+        Player player2 = new Player("player2", "someprefix-player2");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        if(game.isStarted())
+        {
+            assertEquals(allGames,testGames);
+        }
+        else
+        {
+            assertEquals(allGames,allGames);
+        }
 
+    }*/
 }

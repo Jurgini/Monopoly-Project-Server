@@ -153,7 +153,7 @@ public class MonopolyApiBridge {
     }
 
     private void clearGameList(RoutingContext ctx) {
-        throw new NotYetImplementedException("clearGameList");
+        Response.sendJsonResponse(ctx, 200, service.clearGameList());
     }
 
     private void createGame(RoutingContext ctx) {
