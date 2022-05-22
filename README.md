@@ -16,7 +16,7 @@ Dit is de server-repo van de monopoly versie van groep 18.
 |        |GET /community-chest                                                                                    |      100%                |      YES           |        YES                     |              100%               |
 |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Managing Games**                                                                                          |                      |                 |                             |                             |
-|        |DELETE /games                                                                                           |       0%               |       NO          |              NO               |                 0%            |
+|        |DELETE /games                                                                                           |       100%               |       YES          |              YES               |                 95%            |
 |MUSTHAVE|GET /games                                                                                              |       90%               |       YES          |                 YES            |      100%                       |
 |        |Additional requirement: with filters                                                                    |                      |                 |                             |                             |
 |MUSTHAVE|POST /games                                                                                             |          100%            |         YES        |         YES                    |                    100%         |
@@ -29,7 +29,7 @@ Dit is de server-repo van de monopoly versie van groep 18.
 |        |**Turn Management**                                                                                         |                      |                 |                             |                             |
 |MUSTHAVE|POST /games /{gameId} /players /{playerName} /dice                                                      |            70%          |      YES           |                 YES            |                 70%            |
 |        |With jail                                                                                               |                      |                 |                             |                             |
-|MUSTHAVE|POST /games /{gameId} /players /{playerName} /bankruptcy                                                |              90%        |       YES          |                 NO            |                 70%            |
+|MUSTHAVE|POST /games /{gameId} /players /{playerName} /bankruptcy                                                |              90%        |       YES          |                 YES            |                 80%            |
 |        |Decent distribution of assets                                                                           |                      |                 |                             |                             |
 |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Tax Management**                                                                                          |                   |                |                          |                         |
@@ -37,7 +37,7 @@ Dit is de server-repo van de monopoly versie van groep 18.
 |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Buying property**                                                                                        |                      |                 |                             |                             |
 |MUSTHAVE|POST /games /{gameId} /players /{playerName} /properties /{propertyName}                                |        100%              |       YES          |               YES              |             100%                |
-|MUSTHAVE|DELETE /games /{gameId} /players /{playerName} /properties /{propertyName}                              |             85%         |         YES        |             YES               |             100%                |
+|MUSTHAVE|DELETE /games /{gameId} /players /{playerName} /properties /{propertyName}                              |             100%         |         YES        |             YES               |             100%                |
 |        |With 1 bank auction                                                                                     |                      |                 |                             |                             |
 |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Improving property**                                                                                      |                      |                 |                             |                             |
@@ -50,7 +50,7 @@ Dit is de server-repo van de monopoly versie van groep 18.
 |        |POST /games /{gameId} /players /{playerName} /properties /{propertyName} /mortgage                      |             0%         |        NO         |                NO             |          10%                   |
 |        |DELETE /games /{gameId} /players /{playerName} /properties /{propertyName} /mortgage|                            0%         |        NO         |                NO             |          10%       |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Interaction with another player**                                                                         |                      |                 |                             |                             |
-|MUSTHAVE|DELETE /games /{gameId} /players /{playerName} /properties /{propertyName} /visitors /{debtorName} /rent|              60%        |         NO        |               YES              |             100%                |
+|MUSTHAVE|DELETE /games /{gameId} /players /{playerName} /properties /{propertyName} /visitors /{debtorName} /rent|              90%        |         YES        |               YES              |             100%                |
 |        |With potential debt    |                      |                 |                             |                             |
 |        |                                                                                                        |                      |                 |                             |                             |
 |        |**Prison**                                                                                                  |                      |                 |                             |                             |
@@ -66,6 +66,4 @@ Dit is de server-repo van de monopoly versie van groep 18.
 
 | Bug behaviour  | How to reproduce  | Why it hasn't been fixed    |
 |---|---|---|
-|  ?  | ?  | ?  |
-|   |   |   |
-|   |   |   |
+|  No Bugs  |  So Far  | We Know  |
