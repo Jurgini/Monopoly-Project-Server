@@ -5,10 +5,12 @@ import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
+import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.exceptions.ForbiddenAccessException;
 import be.howest.ti.monopoly.web.exceptions.InvalidRequestException;
 import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
+import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
 import io.vertx.core.http.HttpMethod;
@@ -169,18 +171,26 @@ public class MonopolyApiBridge {
     }
 
     private void getGames(RoutingContext ctx) {
-
-        Response.sendJsonResponse(ctx, 200, service.getGames());
-
-
+        Response.sendJsonResponse(ctx, 200, service.getGamesLessDetailed());
     }
 
     private void joinGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("joinGame");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerName();
+        String gameId = request.getGameId();
+
+        String playerToken = tokenManager.createToken(new MonopolyUser(gameId, playerName));
+
+        Player player = new Player(playerName, playerToken);
+
+        Response.sendJsonResponse(ctx, 200, service.joinGame(gameId, playerToken, player));
     }
 
     private void getGame(RoutingContext ctx) {
-        throw new NotYetImplementedException("getGame");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+
+        Response.sendJsonResponse(ctx, 200, service.getGame(gameId));
     }
 
     private void getDummyGame(RoutingContext ctx) {
@@ -196,23 +206,66 @@ public class MonopolyApiBridge {
     }
 
     private void rollDice(RoutingContext ctx) {
-        throw new NotYetImplementedException("rollDice");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new IllegalMonopolyActionException("You can't perform this action.");
+        }
+
+        Response.sendJsonResponse(ctx, 200, service.rollDice(playerName, gameId));
+
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        throw new NotYetImplementedException("declareBankruptcy");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new IllegalMonopolyActionException("you cannot use this endpoint ");
+        }
+
+        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(gameId, playerName));
     }
 
-    private void buyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("buyProperty");
+    private void buyProperty(RoutingContext ctx)
+    {
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+        String propertyName = request.getPropertyName();
+
+        if (!request.isAuthorized(gameId, playerName))
+        {
+            throw new IllegalMonopolyActionException("you cannot use this endpoint");
+        }
+        else
+        {
+            Response.sendJsonResponse(ctx, 200, service.buyTile(gameId, playerName,propertyName));
+        }
     }
 
     private void dontBuyProperty(RoutingContext ctx) {
-        throw new NotYetImplementedException("dontBuyProperty");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+        String propertyName = request.getPropertyName();
+
+            Response.sendJsonResponse(ctx, 200, service.dontBuyTile(gameId, playerName,propertyName));
+
     }
 
     private void collectDebt(RoutingContext ctx) {
-        throw new NotYetImplementedException("collectDebt");
+        Request request = Request.from(ctx);
+        String gameId = request.getGameId();
+        String playerName = request.getPlayerNameFromPath();
+        String propertyName = request.getPropertyName();
+        String debtorName = request.getDebtorName();
+
+        Response.sendJsonResponse(ctx, 200, service.collectDebt(gameId, playerName, propertyName, debtorName));
     }
 
     private void takeMortgage(RoutingContext ctx) {

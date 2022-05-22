@@ -1,7 +1,6 @@
 package be.howest.ti.monopoly.web;
 
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.validation.RequestParameters;
 import io.vertx.ext.web.validation.ValidationHandler;
@@ -57,6 +56,17 @@ public class Request {
                 Objects.equals(expectedPlayerName, user.getPlayerName());
     }
 
+    public String getPlayerName() {
+        return params.body().getJsonObject().getString("playerName");
+    }
+    public String getPlayerNameViaPath()
+    {
+        return params.pathParameter("playerName").getString();
+    }
+    public String getGameId() {
+        return params.pathParameter("gameId").getString();
+    }
+
     public int getNumberOfPlayersForNewGame() {
         return params.body().getJsonObject().getInteger("numberOfPlayers");
     }
@@ -75,6 +85,7 @@ public class Request {
 
     public String getTileName() {
         return params.pathParameter("tileId").getString();
+
     }
 
     public boolean isStartedForExistingGames() {
@@ -101,4 +112,18 @@ public class Request {
     public String getToken() {
         return params.body().getJsonObject().getString("Authorization");
     }
+
+    public String getPlayerNameFromPath() {
+        return params.pathParameter("playerName").getString();
+    }
+
+    public String getPropertyName() {
+        return params.pathParameter("propertyName").getString();
+    }
+
+
+    public String getDebtorName() {
+        return params.pathParameter("debtorName").getString();
+    }
+
 }

@@ -1,20 +1,25 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
+import be.howest.ti.monopoly.web.views.PropertyView;
+
+import java.util.List;
+
 public class Street extends Property {
-    private int totalHouses;
-    private int totalHotels;
     private final int housePrice;
     private final String streetColor;
     private final String color;
-    private int rent;
-    private int rentWithOneHouse;
-    private int rentWithTwoHouses;
-    private int rentWithThreeHouses;
-    private int rentWithFourHouses;
-    private int rentWithHotel;
+    private final int rent;
+    private final int rentWithOneHouse;
+    private final int rentWithTwoHouses;
+    private final int rentWithThreeHouses;
+    private final int rentWithFourHouses;
+    private final int rentWithHotel;
 
-    public Street(String name, int position, String type, int cost, int mortgage, int housePrice, String streetColor, String color, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
-        super(name, position, type, cost, mortgage);
+    private int qtyOfHotels = 0;
+    private int qtyOfHouses = 0;
+
+    public Street(String name, int position, int cost, int mortgage, int housePrice, String streetColor, String color, int rent, int rentWithOneHouse, int rentWithTwoHouses, int rentWithThreeHouses, int rentWithFourHouses, int rentWithHotel) {
+        super(name, position, "street", cost, mortgage);
         this.housePrice = housePrice;
         this.streetColor = streetColor;
         this.color = color;
@@ -34,13 +39,36 @@ public class Street extends Property {
         return streetColor;
     }
 
-    public String getColor()
-    {
+    public String getColor() {
         return color;
     }
 
-    public int getRent() {
-        return rent;
+    @Override
+    public int computeRent(List<PropertyView> properties, int totalValueDice) {
+        int calculatedRent;
+        switch (qtyOfHotels+qtyOfHouses) {
+            case 0:
+                calculatedRent = rent;
+                break;
+            case 1:
+                calculatedRent = rentWithOneHouse;
+                break;
+            case 2:
+                calculatedRent = rentWithTwoHouses;
+                break;
+            case 3:
+                calculatedRent = rentWithThreeHouses;
+                break;
+            case 4:
+                calculatedRent = rentWithFourHouses;
+                break;
+            case 5:
+                calculatedRent = rentWithHotel;
+                break;
+            default:
+                calculatedRent = 0;
+        }
+        return calculatedRent;
     }
 
     public int getRentWithOneHouse() {
@@ -63,13 +91,15 @@ public class Street extends Property {
         return rentWithHotel;
     }
 
-    public void computeHouses()
-    {
-
+    public int getRent() {
+        return rent;
     }
 
-    public void computeHotels()
-    {
+    public void computeHouses() {
+        // empty for now
+    }
 
+    public void computeHotels() {
+        // empty for now
     }
 }
