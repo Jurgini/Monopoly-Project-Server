@@ -170,7 +170,7 @@ public class Game implements Comparable<Game> {
 
     public Object declareBankruptcy(String gameId, String playerName) {
         Player declarePlayer = getPlayer(playerName);
-        if (currentPlayer.getName().equals(playerName)) {
+        if (currentPlayer.getName().equals(declarePlayer.getName()) || declarePlayer.getMoney() < 0) {
 
             checkIfPlayerHasWon(declarePlayer);
             setCurrentPlayer(findNextPlayer());
@@ -179,7 +179,7 @@ public class Game implements Comparable<Game> {
                     .put("gameId", gameId)
                     .put("playerName", declarePlayer)
                     .put("isBankrupt", declarePlayer.isBankrupt())
-                    .put("hasWon", getWinner())
+                    .put("winner", getWinner())
                     .put("ended", isEnded());
             players.remove(declarePlayer);
             return j;
