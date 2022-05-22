@@ -95,11 +95,11 @@ public class Street extends Property {
         return rent;
     }
 
-    public void computeHouses()
-    {
+    public void computeHouses() {
+        // empty for now
     }
 
     public void computeHotels() {
-
+        // empty for now
     }
 }

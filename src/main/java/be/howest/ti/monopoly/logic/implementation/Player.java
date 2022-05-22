@@ -19,7 +19,7 @@ public class Player {
     private boolean jailed;
     private int money;
     private boolean bankrupt;
-    private List<Property> properties; //todo: view property
+    private List<Property> properties;
     private int debt;
     private String token;
     private List<Tile> moves;

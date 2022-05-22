@@ -126,9 +126,6 @@ public class Game implements Comparable<Game> {
         Turn turn = new Turn(dice.getDiceValues(), currentPlayer, nexTile);
 
         takeTurn(turn, currentPlayer, currentGame);
-
-        // - Replacement Action
-        //todo maybe place back decideAction function or let it stay on place it is now
     }
 
     // - Tile Replacement
@@ -220,26 +217,26 @@ public class Game implements Comparable<Game> {
 
                 break;
             case "COMMUNITY_CHEST":
-                System.out.println("On a community-chest card");
+
                 break;
             case "CHANCE":
-                System.out.println("On a chance card");
+                // no yet implemented
                 break;
             case "JAIL":
-                System.out.println("On a jail card");
+                //
                 break;
             case "FREE_PARKING":
-                System.out.println("On a free parking card");
+                //no yet implemented
                 break;
             case "GO_TO_JAIL":
-                System.out.println("On a go to jail card");
+                //no yet implemented
                 break;
             case "TAX_INCOME":
             case "LUXURY_TAX":
-                System.out.println("On a tax card");
+                //no yet implemented
                 break;
             case "GO":
-                System.out.println("On GO");
+                //no yet implemented
                 break;
             default:
                 // do nothing: free parking, visiting jail
@@ -306,7 +303,6 @@ public class Game implements Comparable<Game> {
     }
 
     public void setDirectSale(String propertyName) {
-        System.out.println("SET THE DIRECT SALE");
         this.directSale = propertyName;
     }
 

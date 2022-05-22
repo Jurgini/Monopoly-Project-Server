@@ -188,8 +188,6 @@ public class MonopolyApiBridge {
         Request request = Request.from(ctx);
         String gameId = request.getGameId();
 
-        // todo: authorise this request
-
         Response.sendJsonResponse(ctx, 200, service.getGame(gameId));
     }
 

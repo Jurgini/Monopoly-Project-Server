@@ -1,12 +1,10 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
-
-import java.util.*;
+import java.util.Arrays;
 
 public class Dice {
-    private final int MIN = 1;
-    private final int MAX = 6;
+    private static final int MIN = 1;
+    private static final int MAX = 6;
     private int firstDice;
     private int secondDice;
     private int[] values;
