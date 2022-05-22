@@ -1,20 +1,20 @@
 package be.howest.ti.monopoly.logic.implementation;
 
-import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
-
-import java.util.*;
+import java.util.Arrays;
+import java.security.SecureRandom;
 
 public class Dice {
+    private static final int MIN = 1;
+    private static final int MAX = 6;
     private int firstDice;
     private int secondDice;
     private int[] values;
     private boolean rolledDouble;
-    private static Random diceRandomizer;
 
     public Dice() {
-        diceRandomizer = new Random();
-        firstDice = diceRandomizer.nextInt(6) + 1;
-        secondDice = diceRandomizer.nextInt(6) + 1;
+
+        firstDice = generateRandomNumber();
+        secondDice = generateRandomNumber();
 
         values = new int[]{firstDice, secondDice};
 
@@ -22,6 +22,12 @@ public class Dice {
             rolledDouble = true;
         }
 
+    }
+
+    private int generateRandomNumber()
+    {
+        SecureRandom random = new SecureRandom();
+        return MIN + (random.nextInt(MAX));
     }
 
     public int[] getDiceValues() {

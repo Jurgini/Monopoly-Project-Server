@@ -2,9 +2,7 @@ package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Turn {
     private int[] roll;

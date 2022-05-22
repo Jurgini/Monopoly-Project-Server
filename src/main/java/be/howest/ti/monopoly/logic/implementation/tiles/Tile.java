@@ -7,21 +7,12 @@ public class Tile {
     private final int position;
     private final String type;
 
-    // Todo: make multiple type of the tiles (constructors?)
+
     public Tile(String name, int position, String type)
     {
         this.name = name;
         this.position = position;
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "Tile{" +
-                "name='" + name + '\'' +
-                ", position=" + position +
-                ", type='" + type + '\'' +
-                '}';
     }
 
     public String getName() {

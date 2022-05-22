@@ -15,10 +15,10 @@ class GameTest {
         game.setCurrentPlayer(tap);
         game.addPlayer(tom);
         game.addPlayer(tap);
-        tap.payMoney(15000);
+        tap.payMoney(game,15000);
         game.rollDice();
         tom.setCurrentTile(new MonopolyBoard().getTile(1));
-        tom.buyProperty(tom.getCurrentTileDetailed());
+        tom.buyProperty(game,tom.getCurrentTileDetailed());
         tap.setCurrentTile(new MonopolyBoard().getTile(1));
         game.collectDebt(tom, tap, new MonopolyBoard().getTile(1));
         assertEquals(tap.getDebt(), 20);

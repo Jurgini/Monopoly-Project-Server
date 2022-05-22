@@ -1,11 +1,9 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.web.views.PropertyView;
 
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Property extends Tile {
 

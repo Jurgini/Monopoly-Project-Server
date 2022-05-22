@@ -54,6 +54,7 @@ public class MonopolyService extends ServiceAdapter {
         return gameSet;
     }
 
+    @Override
     public List<GameView> getGamesLessDetailed()
     {
         List<GameView> gameViewSet = new ArrayList<>() {};
@@ -102,10 +103,10 @@ public class MonopolyService extends ServiceAdapter {
     public Game collectDebt(String gameId, String playerName, String propertyName, String debtorName) {
         Game game = getGame(gameId);
         Player player = game.getPlayer(playerName);
-        Player debtor = game.getPlayer(debtorName); // moet betalen
+        Player debtor = game.getPlayer(debtorName);
         Tile property = getTile(propertyName);
 
-        // todo: Check if player can pay, otherwise set debt.
+
         return game.collectDebt(player, debtor, property);
 
     }
@@ -150,4 +151,8 @@ public class MonopolyService extends ServiceAdapter {
         return gameSet;
     }
 
+    @Override
+    public Object declareBankruptcy(String gameId, String playerName) {
+        return getGame(gameId).declareBankruptcy(gameId, playerName);
+    }
 }

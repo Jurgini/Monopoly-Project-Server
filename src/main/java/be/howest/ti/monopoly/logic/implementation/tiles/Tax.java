@@ -1,7 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation.tiles;
 
 public class Tax extends Tile {
-    private final int COST = 1000;
+    private static final int COST = 1000;
     private int amount;
     private String description;
 

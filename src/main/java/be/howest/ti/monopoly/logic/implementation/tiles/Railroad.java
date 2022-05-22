@@ -23,4 +23,8 @@ public class Railroad extends Property {
     public String getColor() {
         return color;
     }
+
+    public int getRent() {
+        return rent;
+    }
 }

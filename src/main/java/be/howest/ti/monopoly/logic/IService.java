@@ -1,13 +1,12 @@
 package be.howest.ti.monopoly.logic;
 
-import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Executing;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.GameView;
 
-import java.util.*;
+import java.util.List;
 
 public interface IService {
     String getVersion();
@@ -30,4 +29,6 @@ public interface IService {
     Object getGamesLessDetailed();
 
     Game rollDice(String playerName, String gameId);
+
+    Object declareBankruptcy(String gameId, String playerName);
 }
