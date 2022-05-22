@@ -1,13 +1,9 @@
 package be.howest.ti.monopoly.web.views;
 
-import be.howest.ti.monopoly.logic.implementation.Dice;
 import be.howest.ti.monopoly.logic.implementation.Game;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.Turn;
-import be.howest.ti.monopoly.logic.implementation.tiles.Property;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.ArrayList;
 import java.util.List;

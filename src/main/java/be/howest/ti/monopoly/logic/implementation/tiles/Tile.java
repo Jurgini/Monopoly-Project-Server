@@ -7,7 +7,7 @@ public class Tile {
     private final int position;
     private final String type;
 
-    // Todo: make multiple type of the tiles (constructors?)
+
     public Tile(String name, int position, String type)
     {
         this.name = name;
