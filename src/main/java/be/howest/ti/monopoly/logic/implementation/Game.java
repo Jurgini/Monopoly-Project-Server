@@ -36,9 +36,10 @@ public class Game implements Comparable<Game> {
     private String currentTileType;
     private String currentTileOwner = null;
     private boolean canRoll;
-    private Player winner;
+    private String winner;
 
     private List<Turn> turns;
+    private boolean ended;
 
     public Game(String prefix, int numberOfPlayers) {
         this.id = prefix;
@@ -167,6 +168,40 @@ public class Game implements Comparable<Game> {
         return null;
     }
 
+    public Object declareBankruptcy(String gameId, String playerName) {
+        Player declarePlayer = getPlayer(playerName);
+        if (currentPlayer.getName().equals(playerName)) {
+
+            checkIfPlayerHasWon(declarePlayer);
+            setCurrentPlayer(findNextPlayer());
+
+            JsonObject j = new JsonObject()
+                    .put("gameId", gameId)
+                    .put("playerName", declarePlayer)
+                    .put("isBankrupt", declarePlayer.isBankrupt())
+                    .put("hasWon", getWinner())
+                    .put("ended", isEnded());
+            players.remove(declarePlayer);
+            return j;
+        }
+        throw new IllegalMonopolyActionException("You can't perform this action.");
+    }
+
+    private Player checkIfPlayerHasWon(Player player) {
+
+        if (getPlayers().size() == 2) {
+            setEnded(true);
+            setWinner(findNextPlayer().getName());
+            return player;
+        } else if (getPlayers().size() >= 3) {
+            currentPlayer.setBankrupt();
+            return player;
+        } else if (isEnded()) {
+            throw new IllegalMonopolyActionException("the game is already over");
+        }
+        return null;
+    }
+
     // - Replacement Action
 
     private void decideTileAction(Tile newCurrentTile) {
@@ -291,12 +326,20 @@ public class Game implements Comparable<Game> {
         return currentPlayer;
     }
 
-    public Player getWinner() {
+    public String getWinner() {
         return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
 
     public boolean isEnded() {
         return getWinner() != null;
+    }
+
+    public void setEnded(boolean ended) {
+        this.ended = ended;
     }
 
     public List<Turn> getTurns() {
@@ -350,7 +393,7 @@ public class Game implements Comparable<Game> {
         if (!getAllBoughtProperties().contains(new PropertyView((Property) tile))) {
             this.directSale = null;
             this.canRoll = true;
-            return player.buyProperty(tile);
+            return player.buyProperty(this, tile);
         }
         throw new IllegalMonopolyActionException("This property is already bought!");
     }
@@ -379,7 +422,7 @@ public class Game implements Comparable<Game> {
                 if (player.getProperties().contains(new PropertyView((Property) property))) {
                     int rent = ((Property) property).computeRent(player.getProperties(), getDice().getTotalValue());
                     if (debtor.getMoney() - rent >= 0) {
-                        debtor.payMoney(rent);
+                        debtor.payMoney(this, rent);
                     } else {
                         debtor.setDebt(rent);
                     }

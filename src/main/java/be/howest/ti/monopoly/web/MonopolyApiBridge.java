@@ -4,7 +4,6 @@ import be.howest.ti.monopoly.logic.IService;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.InsufficientFundsException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
-import be.howest.ti.monopoly.logic.implementation.MonopolyBoard;
 import be.howest.ti.monopoly.logic.implementation.MonopolyService;
 import be.howest.ti.monopoly.logic.implementation.Player;
 import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
@@ -14,7 +13,6 @@ import be.howest.ti.monopoly.web.exceptions.NotYetImplementedException;
 import be.howest.ti.monopoly.web.tokens.MonopolyUser;
 import be.howest.ti.monopoly.web.tokens.PlainTextTokens;
 import be.howest.ti.monopoly.web.tokens.TokenManager;
-import be.howest.ti.monopoly.web.views.GameView;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -222,7 +220,15 @@ public class MonopolyApiBridge {
     }
 
     private void declareBankruptcy(RoutingContext ctx) {
-        throw new NotYetImplementedException("declareBankruptcy");
+        Request request = Request.from(ctx);
+        String playerName = request.getPlayerNameViaPath();
+        String gameId = request.getGameId();
+
+        if (!request.isAuthorized(gameId, playerName)) {
+            throw new IllegalMonopolyActionException("you cannot use this endpoint ");
+        }
+
+        Response.sendJsonResponse(ctx, 200, service.declareBankruptcy(gameId, playerName));
     }
 
     private void buyProperty(RoutingContext ctx)
@@ -248,14 +254,8 @@ public class MonopolyApiBridge {
         String gameId = request.getGameId();
         String propertyName = request.getPropertyName();
 
-       /* if (!request.isAuthorized(gameId, playerName))
-        {
-            throw new IllegalMonopolyActionException("you cannot use this endpoint");
-        }*/
-        //else
-        //{
             Response.sendJsonResponse(ctx, 200, service.dontBuyTile(gameId, playerName,propertyName));
-        //}
+
     }
 
     private void collectDebt(RoutingContext ctx) {

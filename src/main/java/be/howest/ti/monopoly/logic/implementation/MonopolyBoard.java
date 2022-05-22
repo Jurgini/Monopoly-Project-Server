@@ -3,7 +3,6 @@ package be.howest.ti.monopoly.logic.implementation;
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
 import be.howest.ti.monopoly.logic.exceptions.MonopolyResourceNotFoundException;
 import be.howest.ti.monopoly.logic.implementation.tiles.*;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.util.List;
 
