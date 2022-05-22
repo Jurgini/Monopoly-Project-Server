@@ -20,6 +20,10 @@ public class Railroad extends Property {
         return rent * (int) properties.stream().filter(property -> (property).getType().equals("railroad")).count();
     }
 
+    public int getRent() {
+        return rent;
+    }
+
     public String getColor() {
         return color;
     }
