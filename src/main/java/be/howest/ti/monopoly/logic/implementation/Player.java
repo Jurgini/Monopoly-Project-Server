@@ -1,14 +1,17 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import be.howest.ti.monopoly.logic.exceptions.IllegalMonopolyActionException;
-import be.howest.ti.monopoly.logic.implementation.tiles.*;
+import be.howest.ti.monopoly.logic.implementation.tiles.Property;
+import be.howest.ti.monopoly.logic.implementation.tiles.Tile;
 import be.howest.ti.monopoly.web.views.PropertyView;
 import be.howest.ti.monopoly.web.views.TileView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.vertx.core.json.JsonObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Player {
     private final String name;
@@ -69,6 +72,18 @@ public class Player {
         return money;
     }
 
+    public void payMoney(Game game, int value) {
+        if (value <= 0) {
+            throw new IllegalStateException("You can't pay a negative amount of money!");
+        }
+        else if (money - value < 0) {
+            game.declareBankruptcy(game.getId(), getName());
+        } else{
+            this.money -= value;
+        }
+
+    }
+
     public void receiveMoney(int amount) {
         if (amount <= 0) {
             throw new IllegalStateException("U can't receive a negative amount of money!");
@@ -81,7 +96,7 @@ public class Player {
         return bankrupt;
     }
 
-    public void makeBankrupt() {
+    public void setBankrupt() {
         this.bankrupt = true;
     }
 
@@ -102,17 +117,12 @@ public class Player {
         this.properties.remove(propertyToRemove);
     }
 
-    public int getDebt() {
-        return debt;
+    public void removePropertyByIndex(int index){
+        this.properties.remove(properties.get(index));
     }
 
-    public void payMoney(int value) {
-        if (value <= 0) {
-            throw new IllegalStateException("You can't pay a negative amount of money!");
-        } else if (this.money - value < 0) {
-            throw new IllegalStateException("You do not have enough money!");
-        }
-        this.money -= value;
+    public int getDebt() {
+        return debt;
     }
 
     public void setDebt(int value) {
@@ -122,11 +132,11 @@ public class Player {
         debt += value;
     }
 
-    public Object buyProperty(Tile tile) {
+    public Object buyProperty(Game game, Tile tile) {
         if (currentTile.getName().equals(tile.getName())) {
             Property property = ((Property) tile);
             int cost = ((Property) tile).getCost();
-                payMoney(cost);
+                payMoney(game, cost);
                 properties.add(property);
                 return new JsonObject();
         }
