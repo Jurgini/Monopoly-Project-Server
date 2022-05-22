@@ -188,7 +188,11 @@ public class Game implements Comparable<Game> {
 
         if (getPlayers().size() == 2) {
             setEnded(true);
-            setWinner(findNextPlayer().getName());
+            Player nextPlayer = findNextPlayer();
+            if (nextPlayer == null) {
+                throw new IllegalMonopolyActionException("There is no next player");
+            }
+            setWinner(nextPlayer.getName());
             return player;
         } else if (getPlayers().size() >= 3) {
             currentPlayer.setBankrupt();
