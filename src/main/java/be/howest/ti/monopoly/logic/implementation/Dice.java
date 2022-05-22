@@ -1,6 +1,7 @@
 package be.howest.ti.monopoly.logic.implementation;
 
 import java.util.Arrays;
+import java.security.SecureRandom;
 
 public class Dice {
     private static final int MIN = 1;
@@ -25,7 +26,8 @@ public class Dice {
 
     private int generateRandomNumber()
     {
-        return MIN + (int)(Math.random() * ((MAX - MIN) + 1));
+        SecureRandom random = new SecureRandom();
+        return MIN + (random.nextInt(MAX));
     }
 
     public int[] getDiceValues() {
